@@ -27,6 +27,25 @@
     }
   };
 
+  const revision10yCI={
+    '<55':{
+      male:{tkr:[5.69,6.42],fixed:[8.02,10.08],mobile:[15.81,18.41]},
+      female:{tkr:[4.97,5.53],fixed:[9.03,11.23],mobile:[16.40,18.74]}
+    },
+    '55-64':{
+      male:{tkr:[3.67,3.95],fixed:[5.58,6.87],mobile:[10.45,11.78]},
+      female:{tkr:[3.35,3.59],fixed:[6.43,8.00],mobile:[11.83,13.32]}
+    },
+    '65-74':{
+      male:{tkr:[2.46,2.64],fixed:[3.73,4.86],mobile:[7.27,8.46]},
+      female:{tkr:[2.28,2.43],fixed:[4.27,5.69],mobile:[9.61,11.08]}
+    },
+    '75+':{
+      male:{tkr:[1.62,1.80],fixed:[2.15,3.97],mobile:[4.96,6.65]},
+      female:{tkr:[1.57,1.72],fixed:[3.42,5.43],mobile:[7.74,9.76]}
+    }
+  };
+
   const benchmarks={
     oksComparative:{direction:'uka',rctDifference:3.5,rctCI:[2.3,4.7],mcid:[4,5]},
     fjs:{direction:'uka',range:[6,14],rctDifference:14.1,rctCI:[9.5,18.6]},
@@ -47,8 +66,8 @@
     const band=ageBand(age);
     if(!revision10y[band] || !revision10y[band][sex]) throw new Error('Invalid sex or age');
     if(!['fixed','mobile'].includes(bearing)) throw new Error('Invalid bearing');
-    const row=revision10y[band][sex];
-    return {band,uka:row[bearing],tkr:row.tkr,excess:row[bearing]-row.tkr};
+    const row=revision10y[band][sex],ci=revision10yCI[band][sex];
+    return {band,uka:row[bearing],tkr:row.tkr,ukaCI:ci[bearing],tkrCI:ci.tkr,excess:row[bearing]-row.tkr};
   }
 
   // Reconstructed UKA 6-month OKS reference, not the original published full prediction equation.
@@ -124,7 +143,7 @@
   }
 
   return {
-    MODEL_VERSION,EVIDENCE_CUTOFF,revision10y,benchmarks,
+    MODEL_VERSION,EVIDENCE_CUTOFF,revision10y,revision10yCI,benchmarks,
     clamp,lerp,ageBand,revisionEstimate,ukaOksReference,tkrOksReference,
     safety30d,lifetimeRevision,providerContext,evaluateScenario,oksTotal
   };
