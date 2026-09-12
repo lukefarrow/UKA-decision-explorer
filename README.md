@@ -12,6 +12,7 @@ This public explorer does not assess UKA eligibility. It is focused on treatment
 - ASA grade
 - Preoperative Oxford Knee Score
 - UKA bearing type: fixed vs mobile
+- UKA surgical technique: manual vs robotic-assisted (contextual only; no numeric revision adjustment)
 - Provider UKA volume and usage as contextual settings
 
 ## Outputs
@@ -52,4 +53,5 @@ https://lukefarrow.github.io/UKA-decision-explorer/
 - UK NJR age × sex × construct strata remain the primary source for the live 10-year revision estimate because they can be reproduced transparently at patient-scenario level.
 - International registry studies (including New Zealand, Swiss and US/MARCQI data, plus multi-registry analyses involving Australia) are used as external validation and contextual checks rather than naively pooled.
 - Surgeon caseload and UKA usage are interpreted using published thresholds. The app does not apply an unvalidated multiplicative correction to patient revision risk.
+- Robotic assistance is contextual only. Earlier AOANJRR analyses suggested lower revision, but the 2025 AOANJRR adjusted analysis reports no difference in revision for unicompartmental knee replacement; therefore no robotic multiplier is applied.
 - Infection is shown separately from all-cause revision using the 2026 Swiss SIRIS national registry comparison.
