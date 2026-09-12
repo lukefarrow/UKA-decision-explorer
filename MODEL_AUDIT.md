@@ -17,7 +17,7 @@ Each output is classified as:
 
 | Domain | Status | Class | Audit finding |
 |---|---|---:|---|
-| 10-year revision | PASS | A | Exact NJR 22nd Annual Report Table 3.K6 age × sex × cemented medial fixed/mobile UKA values and cemented unconstrained fixed-bearing TKR comparator are encoded. |
+| 10-year revision | PASS | A | Exact NJR 22nd Annual Report Table 3.K6 age × sex × cemented medial fixed/mobile UKA values, cemented unconstrained fixed-bearing TKR comparator, and corresponding 95% CIs are encoded. |
 | Bearing type | PASS | A/C | Fixed-bearing UKA has lower encoded NJR 10-year revision than mobile-bearing in every age/sex stratum; comparative literature also supports lower dislocation/bearing-related failure. |
 | Robotic assistance | PASS | C | No numeric modifier is applied. Current wording reflects the latest AOANJRR conclusion that adjusted UKA revision is not different with robotics, while retaining earlier evidence context. |
 | UKA OKS | QUALIFIED | B | 6-month reference estimate is reconstructed from the Liddle cohort mean (21.9→37.5), pre-op OKS coefficient 0.24 and age spline. It is not the original complete multivariable prediction equation and omits deprivation, anxiety/depression, self-rated health/disability and other predictors. |
@@ -25,7 +25,7 @@ Each output is classified as:
 | UKA vs TKR OKS treatment effect | PASS | C | App explicitly prevents causal subtraction of the two prognostic estimates. The comparative statement is supported by the 2026 blinded RCT (+3.5 OKS improvement favouring UKA; below conventional MCID) and TOPKAT long-term evidence. |
 | Forgotten Joint Score | PASS | C | Direction favours UKA. RCT difference 14.1 points is encoded in evidence constants; UI appropriately avoids an individualized FJS prediction. |
 | Lifetime revision | QUALIFIED | D | Current function is a monotonic age-only hybrid interpolation using NZJR young/old anchors plus the NJR/SAP 65–69 implant-design anchor. It is transparent but is not a published competing-risk equation. Sex and ASA effects are contextual only. |
-| 30-day morbidity/mortality | PASS | A | Exact published probabilities at ages 65, 75 and 85 are reproduced. Linear interpolation is used only between anchors; values outside 65–85 are capped rather than extrapolated. |
+| 30-day morbidity/mortality | PASS | A | Exact published probabilities and 95% CIs at ages 65, 75 and 85 are reproduced. The endpoint is explicitly labelled as the study's composite of 30-day morbidity or mortality / short-term complications. Linear interpolation is used only between anchors; values outside 65–85 are capped rather than extrapolated. |
 | PJI-related revision | PASS | A/C | SIRIS observed proportions (0.4% UKA, 0.8% TKA) and adjusted HR 0.53 are correctly represented and clearly identified as registry follow-up rather than fixed-time individualized risk. |
 | Same-day discharge | PASS | A/C | Comparative 42% vs 20% overall and 72% vs 61% eligible/early-surgery benchmarks match the prospective fast-track cohort; dedicated UKA pathway pooled rates 88/91/76% match meta-analysis. |
 | Provider caseload/usage | PASS | C | Thresholds <10 vs ≥10 cases/year and <20% vs ≥20% usage are evidence based. ≥30/year is used as a favourable contextual threshold. No unsupported patient-level multiplier is applied. |
@@ -162,7 +162,8 @@ The repository contains `validation.test.js`, which imports the exact `model.js`
 8. lifetime-risk anchors, monotonicity and UKA>TKA ordering;
 9. provider volume/usage classification boundaries;
 10. OKS helper validity;
-11. FJS, ROM, PJI and day-case benchmark constants.
+11. FJS, ROM, randomized OKS effect, PJI and day-case benchmark constants;
+12. full synthetic scenario regression tests spanning young/old, male/female, fixed/mobile, low/high provider exposure and boundary ages.
 
 Deployment is configured to stop if the validation suite fails.
 
@@ -173,7 +174,7 @@ Replace the hybrid interpolation with either:
 - a source-consistent age-band table directly extracted from a single lifetime-risk study; or
 - a reproducible competing-risk/life-table implementation using published source data.
 
-Until then, classify it as **research estimate / lower confidence** and avoid confidence intervals.
+Until then, classify it as **research estimate / lower confidence**, display rounded whole-percentage values, and avoid model-derived confidence intervals.
 
 ### Priority 2 — OKS display
 The two displayed prognostic estimates use different source models and follow-up times (UKA ~6 months; TKR 12 months). Continue to prohibit direct subtraction. Consider visually separating:
