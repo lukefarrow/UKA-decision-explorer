@@ -63,6 +63,11 @@ function text(dom,selector){
   assert.match(text(dom,'#comparisonTitle'),/Medial UKA vs TKR/);
   assert.ok(d.querySelector('#bearingField').style.display!=='none','Bearing control should be visible for medial module');
 
+  assert.doesNotMatch(text(dom,'#outcomesGrid'),/Mobile-bearing medial UKA reference/,'Oxford mobile-bearing lifetime reference should be hidden for fixed bearing');
+  click(dom,'[data-input="bearing"] button[data-value="mobile"]');
+  assert.match(text(dom,'#outcomesGrid'),/Mobile-bearing medial UKA reference/,'Oxford mobile-bearing lifetime reference should appear for mobile bearing');
+  click(dom,'[data-input="bearing"] button[data-value="fixed"]');
+
   const age=d.querySelector('#age');
   age.value='75';
   age.dispatchEvent(new dom.window.Event('input',{bubbles:true}));
