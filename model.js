@@ -60,7 +60,7 @@
   };
 
   const benchmarks={
-    oksComparative:{direction:'uka',timepointMonths:12,mukaMean:41.2,mukaCI:[39.6,42.7],tkaMean:38.4,tkaCI:[36.9,40.0],improvementDifference:3.2,differenceCI:[0.9,5.6],mcid:[4,5],twoYearAverageDifference:3.5,twoYearAverageCI:[2.3,4.7]},
+    oksComparative:{direction:'uka',twelveMonth:{mukaMean:41.2,mukaCI:[39.6,42.7],tkaMean:38.4,tkaCI:[36.9,40.0],improvementDifference:3.2,differenceCI:[0.9,5.6],sourcePmid:34162649},twoYearEndpoint:{mukaMean:41.2,mukaCI:[39.7,42.7],tkaMean:40.1,tkaCI:[38.7,41.6],difference:1.6,differenceCI:[-0.7,3.9],sourcePmid:34162649},twoYearAverage:{improvementDifference:3.5,differenceCI:[2.3,4.7],sourcePmid:41662451},mcid:[4,5]},
     fjs:{direction:'uka',range:[6,14],rctDifference:14.1,rctCI:[9.5,18.6]},
     rom:{direction:'uka',twoYearDifferenceDeg:5.5,ci:[3.6,7.4]},
     pji:{ukaObservedPct:0.4,tkaObservedPct:0.8,adjustedHR:0.53},
@@ -106,24 +106,6 @@
   function pfaRevisionEstimate(age,sex){
     const band=ageBand(age),row=pfaRevision10y[band][sex],ci=pfaRevision10yCI[band][sex];
     return {band,pfa:row.pfa,tkr:row.tkr,pfaCI:ci.pfa,tkrCI:ci.tkr,excess:row.pfa-row.tkr};
-  }
-
-  // Reconstructed UKA 6-month OKS reference, not the original published full prediction equation.
-  function ukaOksReference(age,preOks){
-    const ageAdj=age<=75?0.14*(age-65):0.14*10-0.18*(age-75);
-    return clamp(37.5+0.24*(preOks-21.9)+ageAdj,0,48);
-  }
-
-  // Reduced/reference-profile application of Sanchez-Santos et al.
-  // Omitted predictors are held at the favourable/reference category:
-  // IMD contribution=0, no anxiety/depression, no previous arthroscopy,
-  // no other mobility condition, no fixed flexion deformity, intact ACL.
-  function tkrOksReference(age,sex,bmi,asa,preOks){
-    const ageMain=age<60?0:age<70?0.8:age<80?1.4:-2.5;
-    const maleInteraction=age<60?0:age<70?4.8:age<80?4.3:8.1;
-    let x=32.9+ageMain-1.5*(bmi/10)+0.4*preOks+(Number(asa)>=3?-2:0);
-    if(sex==='male') x+=-4.8+maleInteraction;
-    return clamp(x,0,48);
   }
 
   function safety30d(age){
@@ -199,8 +181,6 @@
     const revision=revisionEstimate(x.age,x.sex,x.bearing);
     return {
       revision,
-      ukaOks:ukaOksReference(x.age,x.preOks),
-      tkrOks:tkrOksReference(x.age,x.sex,x.bmi,x.asa,x.preOks),
       safety:safety30d(x.age),
       lifetime:lifetimeRevision(x.age),
       provider:providerContext(x.volume,x.usage)
@@ -216,7 +196,7 @@
 
   return {
     MODEL_VERSION,EVIDENCE_CUTOFF,revision10y,revision10yCI,pfaRevision10y,pfaRevision10yCI,benchmarks,
-    clamp,lerp,ageBand,revisionEstimate,lateralRevisionEstimate,pfaRevisionEstimate,ukaOksReference,tkrOksReference,
+    clamp,lerp,ageBand,revisionEstimate,lateralRevisionEstimate,pfaRevisionEstimate,
     safety30d,lifetimeRevision,medialLifetimeReference,providerContext,evaluateScenario,oksTotal
   };
 });
