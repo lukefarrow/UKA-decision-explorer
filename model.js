@@ -46,11 +46,49 @@
     }
   };
 
+  const lateralRevision10y={
+    '<55':{male:{tkr:6.04,fixed:11.06,mobile:19.09},female:{tkr:5.24,fixed:12.52,mobile:17.78}},
+    '55-64':{male:{tkr:3.81,fixed:6.43,mobile:16.07},female:{tkr:3.46,fixed:6.66,mobile:11.97}},
+    '65-74':{male:{tkr:2.55,fixed:9.48,mobile:18.53},female:{tkr:2.35,fixed:6.51,mobile:8.20}},
+    '75+':{male:{tkr:1.71,fixed:5.81,mobile:10.84},female:{tkr:1.64,fixed:7.08,mobile:9.77}}
+  };
+  const lateralRevision10yCI={
+    '<55':{male:{tkr:[5.69,6.42],fixed:[7.96,15.25],mobile:[13.31,26.97]},female:{tkr:[4.97,5.53],fixed:[9.24,16.85],mobile:[12.64,24.71]}},
+    '55-64':{male:{tkr:[3.67,3.95],fixed:[3.97,10.33],mobile:[10.43,24.33]},female:{tkr:[3.35,3.59],fixed:[4.46,9.89],mobile:[8.30,17.09]}},
+    '65-74':{male:{tkr:[2.46,2.64],fixed:[5.68,15.60],mobile:[11.88,28.26]},female:{tkr:[2.28,2.43],fixed:[4.14,10.17],mobile:[5.36,12.44]}},
+    '75+':{male:{tkr:[1.62,1.80],fixed:[2.49,13.24],mobile:[5.02,22.58]},female:{tkr:[1.57,1.72],fixed:[4.18,11.87],mobile:[6.14,15.36]}}
+  };
+  const pfaRevision10y={
+    '<55':{male:{tkr:6.04,pfa:21.05},female:{tkr:5.24,pfa:17.49}},
+    '55-64':{male:{tkr:3.81,pfa:19.78},female:{tkr:3.46,pfa:17.05}},
+    '65-74':{male:{tkr:2.55,pfa:16.91},female:{tkr:2.35,pfa:15.89}},
+    '75+':{male:{tkr:1.71,pfa:7.61},female:{tkr:1.64,pfa:8.75}}
+  };
+  const pfaRevision10yCI={
+    '<55':{male:{tkr:[5.69,6.42],pfa:[18.68,23.69]},female:{tkr:[4.97,5.53],pfa:[16.38,18.67]}},
+    '55-64':{male:{tkr:[3.67,3.95],pfa:[17.38,22.46]},female:{tkr:[3.35,3.59],pfa:[15.79,18.39]}},
+    '65-74':{male:{tkr:[2.46,2.64],pfa:[14.22,20.06]},female:{tkr:[2.28,2.43],pfa:[14.32,17.60]}},
+    '75+':{male:{tkr:[1.62,1.80],pfa:[5.11,11.27]},female:{tkr:[1.57,1.72],pfa:[7.10,10.77]}}
+  };
+
   const benchmarks={
     oksComparative:{direction:'uka',timepointMonths:12,mukaMean:41.2,mukaCI:[39.6,42.7],tkaMean:38.4,tkaCI:[36.9,40.0],improvementDifference:3.2,differenceCI:[0.9,5.6],mcid:[4,5],twoYearAverageDifference:3.5,twoYearAverageCI:[2.3,4.7]},
     fjs:{direction:'uka',range:[6,14],rctDifference:14.1,rctCI:[9.5,18.6]},
     rom:{direction:'uka',twoYearDifferenceDeg:5.5,ci:[3.6,7.4]},
     pji:{ukaObservedPct:0.4,tkaObservedPct:0.8,adjustedHR:0.53},
+    lateral:{
+      tenYearRegistryContext:{danishAllEraLuka:13.6,danishAllEraTka:5.9,adjustedSHR:2.3},
+      returnToSport:{rate:92.4,ci:[81.5,97.1],returnToPerformance:88.5,returnToPerformanceCI:[75.1,95.1]},
+      gait:{direction:'lateral',oksLateral:44,oksTka:36}
+    },
+    pfa:{
+      rct6yOksImprovementDifference:5,rct6yOksDifferenceCI:[2,8],
+      rct5yRomDifferenceDeg:7,rct5yRomCI:[1,13],
+      rct6yRevision:{pfa:10,tka:4,pfaCI:[4,20],tkaCI:[1,12]},
+      returnToSportRange:[64.7,91],
+      contemporaryRegistryTenYearRevision:18.5,
+      contemporaryRegistryTenYearRevisionCI:[17.75,19.3]
+    },
     dayCase:{
       overall:{uka:42,tka:20},
       eligibleEarly:{uka:72,tka:61},
@@ -63,11 +101,23 @@
   function ageBand(age){return age<55?'<55':age<65?'55-64':age<75?'65-74':'75+';}
 
   function revisionEstimate(age,sex,bearing){
+
     const band=ageBand(age);
     if(!revision10y[band] || !revision10y[band][sex]) throw new Error('Invalid sex or age');
     if(!['fixed','mobile'].includes(bearing)) throw new Error('Invalid bearing');
     const row=revision10y[band][sex],ci=revision10yCI[band][sex];
     return {band,uka:row[bearing],tkr:row.tkr,ukaCI:ci[bearing],tkrCI:ci.tkr,excess:row[bearing]-row.tkr};
+  }
+
+  function lateralRevisionEstimate(age,sex,bearing){
+    const band=ageBand(age),row=lateralRevision10y[band][sex],ci=lateralRevision10yCI[band][sex];
+    if(!['fixed','mobile'].includes(bearing)) throw new Error('Invalid bearing');
+    return {band,uka:row[bearing],tkr:row.tkr,ukaCI:ci[bearing],tkrCI:ci.tkr,excess:row[bearing]-row.tkr};
+  }
+
+  function pfaRevisionEstimate(age,sex){
+    const band=ageBand(age),row=pfaRevision10y[band][sex],ci=pfaRevision10yCI[band][sex];
+    return {band,pfa:row.pfa,tkr:row.tkr,pfaCI:ci.pfa,tkrCI:ci.tkr,excess:row.pfa-row.tkr};
   }
 
   // Reconstructed UKA 6-month OKS reference, not the original published full prediction equation.
@@ -143,8 +193,8 @@
   }
 
   return {
-    MODEL_VERSION,EVIDENCE_CUTOFF,revision10y,revision10yCI,benchmarks,
-    clamp,lerp,ageBand,revisionEstimate,ukaOksReference,tkrOksReference,
+    MODEL_VERSION,EVIDENCE_CUTOFF,revision10y,revision10yCI,lateralRevision10y,lateralRevision10yCI,pfaRevision10y,pfaRevision10yCI,benchmarks,
+    clamp,lerp,ageBand,revisionEstimate,lateralRevisionEstimate,pfaRevisionEstimate,ukaOksReference,tkrOksReference,
     safety30d,lifetimeRevision,providerContext,evaluateScenario,oksTotal
   };
 });
