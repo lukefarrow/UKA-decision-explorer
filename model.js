@@ -138,21 +138,25 @@
     };
   }
 
-  // Source-consistent NZJR population interpolation.
-  // UKA endpoints: 46–50 years 40.4%; 86–90 years 3.7%.
-  // TKA endpoints: 46–50 years 22.4%; 90–95 years 1.15%; source reports an approximately linear age decline.
-  // This is a display interpolation between published age-group anchors, not a validated patient-level competing-risk equation.
+  // Pragmatic population lifetime-revision model.
+  // NZJR anchors describe the younger and older population range; NJR age 65–69 values
+  // provide a contemporary mid-life implant-design anchor. This is a research interpolation,
+  // not a validated patient-level competing-risk equation.
   function lifetimeRevision(age){
-    const a=Number(age);
-    const ukaAge=clamp(a,48,88);
-    const tkaAge=clamp(a,48,92.5);
-    const uka=lerp(ukaAge,48,40.4,88,3.7);
-    const tkr=lerp(tkaAge,48,22.4,92.5,1.15);
+    const a=clamp(Number(age),48,92);
+    let uka,tkr;
+    if(a<=67){
+      uka=lerp(a,48,40.4,67,13.7);
+      tkr=lerp(a,48,22.4,67,3.6);
+    } else {
+      uka=a>=88?3.7:lerp(a,67,13.7,88,3.7);
+      tkr=lerp(a,67,3.6,92,1.15);
+    }
     return {
       uka:Math.max(0,uka),
       tkr:Math.max(0,tkr),
-      ukaLabel:a<48?'≤46–50 reference':a>88?'≥86–90 reference':'NZJR age-interpolated',
-      tkrLabel:a<48?'≤46–50 reference':a>92.5?'≥90–95 reference':'NZJR age-interpolated'
+      ukaLabel:'UKA population estimate',
+      tkrLabel:'TKR population estimate'
     };
   }
 
