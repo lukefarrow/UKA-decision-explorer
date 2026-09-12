@@ -308,3 +308,10 @@ These estimates come from a 1,000-case medial Oxford UKR designer series using r
 
 ### Governance decision
 The app now displays population registry context and medial-specific specialist-series context side by side, rather than splicing them into a single synthetic curve.
+
+
+## Lifetime revision bearing scope
+
+The primary lifetime-revision display uses a pragmatic population model combining NZJR lifetime-risk anchors with the contemporary NJR age 65–69 lifetime-revision anchor. It is presented as a counselling estimate rather than a validated individual competing-risk equation. The all-UKA population evidence is considered most applicable to medial UKA because medial procedures comprise the large majority of UKA practice.
+
+The Oxford lifetime-revision series is treated separately and applies specifically to **mobile-bearing medial Oxford UKA** performed using recommended indications and technique. It is displayed only when mobile-bearing medial UKA is selected and is not extrapolated to fixed-bearing UKA.
