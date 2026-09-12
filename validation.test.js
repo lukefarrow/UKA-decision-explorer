@@ -163,51 +163,25 @@ for(const sc of scenarioCases){
 }
 
 
-const lateralExpected={
- '<55':{male:{tkr:6.04,lateral:11.06},female:{tkr:5.24,lateral:12.52}},
- '55-64':{male:{tkr:3.81,lateral:6.43},female:{tkr:3.46,lateral:6.66}},
- '65-74':{male:{tkr:2.55,lateral:9.48},female:{tkr:2.35,lateral:6.51}},
- '75+':{male:{tkr:1.71,lateral:5.81},female:{tkr:1.64,lateral:7.08}}
-};
-for(const [band,sexes] of Object.entries(lateralExpected)){
- for(const [sex,vals] of Object.entries(sexes)){
-  test('NJR lateral 10y '+band+' '+sex,()=>{
-   const x=M.lateralRevisionEstimate(representativeAge[band],sex);
-   near(x.uka,vals.lateral);near(x.tkr,vals.tkr);near(x.excess,vals.lateral-vals.tkr);
-   assert.ok(x.ukaCI[0] <= x.uka && x.uka <= x.ukaCI[1]);
-  });
- }
-}
-
-const pfaExpected={
- '<55':{male:{tkr:6.04,pfa:21.05},female:{tkr:5.24,pfa:17.49}},
- '55-64':{male:{tkr:3.81,pfa:19.78},female:{tkr:3.46,pfa:17.05}},
- '65-74':{male:{tkr:2.55,pfa:16.91},female:{tkr:2.35,pfa:15.89}},
- '75+':{male:{tkr:1.71,pfa:7.61},female:{tkr:1.64,pfa:8.75}}
-};
-for(const [band,sexes] of Object.entries(pfaExpected)){
- for(const [sex,vals] of Object.entries(sexes)){
-  test('NJR PFA 10y '+band+' '+sex,()=>{
-   const x=M.pfaRevisionEstimate(representativeAge[band],sex);
-   near(x.pfa,vals.pfa);near(x.tkr,vals.tkr);near(x.excess,vals.pfa-vals.tkr);
-   assert.ok(x.pfaCI[0] <= x.pfa && x.pfa <= x.pfaCI[1]);
-  });
- }
-}
-test('PFA revision exceeds TKR in every encoded stratum',()=>{
- for(const band of Object.keys(pfaExpected)) for(const sex of ['male','female'])
-  assert.ok(pfaExpected[band][sex].pfa>pfaExpected[band][sex].tkr);
+test('lateral pooled 10-year revision benchmark',()=>{
+ const x=M.lateralRevisionEstimate();
+ near(x.uka,13.6);near(x.tkr,5.9);near(x.excess,7.7);near(x.adjustedSHR,2.3);assert.deepStrictEqual(x.adjustedSHRCI,[1.6,3.2]);
 });
-
+test('lateral contemporary five-year benchmark',()=>{
+ assert.deepStrictEqual(M.benchmarks.lateral.contemporaryFiveYear,{lateral:7.3,tka:3.7,period:'2017–2022'});
+});
 test('lateral-specific RTS benchmark',()=>{
  const x=M.benchmarks.lateral.returnToSport;near(x.rate,92.4);assert.deepStrictEqual(x.ci,[81.5,97.1]);near(x.returnToPerformance,88.5);
 });
 test('lateral-specific gait OKS benchmark',()=>{
  assert.strictEqual(M.benchmarks.lateral.gait.oksLateral,44);assert.strictEqual(M.benchmarks.lateral.gait.oksTka,36);
 });
-test('PFA randomized OKS benchmark',()=>{
- const x=M.benchmarks.pfa;near(x.rct6yOksImprovementDifference,5);assert.deepStrictEqual(x.rct6yOksDifferenceCI,[2,8]);
+test('PFA PAT randomized 12-month WOMAC benchmark',()=>{
+ const x=M.benchmarks.pfa.patTrial;near(x.womac12mDifference,-1.2);assert.deepStrictEqual(x.womac12mCI,[-9.19,6.80]);
 });
-test('PFA randomized ROM benchmark',()=>{
- const x=M.benchmarks.pfa;near(x.rct5yRomDifferenceDeg,7);assert.deepStrictEqual(x.rct5yRomCI,[1,13]);
+test('PFA PAT trial mid-term OKS interpretation',()=>{
+ const x=M.benchmarks.pfa.patTrial;assert.strictEqual(x.oks24mDifference,'not significant');assert.strictEqual(x.oks60mDifference,'not significant');
+});
+test('PFA 2026 GRADE interpretation',()=>{
+ const x=M.benchmarks.pfa.grade2026;assert.strictEqual(x.earlyProms,'favours PFA');assert.strictEqual(x.midLongProms,'converge');assert.strictEqual(x.revision,'higher PFA');
 });
