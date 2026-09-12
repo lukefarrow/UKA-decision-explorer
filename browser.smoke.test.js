@@ -52,12 +52,20 @@ function text(dom,selector){
   assert.match(text(dom,'#tradeoffRows'),/13\.6% vs 5\.9%/);
   assert.doesNotMatch(text(dom,'#outcomesGrid'),/mobile bearing|mobile-bearing/i);
   assert.ok(d.querySelector('#bearingField').style.display==='none','Bearing control should be hidden for lateral module');
+  assert.ok(d.querySelector('#roboticField').style.display!=='none','Robotic control should be visible for lateral module');
+  click(dom,'[data-input="robotic"] button[data-value="robotic"]');
+  assert.match(text(dom,'#outcomesGrid'),/98\.8%/);
+  assert.match(text(dom,'#outcomesGrid'),/No robotic adjustment is applied/);
 
   click(dom,'[data-input="module"] button[data-value="pfa"]');
   assert.match(text(dom,'#comparisonTitle'),/Patellofemoral arthroplasty vs TKR/);
   assert.match(text(dom,'#outcomesGrid'),/PAT randomized trial/);
   assert.doesNotMatch(text(dom,'#outcomesGrid'),/mobile bearing|mobile-bearing/i);
   assert.ok(d.querySelector('#bearingField').style.display==='none','Bearing control should be hidden for PFA module');
+  assert.ok(d.querySelector('#roboticField').style.display!=='none','Robotic control should be visible for PFA module');
+  click(dom,'[data-input="robotic"] button[data-value="robotic"]');
+  assert.match(text(dom,'#outcomesGrid'),/0\.7% vs 1\.9%/);
+  assert.match(text(dom,'#outcomesGrid'),/not numerically modified/);
 
   click(dom,'[data-input="module"] button[data-value="medial"]');
   assert.match(text(dom,'#comparisonTitle'),/Medial UKA vs TKR/);
