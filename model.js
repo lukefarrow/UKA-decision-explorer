@@ -28,6 +28,7 @@
   };
 
   const benchmarks={
+    oksComparative:{direction:'uka',rctDifference:3.5,rctCI:[2.3,4.7],mcid:[4,5]},
     fjs:{direction:'uka',range:[6,14],rctDifference:14.1,rctCI:[9.5,18.6]},
     rom:{direction:'uka',twoYearDifferenceDeg:5.5,ci:[3.6,7.4]},
     pji:{ukaObservedPct:0.4,tkaObservedPct:0.8,adjustedHR:0.53},
@@ -69,14 +70,16 @@
   }
 
   function safety30d(age){
-    const ages=[65,75,85],uka=[2.1,2.4,3.2],tkr=[2.9,3.6,5.5];
+    const ages=[65,75,85],uka=[2.1,2.4,3.2],tkr=[2.9,3.6,5.5],ukaLo=[1.8,2.0,2.3],ukaHi=[2.3,2.8,4.1],tkrLo=[2.7,3.3,4.7],tkrHi=[3.0,3.8,6.3];
     const a=clamp(age,65,85);
     const i=a<=75?0:1;
     const f=(a-ages[i])/(ages[i+1]-ages[i]);
     return {
       uka:uka[i]+f*(uka[i+1]-uka[i]),
       tkr:tkr[i]+f*(tkr[i+1]-tkr[i]),
-      label:age<65?'≤65 reference':age>85?'≥85 reference':'age-adjusted'
+      ukaCI:[ukaLo[i]+f*(ukaLo[i+1]-ukaLo[i]),ukaHi[i]+f*(ukaHi[i+1]-ukaHi[i])],
+      tkrCI:[tkrLo[i]+f*(tkrLo[i+1]-tkrLo[i]),tkrHi[i]+f*(tkrHi[i+1]-tkrHi[i])],
+      label:age<65?'≤65 published reference':age>85?'≥85 published reference':'age-interpolated published risk'
     };
   }
 
@@ -101,6 +104,18 @@
     return 'intermediate';
   }
 
+  function evaluateScenario(x){
+    const revision=revisionEstimate(x.age,x.sex,x.bearing);
+    return {
+      revision,
+      ukaOks:ukaOksReference(x.age,x.preOks),
+      tkrOks:tkrOksReference(x.age,x.sex,x.bmi,x.asa,x.preOks),
+      safety:safety30d(x.age),
+      lifetime:lifetimeRevision(x.age),
+      provider:providerContext(x.volume,x.usage)
+    };
+  }
+
   function oksTotal(items){
     if(!Array.isArray(items)||items.length!==12) return null;
     const nums=items.map(Number);
@@ -111,6 +126,6 @@
   return {
     MODEL_VERSION,EVIDENCE_CUTOFF,revision10y,benchmarks,
     clamp,lerp,ageBand,revisionEstimate,ukaOksReference,tkrOksReference,
-    safety30d,lifetimeRevision,providerContext,oksTotal
+    safety30d,lifetimeRevision,providerContext,evaluateScenario,oksTotal
   };
 });
