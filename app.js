@@ -27,16 +27,16 @@ function configureControls(){
  const medial=state.module==='medial',lateral=state.module==='lateral',pfa=state.module==='pfa';
  $('constructTitle').textContent=pfa?'Procedure-specific settings':'UKA construct';
  $('constructSubtitle').textContent=pfa?'No validated PFA construct modifier is currently applied.':'Bearing type is used where compartment-specific registry revision estimates are available.';
- $('bearingField').style.display=pfa?'none':'';
- $('bearingCopy').style.display=pfa?'none':'';
+ $('bearingField').style.display=medial?'':'none';
+ $('bearingCopy').style.display=medial?'':'none';
  $('roboticField').style.display=medial?'':'none';
  $('roboticCopy').style.display=medial?'':'none';
  $('providerSettings').style.display=medial?'':'none';
  $('scopeCopy').textContent=medial
   ?'Medial UKA has the most complete evidence module. Several outcomes are medial-specific; 30-day morbidity/mortality, PJI and lifetime revision use broader UKA registry evidence where compartment-specific data are unavailable.'
   :lateral
-   ?'This lateral UKA module uses lateral-specific NJR revision strata and lateral-specific functional/activity evidence where available. It does not borrow medial lifetime, provider-volume, same-day-discharge or PROM coefficients.'
-   :'This patellofemoral arthroplasty module uses PFA-specific NJR revision strata and randomized PFA-vs-TKR functional evidence. It does not borrow UKA lifetime, infection, provider-volume, bearing or discharge models.';
+   ?'This lateral UKA module is a stand-alone comparison of lateral UKA with TKR. It uses lateral-specific NJR revision data and lateral-specific functional/activity evidence where available. Outcomes without adequate lateral-specific evidence are explicitly left unmodelled.'
+   :'This patellofemoral arthroplasty module is a stand-alone comparison of PFA with TKR. It uses PFA-specific NJR revision data and randomized PFA-vs-TKR functional evidence. Outcomes without adequate PFA-specific evidence are explicitly left unmodelled.';
  $('axisLabel').textContent=medial?'mUKA ← similar → TKR':lateral?'lateral UKA ← similar → TKR':'PFA ← similar → TKR';
 }
 
@@ -94,8 +94,8 @@ function renderMedial(x){
 }
 
 function renderLateral(x){
- const rev=M.lateralRevisionEstimate(x.age,state.sex,state.bearing),band=rev.band;
- const label=state.bearing==='fixed'?'Fixed-bearing lateral UKA':'Mobile-bearing lateral UKA';
+ const rev=M.lateralRevisionEstimate(x.age,state.sex),band=rev.band;
+ const label='Lateral UKA';
  $('comparisonTitle').textContent='Lateral UKA vs TKR treatment trade-off';
  $('tradeoffRows').innerHTML=[
   tradeRow('Pain & function','Comparative cohort OKS 44 vs 36','uka','Favours lateral UKA'),
@@ -112,7 +112,7 @@ function renderLateral(x){
  $('outcomesGrid').innerHTML=`
  <article class="outcome-card"><div class="eyebrow dark">Pain & function · lateral-specific</div><h3>Oxford Knee Score / patient-reported function</h3><div class="compare">${metric('Lateral UKA','44','mean OKS; matched cohort')}${metric('TKR','36','mean OKS; matched cohort')}</div><div class="outcome-copy">This is a matched observational gait/function cohort, not a randomized treatment-effect estimate. It supports better function after lateral UKA but should not be used as an individualized prediction.</div>${evidence('A contemporary matched study found higher OKS and more physiological gait after lateral UKA than TKA.',[{pmid:41642280,label:'2026 lateral UKA vs TKA gait and outcome study'}])}</article>
 
- <article class="outcome-card"><div class="eyebrow dark">Longevity · lateral-specific NJR</div><h3>10-year revision</h3><div class="compare">${metric(label,rev.uka.toFixed(1)+'%',`95% CI ${rev.ukaCI[0].toFixed(1)}–${rev.ukaCI[1].toFixed(1)}%; ${band}, ${state.sex}`)}${metric('TKR',rev.tkr.toFixed(1)+'%',`95% CI ${rev.tkrCI[0].toFixed(1)}–${rev.tkrCI[1].toFixed(1)}%`)}</div><div class="delta">Absolute excess revision with lateral UKA: +${rev.excess.toFixed(1)} percentage points.</div><div class="outcome-copy">NJR lateral fixed/mobile strata are smaller than medial strata, so confidence intervals are wider. No provider-volume or robotics multiplier is applied.</div></article>
+ <article class="outcome-card"><div class="eyebrow dark">Longevity · lateral-specific NJR</div><h3>10-year revision</h3><div class="compare">${metric(label,rev.uka.toFixed(1)+'%',`95% CI ${rev.ukaCI[0].toFixed(1)}–${rev.ukaCI[1].toFixed(1)}%; ${band}, ${state.sex}`)}${metric('TKR',rev.tkr.toFixed(1)+'%',`95% CI ${rev.tkrCI[0].toFixed(1)}–${rev.tkrCI[1].toFixed(1)}%`)}</div><div class="delta">Absolute excess revision with lateral UKA: +${rev.excess.toFixed(1)} percentage points.</div><div class="outcome-copy">NJR lateral UKA strata are smaller than the medial UKA strata, so confidence intervals are wider. No medial UKA provider-volume, bearing or robotics modifier is applied.</div></article>
 
  <article class="outcome-card"><div class="eyebrow dark">Activity · lateral-specific</div><h3>Return to sport</h3><div class="outcome-main">High return rate after lateral UKA</div><div class="delta">Pooled RTS 92.4% (95% CI 81.5–97.1); return to performance 88.5% (75.1–95.1).</div><div class="outcome-copy">Evidence is mainly Level IV and non-comparative. High-impact participation often decreases despite a high overall return rate.</div>${evidence('Recent lateral-specific systematic review/meta-analysis.',[{pmid:40878711,label:'2025 lateral UKA return-to-sport meta-analysis'}])}</article>
 
@@ -122,7 +122,7 @@ function renderLateral(x){
 
  $('scenarioNotes').innerHTML=[
   'Lateral UKA has useful compartment-specific 10-year NJR revision data, but substantially smaller numbers and wider confidence intervals than medial UKA.',
-  state.bearing==='mobile'?'The selected mobile-bearing lateral construct has higher registry revision in the current NJR strata than fixed-bearing lateral UKA.':'Fixed-bearing lateral UKA is the lower-revision lateral construct in the current NJR strata.',
+  state.bearing==='mobile'?''The displayed lateral UKA estimate is compartment-specific and does not depend on a bearing selector in this module.',
   'Functional and return-to-sport evidence is encouraging but less mature than the medial UKA evidence base.',
   'Unavailable domains are intentionally left unmodelled rather than inferred from medial UKA.'
  ].map(n=>`<div class="note">${n}</div>`).join('');
@@ -158,7 +158,7 @@ function renderPFA(x){
   'PFA has randomized evidence for function and ROM, but the revision trade-off remains important.',
   'NJR 10-year PFA revision estimates are substantially higher than the matched TKR comparator across the encoded age groups.',
   'The PFA evidence base is influenced by implant generation and indication; contemporary implant-specific outcomes may differ from pooled historical experience.',
-  'UKA-specific provider, bearing, robotics and lifetime models are not applied to PFA.'
+  'PFA is interpreted independently: no UKA-specific provider, construct, robotics or lifetime model is applied.'
  ].map(n=>`<div class="note">${n}</div>`).join('');
 }
 
