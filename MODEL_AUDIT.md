@@ -315,3 +315,14 @@ The app now displays population registry context and medial-specific specialist-
 The primary lifetime-revision display uses a pragmatic population model combining NZJR lifetime-risk anchors with the contemporary NJR age 65–69 lifetime-revision anchor. It is presented as a counselling estimate rather than a validated individual competing-risk equation. The all-UKA population evidence is considered most applicable to medial UKA because medial procedures comprise the large majority of UKA practice.
 
 The Oxford lifetime-revision series is treated separately and applies specifically to **mobile-bearing medial Oxford UKA** performed using recommended indications and technique. It is displayed only when mobile-bearing medial UKA is selected and is not extrapolated to fixed-bearing UKA.
+
+
+## Robotic assistance — lateral UKA and PFA
+
+Robotic assistance is represented as contextual evidence only in the lateral UKA and PFA modules. It does not modify the long-term registry revision estimate.
+
+### Lateral UKA
+A 2026 lateral-specific systematic review/meta-analysis (PMID 42159185) reported pooled robotic lateral UKA survivorship of 98.8% (95% CI 97.1–99.8) at mean 53.4 months and satisfaction 95.4% (92.9–97.4). The underlying evidence is predominantly small, heterogeneous observational cohorts. These figures are displayed only as robotic context and are not used to recalibrate the 10-year lateral UKA revision estimate.
+
+### Patellofemoral arthroplasty
+A 2026 comparative meta-analysis (PMID 41627484) reported lower pooled complication rates (15% vs 30%), reoperation (6.3% vs 8.6%; OR 0.67), and implant-related revision (0.7% vs 1.9%; OR 0.32) for robotic versus conventional PFA at short- to mid-term follow-up. A MARCQI study (PMID 40548200) provides additional observational comparative context. Because the evidence is not long-term randomized evidence, no robotic multiplier is applied to NJR 10-year PFA revision estimates.
