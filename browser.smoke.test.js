@@ -42,6 +42,8 @@ function text(dom,selector){
 (async()=>{
   const dom=await loadApp();
   const d=dom.window.document;
+  assert.match(d.querySelector('script[src^="app.js"]').getAttribute('src'),/\?v=/,'app.js should be cache-busted');
+  assert.match(d.querySelector('script[src^="model.js"]').getAttribute('src'),/\?v=/,'model.js should be cache-busted');
 
   assert.ok(dom.window.UKAModel,'UKAModel not loaded');
   assert.ok(d.querySelector('#outcomesGrid').children.length>0,'Initial medial module did not render');
