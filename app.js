@@ -99,3 +99,35 @@ function applyPreset(x){const p=presets[x];Object.entries(p).forEach(([k,v])=>{i
 document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>applyPreset(b.dataset.preset)));
 $('resetAll').addEventListener('click',()=>applyPreset('typical'));
 render();
+
+function initOksHelper(){
+ const holder=$('oksItems');
+ if(!holder)return;
+ holder.innerHTML=Array.from({length:12},(_,i)=>`
+   <div class="field">
+     <label for="oksItem${i+1}">Item ${i+1}</label>
+     <select id="oksItem${i+1}" class="oks-item-select">
+       <option value="">Select score</option>
+       <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+     </select>
+   </div>`).join('');
+ const selects=[...document.querySelectorAll('.oks-item-select')];
+ const totalEl=$('oksCalcTotal'),useBtn=$('useOksScore');
+ function recalc(){
+   const vals=selects.map(s=>s.value===''?null:+s.value);
+   const complete=vals.every(v=>v!==null);
+   if(!complete){totalEl.textContent='— / 48';useBtn.disabled=true;return;}
+   const total=vals.reduce((a,b)=>a+b,0);
+   totalEl.textContent=`${total} / 48`;
+   useBtn.disabled=false;
+   useBtn.dataset.score=String(total);
+ }
+ selects.forEach(s=>s.addEventListener('change',recalc));
+ useBtn.addEventListener('click',()=>{
+   if(useBtn.disabled)return;
+   $('oks').value=useBtn.dataset.score;
+   render();
+   const d=$('oksHelper'); if(d)d.open=false;
+ });
+}
+initOksHelper();
