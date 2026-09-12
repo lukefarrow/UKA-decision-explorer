@@ -52,8 +52,9 @@
           <button data-value="1">1</button><button data-value="2" class="active">2</button><button data-value="3">3</button><button data-value="4">4</button>
         </div></div>
 
-        <div class="slider-field"><div class="slider-top"><label for="oks">Pre-op Oxford Knee Score</label><output id="oksOut">20 / 48</output></div>
+        <div class="slider-field"><div class="slider-top"><label for="oks">Pre-op Oxford Knee Score <span class="optional-label">(optional)</span></label><output id="oksOut">20 / 48</output></div>
           <input type="range" id="oks" min="0" max="48" step="1" value="20"><div class="slider-scale"><span>0</span><span>24</span><span>48</span></div>
+          <div class="microcopy">Baseline OKS can be recorded for clinical context, but it does not alter the current treatment-comparison estimates.</div>
         </div>
 
         <details class="provider-settings" id="oksHelper"><summary>Calculate OKS from item scores</summary><div class="provider-body">
