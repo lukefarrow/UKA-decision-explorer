@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>UKA vs TKR Decision Explorer</title>
+  <title>UKA vs TKR Outcome Explorer</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="hero"><div class="hero-inner">
-  <div class="eyebrow">Interactive research prototype</div>
-  <h1>UKA vs TKR Decision Explorer</h1>
-  <p>Adjust patient and provider variables and instantly explore how the evidence-based UKA–TKR trade-off changes. Scenario testing only — not a validated medical device.</p>
-  <div class="hero-badges"><span>Standalone web app</span><span>No server required</span><span>Live scenario testing</span></div>
+  <div class="eyebrow">Interactive evidence-based research prototype</div>
+  <h1>UKA vs TKR Outcome Explorer</h1>
+  <p>For patients already considered suitable for medial unicompartmental knee arthroplasty, explore how expected outcomes and trade-offs compare with total knee replacement. Adjust the scenario and see the evidence summary update instantly.</p>
+  <div class="hero-badges"><span>Outcome comparison only</span><span>Live scenario testing</span><span>Research prototype</span></div>
 </div></header>
 
 <main class="page-shell">
   <div class="toolbar card">
-    <div><div class="toolbar-title">Scenario controls</div><div class="toolbar-sub">Use a preset or adjust any value directly.</div></div>
+    <div><div class="toolbar-title">Explore a patient scenario</div><div class="toolbar-sub">Use a preset or adjust any value directly. Anatomical UKA eligibility is assumed and is not assessed on this page.</div></div>
     <div class="toolbar-actions">
       <button class="btn secondary" data-preset="younger">Younger patient</button>
       <button class="btn secondary" data-preset="typical">Typical 65</button>
@@ -28,48 +28,7 @@
   <section class="layout">
     <aside class="controls">
       <section class="card section-card">
-        <div class="section-heading"><span class="section-number">1</span><div><h2>Anatomical phenotype</h2><p>Confirm whether medial UKA is a reasonable anatomical option before comparing outcomes.</p></div></div>
-
-        <div class="field"><label>Predominant pain</label><select id="pain">
-          <option value="medial">Medial</option><option value="anterior">Anterior</option><option value="lateral">Lateral</option><option value="diffuse">Diffuse / poorly localised</option>
-        </select></div>
-
-        <div class="seg-field"><div class="field-label">Medial bone-on-bone OA?</div><div class="segmented" data-input="medialBob">
-          <button data-value="yes" class="active">Yes</button><button data-value="uncertain">Uncertain</button><button data-value="no">No</button>
-        </div></div>
-
-        <div class="seg-field"><div class="field-label">Lateral weight-bearing joint space preserved / ≤ mild OA?</div><div class="segmented" data-input="lateral">
-          <button data-value="yes" class="active">Yes</button><button data-value="uncertain">Uncertain</button><button data-value="no">No</button>
-        </div><div class="microcopy">Judge joint-space preservation rather than an isolated lateral osteophyte.</div></div>
-
-        <div class="seg-field"><div class="field-label">ACL functionally competent?</div><div class="segmented" data-input="acl">
-          <button data-value="yes" class="active">Yes</button><button data-value="uncertain">Uncertain</button><button data-value="no">No</button>
-        </div></div>
-
-        <div class="seg-field"><div class="field-label">Varus correctable / MCL competent?</div><div class="segmented" data-input="mcl">
-          <button data-value="yes" class="active">Yes</button><button data-value="uncertain">Uncertain</button><button data-value="no">No</button>
-        </div></div>
-
-        <div class="seg-field"><div class="field-label">Severe lateral PFJ bone loss / grooving?</div><div class="segmented" data-input="pfj">
-          <button data-value="no" class="active">No</button><button data-value="uncertain">Uncertain</button><button data-value="yes">Yes</button>
-        </div></div>
-
-        <div class="seg-field"><div class="field-label">Inflammatory arthropathy?</div><div class="segmented" data-input="inflammatory">
-          <button data-value="no" class="active">No</button><button data-value="yes">Yes</button>
-        </div></div>
-
-        <div class="slider-field"><div class="slider-top"><label for="ffd">Flexion contracture</label><output id="ffdOut">0°</output></div>
-          <input type="range" id="ffd" min="0" max="30" step="1" value="0"><div class="slider-scale"><span>0°</span><span>15°</span><span>30°</span></div>
-        </div>
-        <div class="slider-field"><div class="slider-top"><label for="flexion">Maximum flexion</label><output id="flexionOut">120°</output></div>
-          <input type="range" id="flexion" min="70" max="150" step="1" value="120"><div class="slider-scale"><span>70°</span><span>110°</span><span>150°</span></div>
-        </div>
-
-        <details class="why-block"><summary>Why these anatomy variables?</summary><div class="why-content">Stage 1 is phenotype-based rather than demographic. Age, BMI, activity, general PFJ OA and an isolated lateral osteophyte are not binary anatomical exclusions.</div></details>
-      </section>
-
-      <section class="card section-card">
-        <div class="section-heading"><span class="section-number">2</span><div><h2>Patient scenario</h2><p>Low-burden comparative inputs.</p></div></div>
+        <div class="section-heading"><span class="section-number">1</span><div><h2>Patient inputs</h2><p>Core variables used in the comparative evidence and prediction models.</p></div></div>
 
         <div class="slider-field"><div class="slider-top"><label for="age">Age</label><output id="ageOut">65 years</output></div>
           <input type="range" id="age" min="45" max="90" step="1" value="65"><div class="slider-scale"><span>45</span><span>65</span><span>90</span></div>
@@ -90,36 +49,45 @@
         <div class="slider-field"><div class="slider-top"><label for="oks">Pre-op Oxford Knee Score</label><output id="oksOut">20 / 48</output></div>
           <input type="range" id="oks" min="0" max="48" step="1" value="20"><div class="slider-scale"><span>0</span><span>24</span><span>48</span></div>
         </div>
+      </section>
 
-        <details class="provider-settings"><summary>Provider / implant settings</summary><div class="provider-body">
+      <section class="card section-card">
+        <div class="section-heading"><span class="section-number">2</span><div><h2>UKA construct</h2><p>Choose the bearing design used for the UKA comparison.</p></div></div>
+
+        <div class="seg-field"><div class="field-label">Bearing type</div><div class="segmented" data-input="bearing">
+          <button data-value="fixed" class="active">Fixed bearing</button><button data-value="mobile">Mobile bearing</button>
+        </div></div>
+        <div class="microcopy">Current comparative evidence suggests similar patient-reported outcomes but lower revision/dislocation risk with fixed-bearing UKA. This is reflected mainly in the revision section, not by changing every outcome.</div>
+
+        <details class="provider-settings"><summary>Provider context</summary><div class="provider-body">
           <div class="slider-field"><div class="slider-top"><label for="volume">Annual medial UKA volume</label><output id="volumeOut">30</output></div><input type="range" id="volume" min="0" max="100" step="1" value="30"></div>
-          <div class="slider-field"><div class="slider-top"><label for="usage">UKA share of knee arthroplasty</label><output id="usageOut">20%</output></div><input type="range" id="usage" min="0" max="60" step="1" value="20"></div>
-          <div class="field"><label for="construct">UKA construct for 10-year registry reference</label><select id="construct">
-            <option value="all">All cemented unicondylar</option><option value="fixed">Medial fixed-bearing, cemented</option><option value="mobile">Medial mobile-bearing, cemented</option>
-          </select></div>
-          <div class="microcopy">Provider volume/usage changes interpretation only; no unvalidated multiplier is applied.</div>
+          <div class="slider-field"><div class="slider-top"><label for="usage">UKA share of knee arthroplasty practice</label><output id="usageOut">20%</output></div><input type="range" id="usage" min="0" max="60" step="1" value="20"></div>
+          <div class="microcopy">Provider volume and usage influence observed UKA survivorship, but no unvalidated risk multiplier is applied.</div>
         </div></details>
+      </section>
+
+      <section class="card section-card">
+        <div class="section-heading"><span class="section-number">3</span><div><h2>How to use this explorer</h2><p>Interpret the outputs as treatment trade-offs, not a recommendation score.</p></div></div>
+        <div class="why-content">The app assumes the patient is already a reasonable candidate for medial UKA. It compares outcome domains where current evidence can inform counselling: PROMs, joint awareness, revision, early safety, same-day discharge, recovery, activity and movement.</div>
       </section>
     </aside>
 
     <section class="results">
-      <div id="eligibilityCard" class="card eligibility-card"></div>
-
       <section class="card tradeoff-card">
-        <div class="card-head"><div><div class="eyebrow dark">Live comparison</div><h2>At-a-glance trade-off</h2></div><div class="axis-label">UKA ← similar → TKR</div></div>
+        <div class="card-head"><div><div class="eyebrow dark">Live comparison</div><h2>At-a-glance treatment trade-off</h2></div><div class="axis-label">UKA ← similar → TKR</div></div>
         <div id="tradeoffRows"></div>
-        <div class="microcopy top-gap">Markers show the direction of the best current evidence. Numerical estimates appear only where a published estimate can be reproduced defensibly.</div>
+        <div class="microcopy top-gap">Markers show the direction of the best current comparative evidence. Numerical estimates are displayed only where a published estimate can be reproduced defensibly.</div>
       </section>
 
       <section class="outcomes-grid" id="outcomesGrid"></section>
 
       <section class="card interpretation-card">
-        <div class="eyebrow dark">Scenario interpretation</div><h2>What changed this scenario?</h2><div id="scenarioNotes" class="notes-list"></div>
+        <div class="eyebrow dark">Scenario interpretation</div><h2>What matters most in this scenario?</h2><div id="scenarioNotes" class="notes-list"></div>
       </section>
     </section>
   </section>
 </main>
 
-<footer class="footer">Research prototype only. Do not use for autonomous treatment decisions. External validation, calibration, governance and clinical safety review are required before deployment.</footer>
+<footer class="footer">For research, education and shared-decision support development only. The tool assumes UKA anatomical suitability and does not replace clinical assessment. External validation, calibration, governance and clinical safety review are required before clinical deployment.</footer>
 <script src="app.js"></script>
 </body></html>
