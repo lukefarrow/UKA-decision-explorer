@@ -3,20 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Medial UKA vs TKR Outcome Explorer</title>
+  <title>Partial Knee vs TKR Outcome Explorer</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="hero"><div class="hero-inner">
   <div class="eyebrow">Interactive evidence-based research prototype</div>
-  <h1>Medial UKA vs TKR Outcome Explorer</h1>
-  <p>For patients already considered suitable for medial unicompartmental knee arthroplasty (mUKA), explore how expected outcomes and trade-offs compare with total knee replacement. This model is intended for medial UKA, not lateral UKA or patellofemoral arthroplasty.</p>
+  <h1>Partial Knee vs TKR Outcome Explorer</h1>
+  <p>Explore evidence-based outcomes and trade-offs for patients already considered suitable for medial UKA, lateral UKA, or patellofemoral arthroplasty compared with total knee replacement. Each compartment uses its own evidence module; unsupported medial-UKA coefficients are not carried across.</p>
   <div class="hero-badges"><span>Outcome comparison only</span><span>Live scenario testing</span><span>Research prototype</span></div>
 </div></header>
 
 <main class="page-shell">
   <div class="toolbar card">
-    <div><div class="toolbar-title">Explore a patient scenario</div><div class="toolbar-sub">Use a preset or adjust any value directly. Anatomical UKA eligibility is assumed and is not assessed on this page.</div></div>
+    <div><div class="toolbar-title">Choose the compartment and explore a patient scenario</div><div class="toolbar-sub">Anatomical suitability is assumed and is not assessed on this page. Evidence availability differs by compartment.</div>
+      <div class="segmented top-gap" data-input="module">
+        <button data-value="medial" class="active">Medial UKA</button>
+        <button data-value="lateral">Lateral UKA</button>
+        <button data-value="pfa">Patellofemoral</button>
+      </div>
+    </div>
     <div class="toolbar-actions">
       <button class="btn secondary" data-preset="younger">Younger patient</button>
       <button class="btn secondary" data-preset="typical">Typical 65</button>
@@ -62,20 +68,20 @@
         </div></details>
       </section>
 
-      <section class="card section-card">
-        <div class="section-heading"><span class="section-number">2</span><div><h2>UKA construct</h2><p>Choose the bearing design used for the UKA comparison.</p></div></div>
+      <section class="card section-card" id="constructCard">
+        <div class="section-heading"><span class="section-number">2</span><div><h2 id="constructTitle">UKA construct</h2><p id="constructSubtitle">Choose the bearing design used for the UKA comparison.</p></div></div>
 
-        <div class="seg-field"><div class="field-label">Bearing type</div><div class="segmented" data-input="bearing">
+        <div class="seg-field" id="bearingField"><div class="field-label">Bearing type</div><div class="segmented" data-input="bearing">
           <button data-value="fixed" class="active">Fixed bearing</button><button data-value="mobile">Mobile bearing</button>
         </div></div>
-        <div class="microcopy">Current comparative evidence suggests similar patient-reported outcomes but lower revision/dislocation risk with fixed-bearing UKA. This is reflected mainly in the revision section, not by changing every outcome.</div>
+        <div class="microcopy" id="bearingCopy">Bearing type is used where compartment-specific registry estimates are available.</div>
 
-        <div class="seg-field"><div class="field-label">UKA surgical technique</div><div class="segmented" data-input="robotic">
+        <div class="seg-field" id="roboticField"><div class="field-label">UKA surgical technique</div><div class="segmented" data-input="robotic">
           <button data-value="manual" class="active">Manual</button><button data-value="robotic">Robotic-assisted</button>
         </div></div>
-        <div class="microcopy">Robotic assistance is shown as a contextual procedural factor only. Earlier AOANJRR analyses suggested lower revision, but the 2025 AOANJRR report found no adjusted revision difference for unicompartmental knee replacement.</div>
+        <div class="microcopy" id="roboticCopy">Robotic assistance is contextual only in the medial module and does not numerically alter revision estimates.</div>
 
-        <details class="provider-settings"><summary>Provider context</summary><div class="provider-body">
+        <details class="provider-settings" id="providerSettings"><summary>Provider context</summary><div class="provider-body">
           <div class="slider-field"><div class="slider-top"><label for="volume">Annual medial UKA volume</label><output id="volumeOut">30</output></div><input type="range" id="volume" min="0" max="100" step="1" value="30"></div>
           <div class="slider-field"><div class="slider-top"><label for="usage">UKA share of knee arthroplasty practice</label><output id="usageOut">20%</output></div><input type="range" id="usage" min="0" max="60" step="1" value="20"></div>
           <div class="microcopy">Provider volume and usage influence observed UKA survivorship, but no unvalidated risk multiplier is applied.</div>
@@ -84,13 +90,13 @@
 
       <section class="card section-card">
         <div class="section-heading"><span class="section-number">3</span><div><h2>How to use this explorer</h2><p>Interpret the outputs as treatment trade-offs, not a recommendation score.</p></div></div>
-        <div class="why-content">The app assumes the patient is already a reasonable candidate for medial UKA. Most comparative evidence used is medial-specific or dominated by medial UKA. A small number of registry outcomes (including 30-day morbidity/mortality, PJI and lifetime revision) report UKA without compartment-specific stratification; these are clearly treated as supportive estimates rather than medial-specific models.</div>
+        <div class="why-content" id="scopeCopy"></div>
       </section>
     </aside>
 
     <section class="results">
       <section class="card tradeoff-card">
-        <div class="card-head"><div><div class="eyebrow dark">Live comparison</div><h2>At-a-glance treatment trade-off</h2></div><div class="axis-label">UKA ← similar → TKR</div></div>
+        <div class="card-head"><div><div class="eyebrow dark">Live comparison</div><h2 id="comparisonTitle">At-a-glance treatment trade-off</h2></div><div class="axis-label" id="axisLabel">Partial knee ← similar → TKR</div></div>
         <div id="tradeoffRows"></div>
         <div class="microcopy top-gap">Markers show the direction of the best current comparative evidence. Numerical estimates are displayed only where a published estimate can be reproduced defensibly.</div>
       </section>
@@ -104,6 +110,6 @@
   </section>
 </main>
 
-<footer class="footer">For research, education and shared-decision support development only. The tool assumes UKA anatomical suitability and does not replace clinical assessment. External validation, calibration, governance and clinical safety review are required before clinical deployment.</footer>
+<footer class="footer">For research, education and shared-decision support development only. The tool assumes appropriate compartment-specific arthroplasty suitability and does not replace clinical assessment. External validation, calibration, governance and clinical safety review are required before clinical deployment.</footer>
 <script src="model.js"></script>\n<script src="app.js"></script>
 </body></html>
