@@ -1,0 +1,14 @@
+{
+  "name": "uka-decision-explorer",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "validate:model": "node validation.test.js",
+    "validate:syntax": "node --check model.js && node --check app.js",
+    "validate:browser": "node browser.smoke.test.js",
+    "test": "npm run validate:syntax && npm run validate:model && npm run validate:browser"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}
