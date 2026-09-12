@@ -326,3 +326,20 @@ A 2026 lateral-specific systematic review/meta-analysis (PMID 42159185) reported
 
 ### Patellofemoral arthroplasty
 A 2026 comparative meta-analysis (PMID 41627484) reported lower pooled complication rates (15% vs 30%), reoperation (6.3% vs 8.6%; OR 0.67), and implant-related revision (0.7% vs 1.9%; OR 0.32) for robotic versus conventional PFA at short- to mid-term follow-up. A MARCQI study (PMID 40548200) provides additional observational comparative context. Because the evidence is not long-term randomized evidence, no robotic multiplier is applied to NJR 10-year PFA revision estimates.
+
+
+## Oxford Knee Score presentation/model audit
+
+The OKS section now distinguishes **comparative randomized evidence** from **individual prognostic modelling**.
+
+### Primary medial UKA comparison
+The 12-month and 2-year absolute OKS values are taken from the Finnish randomized multicentre trial (PMID 34162649):
+- 12 months: medial UKA 41.2 (95% CI 39.6–42.7) vs TKR 38.4 (36.9–40.0); adjusted improvement difference +3.2 (0.9–5.6).
+- 2 years: medial UKA 41.2 (39.7–42.7) vs TKR 40.1 (38.7–41.6); between-group difference 1.6 (−0.7 to 3.9).
+
+The larger 2026 double-blinded multicentre randomized trial (PMID 41662451) is used as independent corroboration: average 2-year OKS improvement difference +3.5 (95% CI 2.3–4.7), below the conventional 4–5 point MCID.
+
+### Baseline OKS input
+Baseline OKS remains available as an **optional clinical-context input** and can be calculated using the 12-item scoring helper. It does not alter the current treatment-comparison estimates. No matched, externally validated pair of patient-specific 12-month prediction models exists for medial UKA and TKR using the same predictors and outcome definition.
+
+The reconstructed 6-month UKA and reduced-profile 12-month TKR prognostic equations have therefore been removed from the active model. This avoids presenting unmatched prognostic estimates as though they were a fair treatment comparison.
