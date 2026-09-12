@@ -20,12 +20,13 @@ This public explorer does not assess UKA eligibility. It is focused on treatment
 - 10-year revision
 - Remaining-lifetime revision context
 - 30-day medical safety
+- Periprosthetic joint infection revision risk
 - Same-day discharge / day-case surgery
 - Early recovery and return to activity
 - Range of motion and gait / movement quality
 
 ## Evidence approach
-The app uses multiple references per outcome where appropriate and distinguishes between:
+The app uses multiple references per outcome where appropriate and triangulates UK NJR estimates against international registry evidence where this improves interpretation. It distinguishes between:
 - registry-stratified estimates;
 - reconstructed/reference-profile prognostic estimates;
 - literature ranges;
@@ -45,3 +46,10 @@ A Pages workflow is included at `.github/workflows/pages.yml`.
 
 Public site:
 https://lukefarrow.github.io/UKA-decision-explorer/
+
+
+## Registry calibration strategy
+- UK NJR age × sex × construct strata remain the primary source for the live 10-year revision estimate because they can be reproduced transparently at patient-scenario level.
+- International registry studies (including New Zealand, Swiss and US/MARCQI data, plus multi-registry analyses involving Australia) are used as external validation and contextual checks rather than naively pooled.
+- Surgeon caseload and UKA usage are interpreted using published thresholds. The app does not apply an unvalidated multiplicative correction to patient revision risk.
+- Infection is shown separately from all-cause revision using the 2026 Swiss SIRIS national registry comparison.
