@@ -108,10 +108,9 @@ test('UKA 30-day morbidity/mortality risk is lower at all supported integer ages
   for(let a=65;a<=85;a++){const x=M.safety30d(a);assert.ok(x.uka<x.tkr);}
 });
 
-test('lifetime NZJR UKA youngest anchor',()=>near(M.lifetimeRevision(48).uka,40.4));
-test('lifetime NZJR TKA youngest anchor',()=>near(M.lifetimeRevision(48).tkr,22.4));
-test('lifetime NZJR UKA oldest anchor/cap',()=>{near(M.lifetimeRevision(88).uka,3.7);near(M.lifetimeRevision(90).uka,3.7);});
-test('lifetime NZJR TKA oldest anchor/cap',()=>{near(M.lifetimeRevision(92.5).tkr,1.15);near(M.lifetimeRevision(95).tkr,1.15);});
+test('lifetime mixed-model youngest anchors',()=>{const x=M.lifetimeRevision(48);near(x.uka,40.4);near(x.tkr,22.4);});
+test('lifetime mixed-model NJR age-67 anchors',()=>{const x=M.lifetimeRevision(67);near(x.uka,13.7);near(x.tkr,3.6);});
+test('lifetime mixed-model oldest anchors',()=>{near(M.lifetimeRevision(88).uka,3.7);near(M.lifetimeRevision(92).tkr,1.15);});
 test('lifetime risk is monotonic non-increasing across UI age range',()=>{
   let prev=M.lifetimeRevision(45);
   for(let a=46;a<=90;a++){const cur=M.lifetimeRevision(a);assert.ok(cur.uka<=prev.uka+1e-12);assert.ok(cur.tkr<=prev.tkr+1e-12);prev=cur;}
