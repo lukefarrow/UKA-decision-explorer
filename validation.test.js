@@ -134,7 +134,7 @@ test('OKS helper rejects invalid item scores',()=>assert.strictEqual(M.oksTotal(
 test('FJS benchmark constants match evidence layer',()=>{near(M.benchmarks.fjs.rctDifference,14.1);assert.deepStrictEqual(M.benchmarks.fjs.rctCI,[9.5,18.6]);});
 test('ROM benchmark constants match RCT',()=>{near(M.benchmarks.rom.twoYearDifferenceDeg,5.5);assert.deepStrictEqual(M.benchmarks.rom.ci,[3.6,7.4]);});
 test('PJI comparative HR benchmark',()=>near(M.benchmarks.pji.adjustedHR,0.53));
-test('randomized comparative OKS benchmark',()=>{near(M.benchmarks.oksComparative.rctDifference,3.5);assert.deepStrictEqual(M.benchmarks.oksComparative.rctCI,[2.3,4.7]);assert.deepStrictEqual(M.benchmarks.oksComparative.mcid,[4,5]);});
+test('randomized matched 12-month OKS benchmark',()=>{const x=M.benchmarks.oksComparative;assert.strictEqual(x.timepointMonths,12);near(x.mukaMean,41.2);assert.deepStrictEqual(x.mukaCI,[39.6,42.7]);near(x.tkaMean,38.4);assert.deepStrictEqual(x.tkaCI,[36.9,40.0]);near(x.improvementDifference,3.2);assert.deepStrictEqual(x.differenceCI,[0.9,5.6]);assert.deepStrictEqual(x.mcid,[4,5]);near(x.twoYearAverageDifference,3.5);});
 test('day-case comparative benchmark',()=>{assert.deepStrictEqual(M.benchmarks.dayCase.overall,{uka:42,tka:20});assert.deepStrictEqual(M.benchmarks.dayCase.eligibleEarly,{uka:72,tka:61});});
 test('dedicated UKA day-case pooled benchmarks',()=>assert.deepStrictEqual(M.benchmarks.dayCase.ukaIntended,{overall:88,selected:91,unselected:76}));
 
