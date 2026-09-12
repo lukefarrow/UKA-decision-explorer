@@ -20,7 +20,7 @@ This public explorer does not assess UKA eligibility. It is focused on treatment
 - Forgotten Joint Score / joint awareness
 - 10-year revision
 - Remaining-lifetime revision context
-- 30-day medical safety
+- 30-day postoperative morbidity / mortality
 - Periprosthetic joint infection revision risk
 - Same-day discharge / day-case surgery
 - Early recovery and return to activity
@@ -69,6 +69,6 @@ The browser UI and automated tests use the same calculation layer in `model.js`.
 Current audited model metadata:
 - Model version: **1.0.0-audit**
 - Evidence cut-off: **12 September 2026**
-- Automated checks: **57**
+- Automated checks include source-value, boundary, uncertainty and complete scenario regression tests
 
 The audit deliberately distinguishes directly reproducible registry/anchor estimates from reconstructed prognostic references, contextual comparative evidence and research interpolation.
