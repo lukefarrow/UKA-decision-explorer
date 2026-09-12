@@ -199,19 +199,21 @@ document.querySelectorAll('.segmented').forEach(group=>group.addEventListener('c
 }));
 ['age','bmi','oks','volume','usage'].forEach(id=>$(id).addEventListener('input',render));
 
-const presets={
- younger:{age:52,bmi:27,oks:18,volume:35,usage:25,sex:'male',asa:'1',bearing:'fixed',robotic:'manual'},
- typical:{age:65,bmi:28,oks:20,volume:30,usage:20,sex:'female',asa:'2',bearing:'fixed',robotic:'manual'},
- older:{age:80,bmi:29,oks:19,volume:30,usage:20,sex:'female',asa:'3',bearing:'fixed',robotic:'manual'}
-};
-function applyPreset(x){
- const p=presets[x];
- Object.entries(p).forEach(([k,v])=>{if($(k))$(k).value=v;else state[k]=String(v)});
+function resetAll(){
+ $('age').value=65;
+ $('bmi').value=28;
+ $('oks').value=20;
+ $('volume').value=30;
+ $('usage').value=20;
+ state.module='medial';
+ state.sex='female';
+ state.asa='2';
+ state.bearing='fixed';
+ state.robotic='manual';
  document.querySelectorAll('.segmented').forEach(g=>g.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.value===state[g.dataset.input])));
  render();
 }
-document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>applyPreset(b.dataset.preset)));
-$('resetAll').addEventListener('click',()=>applyPreset('typical'));
+$('resetAll').addEventListener('click',resetAll);
 
 function initOksHelper(){
  const holder=$('oksItems');
