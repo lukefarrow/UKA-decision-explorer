@@ -161,3 +161,60 @@ for(const sc of scenarioCases){
    assert.ok(y.lifetime.uka>y.lifetime.tkr);
  });
 }
+
+
+const lateralExpected={
+ '<55':{male:{tkr:6.04,fixed:11.06,mobile:19.09},female:{tkr:5.24,fixed:12.52,mobile:17.78}},
+ '55-64':{male:{tkr:3.81,fixed:6.43,mobile:16.07},female:{tkr:3.46,fixed:6.66,mobile:11.97}},
+ '65-74':{male:{tkr:2.55,fixed:9.48,mobile:18.53},female:{tkr:2.35,fixed:6.51,mobile:8.20}},
+ '75+':{male:{tkr:1.71,fixed:5.81,mobile:10.84},female:{tkr:1.64,fixed:7.08,mobile:9.77}}
+};
+for(const [band,sexes] of Object.entries(lateralExpected)){
+ for(const [sex,vals] of Object.entries(sexes)){
+  for(const bearing of ['fixed','mobile']){
+   test('NJR lateral 10y '+band+' '+sex+' '+bearing,()=>{
+    const x=M.lateralRevisionEstimate(representativeAge[band],sex,bearing);
+    near(x.uka,vals[bearing]);near(x.tkr,vals.tkr);near(x.excess,vals[bearing]-vals.tkr);
+    assert.ok(x.ukaCI[0] <= x.uka && x.uka <= x.ukaCI[1]);
+   });
+  }
+ }
+}
+
+test('lateral fixed-bearing revision is lower than mobile-bearing in every stratum',()=>{
+ for(const band of Object.keys(lateralExpected)) for(const sex of ['male','female'])
+  assert.ok(lateralExpected[band][sex].fixed<lateralExpected[band][sex].mobile);
+});
+
+const pfaExpected={
+ '<55':{male:{tkr:6.04,pfa:21.05},female:{tkr:5.24,pfa:17.49}},
+ '55-64':{male:{tkr:3.81,pfa:19.78},female:{tkr:3.46,pfa:17.05}},
+ '65-74':{male:{tkr:2.55,pfa:16.91},female:{tkr:2.35,pfa:15.89}},
+ '75+':{male:{tkr:1.71,pfa:7.61},female:{tkr:1.64,pfa:8.75}}
+};
+for(const [band,sexes] of Object.entries(pfaExpected)){
+ for(const [sex,vals] of Object.entries(sexes)){
+  test('NJR PFA 10y '+band+' '+sex,()=>{
+   const x=M.pfaRevisionEstimate(representativeAge[band],sex);
+   near(x.pfa,vals.pfa);near(x.tkr,vals.tkr);near(x.excess,vals.pfa-vals.tkr);
+   assert.ok(x.pfaCI[0] <= x.pfa && x.pfa <= x.pfaCI[1]);
+  });
+ }
+}
+test('PFA revision exceeds TKR in every encoded stratum',()=>{
+ for(const band of Object.keys(pfaExpected)) for(const sex of ['male','female'])
+  assert.ok(pfaExpected[band][sex].pfa>pfaExpected[band][sex].tkr);
+});
+
+test('lateral-specific RTS benchmark',()=>{
+ const x=M.benchmarks.lateral.returnToSport;near(x.rate,92.4);assert.deepStrictEqual(x.ci,[81.5,97.1]);near(x.returnToPerformance,88.5);
+});
+test('lateral-specific gait OKS benchmark',()=>{
+ assert.strictEqual(M.benchmarks.lateral.gait.oksLateral,44);assert.strictEqual(M.benchmarks.lateral.gait.oksTka,36);
+});
+test('PFA randomized OKS benchmark',()=>{
+ const x=M.benchmarks.pfa;near(x.rct6yOksImprovementDifference,5);assert.deepStrictEqual(x.rct6yOksDifferenceCI,[2,8]);
+});
+test('PFA randomized ROM benchmark',()=>{
+ const x=M.benchmarks.pfa;near(x.rct5yRomDifferenceDeg,7);assert.deepStrictEqual(x.rct5yRomCI,[1,13]);
+});
