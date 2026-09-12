@@ -46,18 +46,6 @@
     }
   };
 
-  const lateralRevision10y={
-    '<55':{male:{tkr:6.04,lateral:11.06},female:{tkr:5.24,lateral:12.52}},
-    '55-64':{male:{tkr:3.81,lateral:6.43},female:{tkr:3.46,lateral:6.66}},
-    '65-74':{male:{tkr:2.55,lateral:9.48},female:{tkr:2.35,lateral:6.51}},
-    '75+':{male:{tkr:1.71,lateral:5.81},female:{tkr:1.64,lateral:7.08}}
-  };
-  const lateralRevision10yCI={
-    '<55':{male:{tkr:[5.69,6.42],lateral:[7.96,15.25]},female:{tkr:[4.97,5.53],lateral:[9.24,16.85]}},
-    '55-64':{male:{tkr:[3.67,3.95],lateral:[3.97,10.33]},female:{tkr:[3.35,3.59],lateral:[4.46,9.89]}},
-    '65-74':{male:{tkr:[2.46,2.64],lateral:[5.68,15.60]},female:{tkr:[2.28,2.43],lateral:[4.14,10.17]}},
-    '75+':{male:{tkr:[1.62,1.80],lateral:[2.49,13.24]},female:{tkr:[1.57,1.72],lateral:[4.18,11.87]}}
-  };
   const pfaRevision10y={
     '<55':{male:{tkr:6.04,pfa:21.05},female:{tkr:5.24,pfa:17.49}},
     '55-64':{male:{tkr:3.81,pfa:19.78},female:{tkr:3.46,pfa:17.05}},
@@ -77,17 +65,16 @@
     rom:{direction:'uka',twoYearDifferenceDeg:5.5,ci:[3.6,7.4]},
     pji:{ukaObservedPct:0.4,tkaObservedPct:0.8,adjustedHR:0.53},
     lateral:{
-      tenYearRegistryContext:{danishAllEraLuka:13.6,danishAllEraTka:5.9,adjustedSHR:2.3},
+      tenYearRevision:{lateral:13.6,tka:5.9,adjustedSHR:2.3,adjustedSHRCI:[1.6,3.2]},
+      contemporaryFiveYear:{lateral:7.3,tka:3.7,period:'2017–2022'},
+      earlyComplications:{direction:'similar',timepointDays:90},
       returnToSport:{rate:92.4,ci:[81.5,97.1],returnToPerformance:88.5,returnToPerformanceCI:[75.1,95.1]},
-      gait:{direction:'lateral',oksLateral:44,oksTka:36}
+      gait:{direction:'lateral',oksLateral:44,oksTka:36,topSpeedLateral:7.0,topSpeedTka:5.5}
     },
     pfa:{
-      rct6yOksImprovementDifference:5,rct6yOksDifferenceCI:[2,8],
-      rct5yRomDifferenceDeg:7,rct5yRomCI:[1,13],
-      rct6yRevision:{pfa:10,tka:4,pfaCI:[4,20],tkaCI:[1,12]},
-      returnToSportRange:[64.7,91],
-      contemporaryRegistryTenYearRevision:18.5,
-      contemporaryRegistryTenYearRevisionCI:[17.75,19.3]
+      patTrial:{womac12mDifference:-1.2,womac12mCI:[-9.19,6.80],oks24mDifference:'not significant',oks60mDifference:'not significant'},
+      grade2026:{earlyProms:'favours PFA',midLongProms:'converge',revision:'higher PFA',rom:'early advantage diminishes',certainty:'moderate'},
+      returnToSportRange:[64.7,91]
     },
     dayCase:{
       overall:{uka:42,tka:20},
@@ -109,9 +96,9 @@
     return {band,uka:row[bearing],tkr:row.tkr,ukaCI:ci[bearing],tkrCI:ci.tkr,excess:row[bearing]-row.tkr};
   }
 
-  function lateralRevisionEstimate(age,sex){
-    const band=ageBand(age),row=lateralRevision10y[band][sex],ci=lateralRevision10yCI[band][sex];
-    return {band,uka:row.lateral,tkr:row.tkr,ukaCI:ci.lateral,tkrCI:ci.tkr,excess:row.lateral-row.tkr};
+  function lateralRevisionEstimate(){
+    const x=benchmarks.lateral.tenYearRevision;
+    return {uka:x.lateral,tkr:x.tka,adjustedSHR:x.adjustedSHR,adjustedSHRCI:x.adjustedSHRCI,excess:x.lateral-x.tka};
   }
 
   function pfaRevisionEstimate(age,sex){
@@ -192,7 +179,7 @@
   }
 
   return {
-    MODEL_VERSION,EVIDENCE_CUTOFF,revision10y,revision10yCI,lateralRevision10y,lateralRevision10yCI,pfaRevision10y,pfaRevision10yCI,benchmarks,
+    MODEL_VERSION,EVIDENCE_CUTOFF,revision10y,revision10yCI,pfaRevision10y,pfaRevision10yCI,benchmarks,
     clamp,lerp,ageBand,revisionEstimate,lateralRevisionEstimate,pfaRevisionEstimate,ukaOksReference,tkrOksReference,
     safety30d,lifetimeRevision,providerContext,evaluateScenario,oksTotal
   };
