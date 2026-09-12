@@ -1,35 +1,14 @@
 const state={sex:'female',asa:'2',bearing:'fixed',robotic:'manual'};
-const revision={
- '<55':{male:{tkr:6.04,fixed:9.00,mobile:17.06},female:{tkr:5.24,fixed:10.07,mobile:17.53}},
- '55-64':{male:{tkr:3.81,fixed:6.19,mobile:11.09},female:{tkr:3.46,fixed:7.18,mobile:12.56}},
- '65-74':{male:{tkr:2.55,fixed:4.26,mobile:7.84},female:{tkr:2.35,fixed:4.93,mobile:10.32}},
- '75+':{male:{tkr:1.71,fixed:2.93,mobile:5.75},female:{tkr:1.64,fixed:4.31,mobile:8.69}}
-};
+const M=UKAModel;
 const $=id=>document.getElementById(id);
-const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
-function ageBand(a){return a<55?'<55':a<65?'55-64':a<75?'65-74':'75+'}
-function ukaOks(age,pre){const ad=age<=75?.14*(age-65):.14*10-.18*(age-75);return clamp(37.5+.24*(pre-21.9)+ad,0,48)}
-function tkrOks(age,sex,bmi,asa,pre){let am=age<60?0:age<70?.8:age<80?1.4:-2.5,mi=age<60?0:age<70?4.8:age<80?4.3:8.1;let x=32.9+am-1.5*(bmi/10)+.4*pre+(asa>=3?-2:0);if(sex==='male')x+=-4.8+mi;return clamp(x,0,48)}
-function safety(age){const A=[65,75,85],U=[2.1,2.4,3.2],T=[2.9,3.6,5.5],a=clamp(age,65,85);let i=a<=75?0:1,f=(a-A[i])/(A[i+1]-A[i]);return{uka:U[i]+f*(U[i+1]-U[i]),tkr:T[i]+f*(T[i+1]-T[i]),label:age<65?'≤65 reference':age>85?'≥85 reference':'age-adjusted'}}
-function lerp(x,x1,y1,x2,y2){return y1+(x-x1)*(y2-y1)/(x2-x1)}
-function lifetime(age){
- const a=clamp(age,48,92);
- let u,t;
- if(a<=67){u=lerp(a,48,40.4,67,13.7);t=lerp(a,48,22.4,67,3.6)}
- else {u=a>=88?3.7:lerp(a,67,13.7,88,3.7);t=lerp(a,67,3.6,92,1.15)}
- return{
-   u:Math.max(0,u),
-   t:Math.max(0,t),
-   n:'Continuous age-interpolated estimate anchored to published NZJR/NJR lifetime-risk points. Sex and ASA modify direction of risk but are not given invented numeric coefficients.'
- }
-}
+
 function metric(label,val,sub=''){return `<div class="metric"><div class="metric-label">${label}</div><div class="metric-value">${val}</div><div class="metric-sub">${sub}</div></div>`}
 function evidence(text,refs){return `<details class="evidence"><summary>Evidence & references</summary><div>${text}<div class="ref-list">${refs.map(r=>`<div><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/${r.pmid}/">${r.label}</a></div>`).join('')}</div></div></details>`}
 function tradeRow(name,sub,dir,label){return `<div class="trade-row"><div><div class="trade-name">${name}</div><div class="trade-sub">${sub}</div></div><div class="scale"><span class="marker ${dir}"></span></div><span class="badge ${dir==='tkr'?'tkr':dir==='similar'?'similar':'uka'}">${label}</span></div>`}
 function render(){
  ['age','bmi','oks','volume','usage'].forEach(id=>{const v=$(id).value;$(id+'Out').textContent=id==='age'?`${v} years`:id==='bmi'?Number(v).toFixed(1):id==='oks'?`${v} / 48`:id==='usage'?`${v}%`:v});
- const age=+$('age').value,bmi=+$('bmi').value,pre=+$('oks').value,band=ageBand(age);
- const r=revision[band][state.sex],uRev=r[state.bearing],tRev=r.tkr,s=safety(age),life=lifetime(age),uO=ukaOks(age,pre),tO=tkrOks(age,state.sex,bmi,+state.asa,pre);
+ const age=+$('age').value,bmi=+$('bmi').value,pre=+$('oks').value;
+ const rev=M.revisionEstimate(age,state.sex,state.bearing),band=rev.band,uRev=rev.uka,tRev=rev.tkr,s=M.safety30d(age),life=M.lifetimeRevision(age),uO=M.ukaOksReference(age,pre),tO=M.tkrOksReference(age,state.sex,bmi,+state.asa,pre);
  const bearingLabel=state.bearing==='fixed'?'Fixed-bearing UKA':'Mobile-bearing UKA';
  $('tradeoffRows').innerHTML=[
   tradeRow('Pain & function','Conventional OKS','similar','Broadly similar'),
@@ -45,11 +24,12 @@ function render(){
  ].join('');
 
  const vol=+$('volume').value,use=+$('usage').value;
- const provider=vol>=30&&use>=20
+ const providerClass=M.providerContext(vol,use);
+ const provider=providerClass==='favourable'
    ?'Favourable UKA provider context: ≥30 cases/year and ≥20% usage. NJR data show the caseload effect plateaus around 30/year; ≥20% usage is associated with better survivorship.'
-   :vol<10||use<5
+   :providerClass==='low'
      ?'Low-exposure UKA context: <10 cases/year or very low usage. Registry studies show substantially higher revision in this setting; treat population revision estimates as potentially optimistic.'
-     :vol>=10&&use>=20
+     :providerClass==='moderateHighUsage'
        ?'Moderate-volume / higher-usage UKA context: both factors are associated with improved survivorship, although the lowest revision is generally seen at higher caseload.'
        :'Intermediate UKA provider context: survivorship improves with both caseload and usage; evidence supports ≥10–12 cases/year and ≥20% usage as meaningful thresholds.';
  const bearingText=state.bearing==='fixed'
@@ -66,7 +46,7 @@ function render(){
 
  <article class="outcome-card"><div class="eyebrow dark">Longevity</div><h3>10-year revision</h3><div class="compare">${metric(bearingLabel,uRev.toFixed(1)+'%',`${band}, ${state.sex}`)}${metric('TKR',tRev.toFixed(1)+'%','cemented unconstrained fixed-bearing')}</div><div class="delta">Absolute excess revision with UKA: +${(uRev-tRev).toFixed(1)} percentage points.</div><div class="outcome-copy">${provider} ${bearingText} ${roboticText}</div>${evidence('Revision risk varies materially by age, sex, implant construct and surgeon practice. UK NJR strata are used for the live 10-year estimate because they provide reproducible age × sex × bearing data. Earlier AOANJRR analyses suggested lower revision with robotic UKA, but the 2025 AOANJRR report found no adjusted revision difference for unicompartmental knee replacement. Robotics therefore does not alter the numeric estimate.',[{pmid:42448245,label:'2026 fixed vs mobile systematic review/meta-analysis'},{pmid:41442900,label:'Minimum 10-year randomized fixed vs mobile UKA trial'},{pmid:32114810,label:'AOANJRR robotic vs non-robotic UKA survivorship study'},{pmid:41749402,label:'2026 robotic vs conventional UKA revision meta-analysis'},{pmid:39147075,label:'Michigan registry: surgeon volume and 5-year UKA revision'},{pmid:35964854,label:'NJR: caseload, usage and 10-year mobile-bearing UKA survival'},{pmid:41270774,label:'TOPKAT 10-year UKA vs TKR comparison'}])}</article>
 
- <article class="outcome-card"><div class="eyebrow dark">Longevity</div><h3>Remaining-lifetime revision</h3><div class="compare">${metric('UKA',life.u.toFixed(1)+'%','age-interpolated estimate')}${metric('TKR',life.t.toFixed(1)+'%','age-interpolated estimate')}</div><div class="delta">Estimated lifetime excess revision with UKA: +${(life.u-life.t).toFixed(1)} percentage points.</div><div class="outcome-copy">${life.n}</div>${evidence('Age dominates remaining-lifetime revision exposure. Sex and ASA also modify risk, but no complete open age×sex×ASA competing-risk equation was identified for faithful individual calculation.',[{pmid:35638212,label:'NZ registry lifetime UKA revision risk'},{pmid:39631511,label:'NJR implant-specific lifetime revision modelling'}])}</article>
+ <article class="outcome-card"><div class="eyebrow dark">Longevity</div><h3>Remaining-lifetime revision</h3><div class="compare">${metric('UKA',life.uka.toFixed(1)+'%','age-interpolated estimate')}${metric('TKR',life.tkr.toFixed(1)+'%','age-interpolated estimate')}</div><div class="delta">Estimated lifetime excess revision with UKA: +${(life.uka-life.tkr).toFixed(1)} percentage points.</div><div class="outcome-copy">${life.n}</div>${evidence('Age dominates remaining-lifetime revision exposure. Sex and ASA also modify risk, but no complete open age×sex×ASA competing-risk equation was identified for faithful individual calculation.',[{pmid:35638212,label:'NZ registry lifetime UKA revision risk'},{pmid:39631511,label:'NJR implant-specific lifetime revision modelling'}])}</article>
 
  <article class="outcome-card"><div class="eyebrow dark">Early safety</div><h3>30-day morbidity / mortality</h3><div class="compare">${metric('UKA',s.uka.toFixed(1)+'%',s.label)}${metric('TKR',s.tkr.toFixed(1)+'%',s.label)}</div><div class="delta">Approx. ${(s.tkr-s.uka).toFixed(1)} percentage points lower with UKA.</div><div class="outcome-copy">Age-based published anchors; not a comprehensive individualized perioperative-risk calculator.</div>${evidence('Large comparative datasets consistently favour UKA for early medical safety, although absolute risk depends on patient and pathway factors.',[{pmid:39233099,label:'Age-specific UKA vs TKA 30-day safety study'},{pmid:30792179,label:'Systematic review of patient-relevant UKA vs TKR outcomes'}])}</article>
 
