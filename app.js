@@ -94,7 +94,7 @@ function renderMedial(x){
 }
 
 function renderLateral(x){
- const rev=M.lateralRevisionEstimate(x.age,state.sex),band=rev.band;
+ const rev=M.lateralRevisionEstimate();
  const label='Lateral UKA';
  $('comparisonTitle').textContent='Lateral UKA vs TKR treatment trade-off';
  $('tradeoffRows').innerHTML=[
@@ -102,7 +102,7 @@ function renderLateral(x){
   notModelled('Natural-feeling knee','No robust lateral-specific FJS comparator'),
   tradeRow('10-year revision',`${rev.uka.toFixed(1)}% vs ${rev.tkr.toFixed(1)}%`,'tkr','Favours TKR'),
   notModelled('Lifetime revision','No validated lateral-specific lifetime model'),
-  notModelled('30-day morbidity / mortality','No lateral-specific comparative estimate'),
+  tradeRow('90-day readmission / complications','No significant difference in matched registry study','similar','Similar'),
   notModelled('Periprosthetic joint infection','No lateral-specific comparative estimate'),
   notModelled('Same-day discharge','No lateral-specific comparative pathway estimate'),
   tradeRow('Return to sport','~92.4% pooled lateral UKA RTS','uka','High RTS after lateral UKA'),
@@ -112,7 +112,7 @@ function renderLateral(x){
  $('outcomesGrid').innerHTML=`
  <article class="outcome-card"><div class="eyebrow dark">Pain & function · lateral-specific</div><h3>Oxford Knee Score / patient-reported function</h3><div class="compare">${metric('Lateral UKA','44','mean OKS; matched cohort')}${metric('TKR','36','mean OKS; matched cohort')}</div><div class="outcome-copy">This is a matched observational gait/function cohort, not a randomized treatment-effect estimate. It supports better function after lateral UKA but should not be used as an individualized prediction.</div>${evidence('A contemporary matched study found higher OKS and more physiological gait after lateral UKA than TKA.',[{pmid:41642280,label:'2026 lateral UKA vs TKA gait and outcome study'}])}</article>
 
- <article class="outcome-card"><div class="eyebrow dark">Longevity · lateral-specific NJR</div><h3>10-year revision</h3><div class="compare">${metric(label,rev.uka.toFixed(1)+'%',`95% CI ${rev.ukaCI[0].toFixed(1)}–${rev.ukaCI[1].toFixed(1)}%; ${band}, ${state.sex}`)}${metric('TKR',rev.tkr.toFixed(1)+'%',`95% CI ${rev.tkrCI[0].toFixed(1)}–${rev.tkrCI[1].toFixed(1)}%`)}</div><div class="delta">Absolute excess revision with lateral UKA: +${rev.excess.toFixed(1)} percentage points.</div><div class="outcome-copy">NJR lateral UKA strata are smaller than the medial UKA strata, so confidence intervals are wider. No medial UKA provider-volume, bearing or robotics modifier is applied.</div></article>
+ <article class="outcome-card"><div class="eyebrow dark">Longevity · lateral-specific national registry</div><h3>10-year revision</h3><div class="compare">${metric(label,rev.uka.toFixed(1)+'%','all lateral UKA; Danish national registry')}${metric('TKR',rev.tkr.toFixed(1)+'%','matched valgus-aligned TKA comparator')}</div><div class="delta">Absolute excess revision: +${rev.excess.toFixed(1)} percentage points. Adjusted subdistribution HR ${rev.adjustedSHR.toFixed(1)} (95% CI ${rev.adjustedSHRCI[0].toFixed(1)}–${rev.adjustedSHRCI[1].toFixed(1)}).</div><div class="outcome-copy">This bearing-agnostic estimate includes all primary lateral UKAs from 1997–2022 and matched TKAs for valgus-aligned knees. It is not age- or sex-personalized. Contemporary 5-year revision improved to 7.3% for lateral UKA versus 3.7% for TKA in 2017–2022.</div>${evidence('National Danish registry study with competing-risk analysis and propensity-matched TKA comparator.',[{pmid:40652369,label:'2025 Danish lateral UKA registry study'}])}</article>\n\n <article class="outcome-card"><div class="eyebrow dark">Early postoperative outcomes · lateral-specific</div><h3>90-day readmission and complications</h3><div class="outcome-main">No significant difference</div><div class="outcome-copy">The national Danish registry comparison found no significant difference in 90-day readmissions or complications between lateral UKA and matched TKA. A numerical patient-specific risk is not available, so the module shows direction only.</div>${evidence('Lateral-specific national registry evidence.',[{pmid:40652369,label:'2025 Danish lateral UKA registry study'}])}</article>
 
  <article class="outcome-card"><div class="eyebrow dark">Activity · lateral-specific</div><h3>Return to sport</h3><div class="outcome-main">High return rate after lateral UKA</div><div class="delta">Pooled RTS 92.4% (95% CI 81.5–97.1); return to performance 88.5% (75.1–95.1).</div><div class="outcome-copy">Evidence is mainly Level IV and non-comparative. High-impact participation often decreases despite a high overall return rate.</div>${evidence('Recent lateral-specific systematic review/meta-analysis.',[{pmid:40878711,label:'2025 lateral UKA return-to-sport meta-analysis'}])}</article>
 
@@ -121,7 +121,7 @@ function renderLateral(x){
  <article class="outcome-card"><div class="eyebrow dark">Evidence gap</div><h3>Lifetime revision and early complications</h3><div class="outcome-copy">A lateral-specific lifetime competing-risk model, PJI comparison, 30-day morbidity/mortality model and same-day-discharge comparison were not identified at a quality sufficient to populate this module. The app deliberately does not substitute medial UKA numbers.</div></article>`;
 
  $('scenarioNotes').innerHTML=[
-  'Lateral UKA has useful compartment-specific 10-year NJR revision data, but substantially smaller numbers and wider confidence intervals than medial UKA.',
+  'The lateral module uses a bearing-agnostic national registry estimate for 10-year revision rather than a construct-specific NJR series.',
   state.bearing==='mobile'?''The displayed lateral UKA estimate is compartment-specific and does not depend on a bearing selector in this module.',
   'Functional and return-to-sport evidence is encouraging but less mature than the medial UKA evidence base.',
   'Unavailable domains are intentionally left unmodelled rather than inferred from medial UKA.'
@@ -132,23 +132,23 @@ function renderPFA(x){
  const rev=M.pfaRevisionEstimate(x.age,state.sex),band=rev.band,b=M.benchmarks.pfa;
  $('comparisonTitle').textContent='Patellofemoral arthroplasty vs TKR treatment trade-off';
  $('tradeoffRows').innerHTML=[
-  tradeRow('Pain & function','6-year time-weighted OKS improvement +5','uka','Favours PFA early/midterm'),
+  tradeRow('Pain & function','PAT RCT: similar at 12 months; OKS similar at 2 and 5 years','similar','Broadly similar'),
   notModelled('Natural-feeling knee','No robust PFA-specific FJS model'),
   tradeRow('10-year revision',`${rev.pfa.toFixed(1)}% vs ${rev.tkr.toFixed(1)}%`,'tkr','Favours TKR'),
   notModelled('Lifetime revision','No validated PFA lifetime model'),
   notModelled('30-day morbidity / mortality','No PFA-specific comparative estimate'),
   notModelled('Periprosthetic joint infection','No PFA-specific comparative estimate'),
   notModelled('Same-day discharge','No PFA-specific comparative pathway estimate'),
-  tradeRow('ROM / movement','~+7° at 5 years','uka','Favours PFA'),
+  tradeRow('ROM / movement','Early advantage reported; diminishes over time','uka','Early PFA advantage'),
   tradeRow('Return to sport','Evidence limited; lower rates than UKA','similar','Uncertain')
  ].join('');
 
  $('outcomesGrid').innerHTML=`
- <article class="outcome-card"><div class="eyebrow dark">Pain & function · randomized PFA evidence</div><h3>Patient-reported outcomes</h3><div class="outcome-main">Early-to-midterm recovery favours PFA</div><div class="delta">Time-weighted OKS improvement over 6 years: +5 points favouring PFA (95% CI 2–8).</div><div class="outcome-copy">At the single 6-year time point, most PROMs no longer differed significantly, suggesting an earlier recovery/function advantage rather than a persistent large endpoint difference.</div>${evidence('Randomized PFA vs TKA trial with 6-year follow-up.',[{pmid:35315804,label:'PFA vs TKA randomized controlled trial'}])}</article>
+ <article class="outcome-card"><div class="eyebrow dark">Pain & function · PFA-specific randomized evidence</div><h3>Patient-reported outcomes</h3><div class="outcome-main">Broadly similar by 12 months and mid-term</div><div class="delta">PAT randomized trial: WOMAC function adjusted mean difference −1.2 at 12 months (95% CI −9.19 to 6.80); no significant OKS difference at 24 or 60 months.</div><div class="outcome-copy">A 2026 GRADE systematic review concludes that PFA may provide faster recovery and better early PROMs in selected patients, but PROMs converge by mid- to long-term follow-up. This module therefore avoids claiming a persistent PROM advantage.</div>${evidence('Primary randomized evidence is the independent PAT trial. A separate 6-year PFA trial previously used here carries an Expression of Concern and subsequent erratum, so its original numerical effect estimates are not used as primary model inputs.',[{pmid:32114806,label:'PAT randomized clinical trial'},{pmid:41677917,label:'2026 GRADE systematic review'},{pmid:36516356,label:'Expression of Concern affecting separate 6-year RCT'}])}</article>
 
  <article class="outcome-card"><div class="eyebrow dark">Longevity · PFA-specific NJR</div><h3>10-year revision</h3><div class="compare">${metric('Patellofemoral arthroplasty',rev.pfa.toFixed(1)+'%',`95% CI ${rev.pfaCI[0].toFixed(1)}–${rev.pfaCI[1].toFixed(1)}%; ${band}, ${state.sex}`)}${metric('TKR',rev.tkr.toFixed(1)+'%',`95% CI ${rev.tkrCI[0].toFixed(1)}–${rev.tkrCI[1].toFixed(1)}%`)}</div><div class="delta">Absolute excess revision with PFA: +${rev.excess.toFixed(1)} percentage points.</div><div class="outcome-copy">The NJR reports PFA separately by age and sex, allowing the same transparent 10-year registry methodology used elsewhere in the app.</div></article>
 
- <article class="outcome-card"><div class="eyebrow dark">Movement quality · randomized evidence</div><h3>Range of motion</h3><div class="outcome-main">Favours PFA</div><div class="delta">At 5 years, ROM decreased 7° less after PFA than TKA (95% CI 1–13°).</div>${evidence('The clinical importance of this ROM difference is uncertain.',[{pmid:35315804,label:'PFA vs TKA randomized controlled trial'}])}</article>
+ <article class="outcome-card"><div class="eyebrow dark">Movement quality</div><h3>Range of motion</h3><div class="outcome-main">Possible early advantage with PFA</div><div class="outcome-copy">Systematic reviews report better early postoperative ROM with PFA, but the advantage diminishes over time and estimates are inconsistent across small trials. No single numerical ROM effect is used in the model.</div>${evidence('Moderate-certainty synthesis supports an early ROM advantage but not a durable large effect.',[{pmid:41677917,label:'2026 GRADE systematic review'},{pmid:33858458,label:'2021 PFA vs TKA meta-analysis'}])}</article>
 
  <article class="outcome-card"><div class="eyebrow dark">Activity</div><h3>Return to sport</h3><div class="outcome-main">Evidence limited</div><div class="outcome-copy">A recent systematic review found lower return-to-sport participation after PFA than after UKA, with reported return varying substantially by sport-impact category. This is not yet strong enough for an individualized PFA-vs-TKR estimate.</div>${evidence('Return-to-sport evidence exists but is heterogeneous and not suitable for a patient-specific probability.',[{pmid:40825370,label:'2025 knee arthroplasty return-to-sport meta-analysis'}])}</article>
 
