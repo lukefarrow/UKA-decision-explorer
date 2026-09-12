@@ -49,6 +49,17 @@
         <div class="slider-field"><div class="slider-top"><label for="oks">Pre-op Oxford Knee Score</label><output id="oksOut">20 / 48</output></div>
           <input type="range" id="oks" min="0" max="48" step="1" value="20"><div class="slider-scale"><span>0</span><span>24</span><span>48</span></div>
         </div>
+
+        <details class="provider-settings" id="oksHelper"><summary>Calculate OKS from item scores</summary><div class="provider-body">
+          <div class="microcopy">Enter the 12 item scores (0–4) from an authorised Oxford Knee Score questionnaire. The questionnaire wording is not reproduced here because the OKS is a licensed instrument.</div>
+          <div id="oksItems" class="oks-items"></div>
+          <div class="compare">
+            <div class="metric"><div class="metric-label">Calculated OKS</div><div class="metric-value" id="oksCalcTotal">— / 48</div><div class="metric-sub">All 12 items required</div></div>
+            <div class="metric"><div class="metric-label">Scoring</div><div class="metric-value">0–4</div><div class="metric-sub">Higher item scores = better knee status</div></div>
+          </div>
+          <button class="btn" id="useOksScore" type="button" disabled>Use this score</button>
+          <div class="microcopy top-gap">Need the official questionnaire? <a target="_blank" rel="noopener" href="https://innovation.ox.ac.uk/licence-details/oxford-knee-score-oks">Oxford Knee Score licensing and authorised materials</a>.</div>
+        </div></details>
       </section>
 
       <section class="card section-card">
