@@ -28,13 +28,21 @@ const expectedRevision={
  '65-74':{male:{tkr:2.55,fixed:4.26,mobile:7.84},female:{tkr:2.35,fixed:4.93,mobile:10.32}},
  '75+':{male:{tkr:1.71,fixed:2.93,mobile:5.75},female:{tkr:1.64,fixed:4.31,mobile:8.69}}
 };
+
+const expectedRevisionCI={
+ '<55':{male:{tkr:[5.69,6.42],fixed:[8.02,10.08],mobile:[15.81,18.41]},female:{tkr:[4.97,5.53],fixed:[9.03,11.23],mobile:[16.40,18.74]}},
+ '55-64':{male:{tkr:[3.67,3.95],fixed:[5.58,6.87],mobile:[10.45,11.78]},female:{tkr:[3.35,3.59],fixed:[6.43,8.00],mobile:[11.83,13.32]}},
+ '65-74':{male:{tkr:[2.46,2.64],fixed:[3.73,4.86],mobile:[7.27,8.46]},female:{tkr:[2.28,2.43],fixed:[4.27,5.69],mobile:[9.61,11.08]}},
+ '75+':{male:{tkr:[1.62,1.80],fixed:[2.15,3.97],mobile:[4.96,6.65]},female:{tkr:[1.57,1.72],fixed:[3.42,5.43],mobile:[7.74,9.76]}}
+};
+
 const representativeAge={'<55':50,'55-64':60,'65-74':70,'75+':80};
 for(const [band,sexes] of Object.entries(expectedRevision)){
   for(const [sex,vals] of Object.entries(sexes)){
     for(const bearing of ['fixed','mobile']){
       test(`NJR 10y revision ${band} ${sex} ${bearing}`,()=>{
         const x=M.revisionEstimate(representativeAge[band],sex,bearing);
-        near(x.uka,vals[bearing]);near(x.tkr,vals.tkr);near(x.excess,vals[bearing]-vals.tkr);
+        near(x.uka,vals[bearing]);near(x.tkr,vals.tkr);near(x.excess,vals[bearing]-vals.tkr);assert.deepStrictEqual(x.ukaCI,expectedRevisionCI[band][sex][bearing]);assert.deepStrictEqual(x.tkrCI,expectedRevisionCI[band][sex].tkr);
       });
     }
   }
@@ -91,12 +99,12 @@ test('TKR OKS remains bounded 0-48',()=>{
 for(const [age,u,t] of [[65,2.1,2.9],[75,2.4,3.6],[85,3.2,5.5]]){
   test(`30-day safety published anchor age ${age}`,()=>{const x=M.safety30d(age);near(x.uka,u);near(x.tkr,t);});
 }
-test('30-day safety interpolates between anchors',()=>{const x=M.safety30d(70);near(x.uka,2.25);near(x.tkr,3.25);});
-test('30-day safety does not extrapolate beyond source age range',()=>{
+test('30-day morbidity/mortality interpolates between anchors',()=>{const x=M.safety30d(70);near(x.uka,2.25);near(x.tkr,3.25);});
+test('30-day morbidity/mortality does not extrapolate beyond source age range',()=>{
   const lo=M.safety30d(45),hi=M.safety30d(90);
   near(lo.uka,2.1);near(lo.tkr,2.9);near(hi.uka,3.2);near(hi.tkr,5.5);
 });
-test('UKA early safety is better at all supported integer ages',()=>{
+test('UKA 30-day morbidity/mortality risk is lower at all supported integer ages',()=>{
   for(let a=65;a<=85;a++){const x=M.safety30d(a);assert.ok(x.uka<x.tkr);}
 });
 
@@ -126,9 +134,30 @@ test('OKS helper rejects invalid item scores',()=>assert.strictEqual(M.oksTotal(
 test('FJS benchmark constants match evidence layer',()=>{near(M.benchmarks.fjs.rctDifference,14.1);assert.deepStrictEqual(M.benchmarks.fjs.rctCI,[9.5,18.6]);});
 test('ROM benchmark constants match RCT',()=>{near(M.benchmarks.rom.twoYearDifferenceDeg,5.5);assert.deepStrictEqual(M.benchmarks.rom.ci,[3.6,7.4]);});
 test('PJI comparative HR benchmark',()=>near(M.benchmarks.pji.adjustedHR,0.53));
+test('randomized comparative OKS benchmark',()=>{near(M.benchmarks.oksComparative.rctDifference,3.5);assert.deepStrictEqual(M.benchmarks.oksComparative.rctCI,[2.3,4.7]);assert.deepStrictEqual(M.benchmarks.oksComparative.mcid,[4,5]);});
 test('day-case comparative benchmark',()=>{assert.deepStrictEqual(M.benchmarks.dayCase.overall,{uka:42,tka:20});assert.deepStrictEqual(M.benchmarks.dayCase.eligibleEarly,{uka:72,tka:61});});
 test('dedicated UKA day-case pooled benchmarks',()=>assert.deepStrictEqual(M.benchmarks.dayCase.ukaIntended,{overall:88,selected:91,unselected:76}));
 
 process.on('exit',()=>{
   if(!process.exitCode) process.stdout.write(`\nAll ${passed} validation tests passed.\n`);
 });
+
+
+const scenarioCases=[
+ {name:'young male fixed high-volume',x:{age:52,sex:'male',bmi:27,asa:1,preOks:18,bearing:'fixed',volume:35,usage:25},expect:{band:'<55',ukaRev:9.00,tkrRev:6.04,provider:'favourable'}},
+ {name:'typical female fixed',x:{age:65,sex:'female',bmi:28,asa:2,preOks:20,bearing:'fixed',volume:30,usage:20},expect:{band:'65-74',ukaRev:4.93,tkrRev:2.35,provider:'favourable'}},
+ {name:'older female mobile low-exposure',x:{age:80,sex:'female',bmi:29,asa:3,preOks:19,bearing:'mobile',volume:6,usage:4},expect:{band:'75+',ukaRev:8.69,tkrRev:1.64,provider:'low'}},
+ {name:'boundary 55 male mobile',x:{age:55,sex:'male',bmi:30,asa:2,preOks:24,bearing:'mobile',volume:10,usage:20},expect:{band:'55-64',ukaRev:11.09,tkrRev:3.81,provider:'moderateHighUsage'}},
+ {name:'boundary 75 female fixed',x:{age:75,sex:'female',bmi:35,asa:4,preOks:12,bearing:'fixed',volume:15,usage:10},expect:{band:'75+',ukaRev:4.31,tkrRev:1.64,provider:'intermediate'}}
+];
+for(const sc of scenarioCases){
+ test('scenario regression: '+sc.name,()=>{
+   const y=M.evaluateScenario(sc.x);
+   assert.strictEqual(y.revision.band,sc.expect.band);
+   near(y.revision.uka,sc.expect.ukaRev);near(y.revision.tkr,sc.expect.tkrRev);
+   assert.strictEqual(y.provider,sc.expect.provider);
+   assert.ok(y.ukaOks>=0&&y.ukaOks<=48);assert.ok(y.tkrOks>=0&&y.tkrOks<=48);
+   assert.ok(y.safety.uka<y.safety.tkr);
+   assert.ok(y.lifetime.uka>y.lifetime.tkr);
+ });
+}
