@@ -14,7 +14,7 @@ function render(){
   tradeRow('Pain & function','Conventional OKS','similar','Broadly similar'),
   tradeRow('Natural-feeling knee','Forgotten Joint Score','uka','Favours UKA'),
   tradeRow('10-year revision',`${uRev.toFixed(1)}% vs ${tRev.toFixed(1)}%`,'tkr','Favours TKR'),
-  tradeRow('Lifetime revision','Competing-risk literature','tkr','Favours TKR'),
+  tradeRow('Lifetime revision',`~${Math.round(life.uka)}% vs ~${Math.round(life.tkr)}%`,'tkr','Favours TKR'),
   tradeRow('30-day morbidity / mortality',`${s.uka.toFixed(1)}% vs ${s.tkr.toFixed(1)}%`,'uka','Favours UKA'),
   tradeRow('Periprosthetic joint infection','Swiss registry HR 0.53','uka','Favours UKA'),
   tradeRow('Same-day discharge','42% vs 20% overall fast-track cohort','uka','Favours UKA'),
