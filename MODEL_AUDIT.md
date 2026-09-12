@@ -2,7 +2,7 @@
 
 **Model version:** 1.0.0-audit  
 **Evidence cut-off:** 12 September 2026  
-**Scope:** Patients already considered anatomically suitable for medial UKA. This audit covers the quantitative and directional outcome model only.
+**Scope:** Patients already considered anatomically suitable for medial UKA. This audit covers the quantitative and directional outcome model only. The model must not be extrapolated to lateral UKA or patellofemoral arthroplasty.
 
 ## Audit classification
 
@@ -22,7 +22,7 @@ Each output is classified as:
 | Robotic assistance | PASS | C | No numeric modifier is applied. Current wording reflects the latest AOANJRR conclusion that adjusted UKA revision is not different with robotics, while retaining earlier evidence context. |
 | UKA OKS | QUALIFIED | B | 6-month reference estimate is reconstructed from the Liddle cohort mean (21.9→37.5), pre-op OKS coefficient 0.24 and age spline. It is not the original complete multivariable prediction equation and omits deprivation, anxiety/depression, self-rated health/disability and other predictors. |
 | TKR OKS | QUALIFIED | B | Included coefficients match Sanchez-Santos et al. for intercept, age, sex×age, BMI, baseline OKS and ASA. Uncollected IMD, anxiety/depression, prior arthroscopy, mobility comorbidity, fixed flexion deformity and ACL status are held at zero/reference. This is a reference-profile application, not a validated reduced model. |
-| UKA vs TKR OKS treatment effect | PASS | C | App explicitly prevents causal subtraction of the two prognostic estimates. The comparative statement is supported by the 2026 blinded RCT (+3.5 OKS improvement favouring UKA; below conventional MCID) and TOPKAT long-term evidence. |
+| Medial UKA vs TKR OKS treatment effect | PASS | A/C | Primary display now uses a matched 12-month randomized medial UKA vs TKR comparison: mean OKS 41.2 vs 38.4, adjusted improvement difference +3.2 (95% CI 0.9–5.6). The unmatched 6-month UKA and 12-month TKR prognostic estimates are no longer juxtaposed in the UI. |
 | Forgotten Joint Score | PASS | C | Direction favours UKA. RCT difference 14.1 points is encoded in evidence constants; UI appropriately avoids an individualized FJS prediction. |
 | Lifetime revision | QUALIFIED | D | Current function is a monotonic age-only hybrid interpolation using NZJR young/old anchors plus the NJR/SAP 65–69 implant-design anchor. It is transparent but is not a published competing-risk equation. Sex and ASA effects are contextual only. |
 | 30-day morbidity/mortality | PASS | A | Exact published probabilities and 95% CIs at ages 65, 75 and 85 are reproduced. The endpoint is explicitly labelled as the study's composite of 30-day morbidity or mortality / short-term complications. Linear interpolation is used only between anchors; values outside 65–85 are capped rather than extrapolated. |
@@ -190,3 +190,25 @@ Add source CIs where they can be reproduced without creating pseudo-individualiz
 
 ### Priority 4 — external validation
 Software verification is not clinical validation. A future clinical validation phase should compare predicted/benchmark outputs against an independent cohort and assess calibration, discrimination where applicable, subgroup performance and decision impact.
+
+
+## Compartment-specific evidence audit
+
+### Medial UKA
+This is the intended target intervention for the current model. The strongest directly comparative components are medial-specific, including:
+- the randomized medial UKA vs TKA PROM/FJS/ROM trial;
+- the prospective same-day-discharge comparison of medial UKA vs TKA;
+- NJR medial fixed- and mobile-bearing construct revision strata;
+- NJR mobile-bearing medial UKA provider-volume/usage analyses.
+
+Some supportive registry outcomes are reported simply as UKA without compartment stratification:
+- 30-day morbidity/mortality (ACS-NSQIP);
+- Swiss SIRIS PJI-related revision;
+- NZJR lifetime revision risk.
+These are therefore supportive UKA estimates rather than strictly medial-specific patient models.
+
+### Lateral UKA
+There is a growing literature base, including contemporary systematic reviews, cohort studies and registry analyses of lateral UKA. However, the evidence is substantially smaller than for medial UKA and does not currently provide a comparable, validated set of matched inputs and outputs across PROMs, 10-year age×sex revision, lifetime revision, early morbidity, discharge, provider-volume effects and movement outcomes. Lateral UKA should therefore be developed as a separate evidence module rather than inferred from the medial model.
+
+### Patellofemoral arthroplasty
+Patellofemoral arthroplasty also has systematic-review, registry and comparative evidence, particularly for revision and functional outcomes. However, its indications, failure modes, implant generations and comparator populations differ materially from medial UKA. The present medial UKA algorithms should not be applied to PFA. A future PFA module would require independent model development and validation.
