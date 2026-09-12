@@ -217,7 +217,7 @@ Patellofemoral arthroplasty also has systematic-review, registry and comparative
 ## Lateral UKA module — implementation status
 
 ### Numeric outputs
-- **10-year revision:** NJR 2025 age × sex × lateral fixed/mobile-bearing strata with 95% CIs, compared with the same cemented unconstrained fixed-bearing TKR comparator.
+- **10-year revision:** NJR 2025 age × sex lateral UKA strata with 95% CIs, compared with the same cemented unconstrained fixed-bearing TKR comparator. The lateral module does not expose or discuss a bearing selector.
 - **Return to sport:** pooled lateral-specific RTS 92.4% (95% CI 81.5–97.1); return to performance 88.5% (75.1–95.1).
 - **Gait/function benchmark:** matched cohort mean OKS 44 lateral UKA vs 36 TKA; top walking speed 7.0 vs 5.5 km/h.
 
@@ -260,9 +260,9 @@ These are omitted rather than inferred from UKA evidence.
 
 ## Multi-compartment governance rule
 
-The application now contains three evidence modules:
+The application now contains three stand-alone evidence modules:
 1. medial UKA;
 2. lateral UKA;
 3. patellofemoral arthroplasty.
 
-A coefficient or benchmark may only be reused across modules when the underlying source explicitly supports that procedure population or when the app labels it as broader supportive evidence. Missing compartment-specific evidence is shown as **not modelled**, rather than back-filled from another compartment.
+A coefficient or benchmark may only be reused across modules when the underlying source explicitly supports that procedure population or when the app labels it as broader supportive evidence. Each module must be interpretable independently. Missing compartment-specific evidence is shown as **not modelled**, rather than back-filled from another compartment.
