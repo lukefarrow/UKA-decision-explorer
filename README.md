@@ -55,3 +55,20 @@ https://lukefarrow.github.io/UKA-decision-explorer/
 - Surgeon caseload and UKA usage are interpreted using published thresholds. The app does not apply an unvalidated multiplicative correction to patient revision risk.
 - Robotic assistance is contextual only. Earlier AOANJRR analyses suggested lower revision, but the 2025 AOANJRR adjusted analysis reports no difference in revision for unicompartmental knee replacement; therefore no robotic multiplier is applied.
 - Infection is shown separately from all-cause revision using the 2026 Swiss SIRIS national registry comparison.
+
+
+## Model governance and automated validation
+
+The browser UI and automated tests use the same calculation layer in `model.js`.
+
+- Full evidence/model audit: `MODEL_AUDIT.md`
+- Automated regression/source tests: `validation.test.js`
+- Run locally with Node: `node validation.test.js`
+- GitHub Pages deployment is gated on the validation job. A failed model test prevents deployment.
+
+Current audited model metadata:
+- Model version: **1.0.0-audit**
+- Evidence cut-off: **12 September 2026**
+- Automated checks: **57**
+
+The audit deliberately distinguishes directly reproducible registry/anchor estimates from reconstructed prognostic references, contextual comparative evidence and research interpolation.
