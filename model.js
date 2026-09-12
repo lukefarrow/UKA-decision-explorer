@@ -47,7 +47,7 @@
   };
 
   const benchmarks={
-    oksComparative:{direction:'uka',rctDifference:3.5,rctCI:[2.3,4.7],mcid:[4,5]},
+    oksComparative:{direction:'uka',timepointMonths:12,mukaMean:41.2,mukaCI:[39.6,42.7],tkaMean:38.4,tkaCI:[36.9,40.0],improvementDifference:3.2,differenceCI:[0.9,5.6],mcid:[4,5],twoYearAverageDifference:3.5,twoYearAverageCI:[2.3,4.7]},
     fjs:{direction:'uka',range:[6,14],rctDifference:14.1,rctCI:[9.5,18.6]},
     rom:{direction:'uka',twoYearDifferenceDeg:5.5,ci:[3.6,7.4]},
     pji:{ukaObservedPct:0.4,tkaObservedPct:0.8,adjustedHR:0.53},
