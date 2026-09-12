@@ -84,3 +84,6 @@ Uses NJR lateral fixed/mobile age×sex 10-year revision estimates, lateral-speci
 
 ### Patellofemoral arthroplasty
 Uses NJR age×sex PFA 10-year revision estimates plus randomized PFA-vs-TKA PROM and ROM evidence. Lifetime revision, early morbidity, PJI, same-day discharge and UKA-specific construct/provider modifiers are not applied.
+
+
+Independent validation rerun trigger: 2026-09-12
