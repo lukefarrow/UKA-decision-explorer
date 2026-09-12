@@ -284,3 +284,27 @@ A second-pass source audit was performed independently from the encoded constant
 
 ### Validation conclusion
 The independent pass identified two clinically material evidence-interpretation errors that were not detectable by regression tests alone. Both have been corrected. Automated tests verify implementation fidelity; independent source audit verifies that the encoded model itself is scientifically justified.
+
+
+## Lifetime revision model revision — source-consistent implementation
+
+The prior lifetime function mixed NZJR endpoint data with an NJR 65–69 implant-design anchor. That hybrid curve has been removed.
+
+### Primary comparative display
+The current population comparison uses only the paired New Zealand Joint Registry lifetime-risk studies:
+- UKA: 40.4% at age 46–50, falling sequentially to 3.7% at age 86–90 (PMID 35638212).
+- TKA: 22.4% at age 46–50, falling approximately linearly to 1.15% at age 90–95 (PMID 35094573).
+
+The app uses transparent interpolation between the published endpoint age-group midpoints for display. This remains a population-level interpolation and is not described as a validated patient-level competing-risk equation.
+
+### Medial-specific reference
+A separate medial Oxford UKR series is shown without being numerically merged into the national registry comparison:
+- age 55: 14.9% (95% CI 12–19)
+- age 65: 10.7% (8–13)
+- age 75: 6.8% (5–9)
+- age 85: 3.7% (3–5)
+
+These estimates come from a 1,000-case medial Oxford UKR designer series using recommended indications and technique. They provide useful procedure-specific context but are expected to differ from population registry estimates because of case selection, implant, surgeon and revision-threshold effects.
+
+### Governance decision
+The app now displays population registry context and medial-specific specialist-series context side by side, rather than splicing them into a single synthetic curve.
