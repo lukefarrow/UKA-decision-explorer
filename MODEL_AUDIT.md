@@ -1,0 +1,191 @@
+# UKA vs TKR Outcome Explorer — Model Audit
+
+**Model version:** 1.0.0-audit  
+**Evidence cut-off:** 12 September 2026  
+**Scope:** Patients already considered anatomically suitable for medial UKA. This audit covers the quantitative and directional outcome model only.
+
+## Audit classification
+
+Each output is classified as:
+
+- **A — directly reproducible:** value is taken from a published table/anchor or a transparent interpolation between published anchors.
+- **B — reconstructed/reference-profile:** derived from published coefficients but is not the complete validated source model as implemented.
+- **C — comparative/contextual:** evidence supports direction or benchmark, but the app does not claim a patient-specific probability.
+- **D — research interpolation:** transparent synthesis of multiple published anchors that has not itself undergone model validation.
+
+## Findings by domain
+
+| Domain | Status | Class | Audit finding |
+|---|---|---:|---|
+| 10-year revision | PASS | A | Exact NJR 22nd Annual Report Table 3.K6 age × sex × cemented medial fixed/mobile UKA values and cemented unconstrained fixed-bearing TKR comparator are encoded. |
+| Bearing type | PASS | A/C | Fixed-bearing UKA has lower encoded NJR 10-year revision than mobile-bearing in every age/sex stratum; comparative literature also supports lower dislocation/bearing-related failure. |
+| Robotic assistance | PASS | C | No numeric modifier is applied. Current wording reflects the latest AOANJRR conclusion that adjusted UKA revision is not different with robotics, while retaining earlier evidence context. |
+| UKA OKS | QUALIFIED | B | 6-month reference estimate is reconstructed from the Liddle cohort mean (21.9→37.5), pre-op OKS coefficient 0.24 and age spline. It is not the original complete multivariable prediction equation and omits deprivation, anxiety/depression, self-rated health/disability and other predictors. |
+| TKR OKS | QUALIFIED | B | Included coefficients match Sanchez-Santos et al. for intercept, age, sex×age, BMI, baseline OKS and ASA. Uncollected IMD, anxiety/depression, prior arthroscopy, mobility comorbidity, fixed flexion deformity and ACL status are held at zero/reference. This is a reference-profile application, not a validated reduced model. |
+| UKA vs TKR OKS treatment effect | PASS | C | App explicitly prevents causal subtraction of the two prognostic estimates. The comparative statement is supported by the 2026 blinded RCT (+3.5 OKS improvement favouring UKA; below conventional MCID) and TOPKAT long-term evidence. |
+| Forgotten Joint Score | PASS | C | Direction favours UKA. RCT difference 14.1 points is encoded in evidence constants; UI appropriately avoids an individualized FJS prediction. |
+| Lifetime revision | QUALIFIED | D | Current function is a monotonic age-only hybrid interpolation using NZJR young/old anchors plus the NJR/SAP 65–69 implant-design anchor. It is transparent but is not a published competing-risk equation. Sex and ASA effects are contextual only. |
+| 30-day morbidity/mortality | PASS | A | Exact published probabilities at ages 65, 75 and 85 are reproduced. Linear interpolation is used only between anchors; values outside 65–85 are capped rather than extrapolated. |
+| PJI-related revision | PASS | A/C | SIRIS observed proportions (0.4% UKA, 0.8% TKA) and adjusted HR 0.53 are correctly represented and clearly identified as registry follow-up rather than fixed-time individualized risk. |
+| Same-day discharge | PASS | A/C | Comparative 42% vs 20% overall and 72% vs 61% eligible/early-surgery benchmarks match the prospective fast-track cohort; dedicated UKA pathway pooled rates 88/91/76% match meta-analysis. |
+| Provider caseload/usage | PASS | C | Thresholds <10 vs ≥10 cases/year and <20% vs ≥20% usage are evidence based. ≥30/year is used as a favourable contextual threshold. No unsupported patient-level multiplier is applied. |
+| Return to activity/sport | PASS | C | Direction favours UKA; no individualized time-to-return forecast is generated. |
+| ROM/gait | PASS | C | 2-year ROM difference +5.5° matches the 2026 RCT. Gait is appropriately described as a heterogeneous comparative trend. |
+| OKS scoring helper | PASS | A | Requires exactly 12 integer item scores from 0–4 and sums to 0–48. Questionnaire wording is intentionally not reproduced because licensing is separate. |
+
+## Primary source mapping
+
+### NJR 10-year revision
+National Joint Registry 22nd Annual Report 2025, Table 3.K6:
+https://www.ncbi.nlm.nih.gov/books/NBK618761/table/ch3.tk6/
+
+### UKA 6-month OKS reconstruction
+Liddle AD et al. *Determinants of revision and functional outcome following unicompartmental knee replacement.* Osteoarthritis Cartilage. 2014. PMID 25042552.
+https://pubmed.ncbi.nlm.nih.gov/25042552/
+
+Relevant published elements:
+- mean pre-op OKS 21.9
+- mean 6-month OKS 37.5
+- pre-op OKS coefficient +0.24 per point
+- age spline with improvement up to approximately age 75
+
+### TKR 12-month OKS reference profile
+Sanchez-Santos MT et al. *Development and validation of a clinical prediction model for patient-reported pain and function after primary total knee replacement surgery.* Sci Rep. 2018. PMID 29467465.
+https://pmc.ncbi.nlm.nih.gov/articles/PMC5821875/
+
+Included coefficients:
+- intercept 32.9
+- age 60–69 +0.8; 70–79 +1.4; ≥80 −2.5
+- male −4.8
+- male×age interactions +4.8 / +4.3 / +8.1
+- BMI −1.5 per 10 kg/m²
+- baseline OKS +0.4 per point
+- ASA 3/4 −2.0
+
+Omitted/reference predictors:
+- IMD −0.6 per 10 units
+- anxiety/depression −1.6
+- previous arthroscopy −1.6
+- another condition affecting mobility −3.3
+- fixed flexion deformity +1.7
+- damaged/absent ACL +1.0
+
+**Audit implication:** the displayed TKR result must continue to be labelled a reference-profile estimate. It must not be described as the externally validated full model.
+
+### Comparative PROM / FJS / ROM evidence
+2026 double-blind multicentre RCT, PMID 41662451:
+https://pubmed.ncbi.nlm.nih.gov/41662451/
+
+Key comparative effects:
+- OKS improvement +3.5 (95% CI 2.3–4.7) favouring mUKA
+- FJS +14.1 (95% CI 9.5–18.6)
+- ROM at 2 years +5.5° (95% CI 3.6–7.4)
+
+### Lifetime revision
+NZJR UKA lifetime-risk study, PMID 35638212:
+https://pubmed.ncbi.nlm.nih.gov/35638212/
+
+Published anchors and modifiers:
+- age 46–50: UKA lifetime revision 40.4%
+- age 86–90: 3.7%
+- women higher than men across age groups
+- ASA 3–4 higher than ASA 1
+- TKA approximately half UKA across age groups; TKA range 1.6–22.4%
+
+NJR/SAP implant-design lifetime model, PMID 39631511:
+https://pubmed.ncbi.nlm.nih.gov/39631511/
+
+Age 65–69:
+- unicondylar 13.7% (95% CI 12.4–15.2)
+- unconstrained KA 3.6% (95% CI 3.4–3.9)
+
+**Audit implication:** the app's continuous curve is a research interpolation, not the published life-table model. It should not be reported with model-derived confidence intervals until a source-consistent reconstruction is available.
+
+### 30-day safety
+PMID 39233099:
+https://pubmed.ncbi.nlm.nih.gov/39233099/
+
+Published probabilities:
+- age 65: UKA 2.1%, TKA 2.9%
+- age 75: 2.4%, 3.6%
+- age 85: 3.2%, 5.5%
+
+### PJI
+Swiss SIRIS registry, PMID 41779036:
+https://pubmed.ncbi.nlm.nih.gov/41779036/
+
+- 35,286 UKA; 188,952 TKA
+- PJI revision: 149 UKA (0.4%), 1,546 TKA (0.8%)
+- adjusted PJI revision HR 0.53
+- higher PJI revision risk in males and ASA ≥3
+
+### Same-day discharge
+Prospective fast-track comparative cohort, PMID 39496281:
+https://pubmed.ncbi.nlm.nih.gov/39496281/
+
+- overall day-case success: mUKA 42%, TKA 20%
+- eligible and surgery before 13:00: mUKA 72%, TKA 61%
+- eligibility: mUKA 52%, TKA 34%
+
+UKA systematic review/meta-analysis, PMID 35951077:
+https://pubmed.ncbi.nlm.nih.gov/35951077/
+
+- intended same-day discharge: 88% overall
+- selected cohorts: 91%
+- unselected cohorts: 76%
+
+### Provider caseload and usage
+NJR mobile-bearing UKA analysis, PMID 35964854:
+https://pubmed.ncbi.nlm.nih.gov/35964854/
+
+- low caseload <10/year; high caseload ≥10/year
+- low usage <20%; high usage ≥20%
+- high-caseload/high-usage 10-year survival: 90.0% cemented, 93.3% cementless
+
+Usage study, PMID 26530653:
+https://pubmed.ncbi.nlm.nih.gov/26530653/
+
+- acceptable revision outcomes at usage ≥20%
+- optimal registry outcomes reported around 40–60% usage
+
+## Automated validation scope
+
+The repository contains `validation.test.js`, which imports the exact `model.js` used by the browser. Tests cover:
+
+1. model version/evidence cut-off;
+2. all NJR age × sex × bearing 10-year revision values;
+3. age-band boundaries;
+4. expected revision ordering and age trends;
+5. UKA OKS anchors, slopes and bounds;
+6. TKR included coefficients and bounds;
+7. 30-day safety anchors, interpolation and non-extrapolation;
+8. lifetime-risk anchors, monotonicity and UKA>TKA ordering;
+9. provider volume/usage classification boundaries;
+10. OKS helper validity;
+11. FJS, ROM, PJI and day-case benchmark constants.
+
+Deployment is configured to stop if the validation suite fails.
+
+## Residual model risks and recommended next work
+
+### Priority 1 — lifetime revision
+Replace the hybrid interpolation with either:
+- a source-consistent age-band table directly extracted from a single lifetime-risk study; or
+- a reproducible competing-risk/life-table implementation using published source data.
+
+Until then, classify it as **research estimate / lower confidence** and avoid confidence intervals.
+
+### Priority 2 — OKS display
+The two displayed prognostic estimates use different source models and follow-up times (UKA ~6 months; TKR 12 months). Continue to prohibit direct subtraction. Consider visually separating:
+- **prognostic reference estimate**, and
+- **randomized comparative treatment effect**.
+
+### Priority 3 — uncertainty
+Add source CIs where they can be reproduced without creating pseudo-individualized uncertainty:
+- NJR revision CIs;
+- 30-day safety anchor CIs;
+- RCT FJS/ROM/OKS effect CIs;
+- day-case benchmark CIs.
+
+### Priority 4 — external validation
+Software verification is not clinical validation. A future clinical validation phase should compare predicted/benchmark outputs against an independent cohort and assess calibration, discrimination where applicable, subgroup performance and decision impact.
