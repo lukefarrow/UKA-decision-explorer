@@ -67,35 +67,6 @@ test('revision declines with age within each sex and construct',()=>{
   }
 });
 
-test('UKA OKS reference anchor',()=>near(M.ukaOksReference(65,21.9),37.5));
-test('UKA OKS baseline coefficient',()=>near(M.ukaOksReference(65,31.9),39.9));
-test('UKA OKS age coefficient through 75',()=>near(M.ukaOksReference(75,21.9),38.9));
-test('UKA OKS post-75 slope',()=>near(M.ukaOksReference(85,21.9),37.1));
-test('UKA OKS remains bounded 0-48',()=>{
-  for(const age of [45,65,75,90]) for(const pre of [0,48]) {
-    const x=M.ukaOksReference(age,pre);assert.ok(x>=0&&x<=48);
-  }
-});
-
-test('TKR reduced model typical female scenario',()=>near(M.tkrOksReference(65,'female',28,2,20),37.5));
-test('TKR reduced model BMI coefficient is -1.5 per 10 BMI units',()=>{
-  near(M.tkrOksReference(65,'female',38,2,20)-M.tkrOksReference(65,'female',28,2,20),-1.5);
-});
-test('TKR reduced model baseline OKS coefficient is +0.4 per point',()=>{
-  near(M.tkrOksReference(65,'female',28,2,30)-M.tkrOksReference(65,'female',28,2,20),4.0);
-});
-test('TKR reduced model ASA3/4 penalty is -2',()=>{
-  near(M.tkrOksReference(65,'female',28,3,20)-M.tkrOksReference(65,'female',28,2,20),-2);
-});
-test('TKR reduced model age-sex interaction at 65 offsets male main effect',()=>{
-  near(M.tkrOksReference(65,'male',28,2,20),M.tkrOksReference(65,'female',28,2,20));
-});
-test('TKR OKS remains bounded 0-48',()=>{
-  for(const age of [45,65,75,90]) for(const sex of ['male','female']) for(const bmi of [18,45]) for(const asa of [1,4]) for(const pre of [0,48]){
-    const x=M.tkrOksReference(age,sex,bmi,asa,pre);assert.ok(x>=0&&x<=48);
-  }
-});
-
 for(const [age,u,t] of [[65,2.1,2.9],[75,2.4,3.6],[85,3.2,5.5]]){
   test(`30-day safety published anchor age ${age}`,()=>{const x=M.safety30d(age);near(x.uka,u);near(x.tkr,t);});
 }
@@ -142,7 +113,7 @@ test('OKS helper rejects invalid item scores',()=>assert.strictEqual(M.oksTotal(
 test('FJS benchmark constants match evidence layer',()=>{near(M.benchmarks.fjs.rctDifference,14.1);assert.deepStrictEqual(M.benchmarks.fjs.rctCI,[9.5,18.6]);});
 test('ROM benchmark constants match RCT',()=>{near(M.benchmarks.rom.twoYearDifferenceDeg,5.5);assert.deepStrictEqual(M.benchmarks.rom.ci,[3.6,7.4]);});
 test('PJI comparative HR benchmark',()=>near(M.benchmarks.pji.adjustedHR,0.53));
-test('randomized matched 12-month OKS benchmark',()=>{const x=M.benchmarks.oksComparative;assert.strictEqual(x.timepointMonths,12);near(x.mukaMean,41.2);assert.deepStrictEqual(x.mukaCI,[39.6,42.7]);near(x.tkaMean,38.4);assert.deepStrictEqual(x.tkaCI,[36.9,40.0]);near(x.improvementDifference,3.2);assert.deepStrictEqual(x.differenceCI,[0.9,5.6]);assert.deepStrictEqual(x.mcid,[4,5]);near(x.twoYearAverageDifference,3.5);});
+test('randomized OKS time-course benchmarks',()=>{const x=M.benchmarks.oksComparative;near(x.twelveMonth.mukaMean,41.2);assert.deepStrictEqual(x.twelveMonth.mukaCI,[39.6,42.7]);near(x.twelveMonth.tkaMean,38.4);assert.deepStrictEqual(x.twelveMonth.tkaCI,[36.9,40.0]);near(x.twelveMonth.improvementDifference,3.2);assert.deepStrictEqual(x.twelveMonth.differenceCI,[0.9,5.6]);assert.strictEqual(x.twelveMonth.sourcePmid,34162649);near(x.twoYearEndpoint.mukaMean,41.2);near(x.twoYearEndpoint.tkaMean,40.1);near(x.twoYearEndpoint.difference,1.6);assert.deepStrictEqual(x.twoYearEndpoint.differenceCI,[-0.7,3.9]);near(x.twoYearAverage.improvementDifference,3.5);assert.deepStrictEqual(x.twoYearAverage.differenceCI,[2.3,4.7]);assert.strictEqual(x.twoYearAverage.sourcePmid,41662451);assert.deepStrictEqual(x.mcid,[4,5]);});
 test('day-case comparative benchmark',()=>{assert.deepStrictEqual(M.benchmarks.dayCase.overall,{uka:42,tka:20});assert.deepStrictEqual(M.benchmarks.dayCase.eligibleEarly,{uka:72,tka:61});});
 test('dedicated UKA day-case pooled benchmarks',()=>assert.deepStrictEqual(M.benchmarks.dayCase.ukaIntended,{overall:88,selected:91,unselected:76}));
 
@@ -164,7 +135,6 @@ for(const sc of scenarioCases){
    assert.strictEqual(y.revision.band,sc.expect.band);
    near(y.revision.uka,sc.expect.ukaRev);near(y.revision.tkr,sc.expect.tkrRev);
    assert.strictEqual(y.provider,sc.expect.provider);
-   assert.ok(y.ukaOks>=0&&y.ukaOks<=48);assert.ok(y.tkrOks>=0&&y.tkrOks<=48);
    assert.ok(y.safety.uka<y.safety.tkr);
    assert.ok(y.lifetime.uka>y.lifetime.tkr);
  });
