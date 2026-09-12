@@ -46,6 +46,11 @@ function text(dom,selector){
   assert.ok(dom.window.UKAModel,'UKAModel not loaded');
   assert.ok(d.querySelector('#outcomesGrid').children.length>0,'Initial medial module did not render');
   assert.match(text(dom,'#comparisonTitle'),/Medial UKA vs TKR/);
+  assert.match(text(dom,'#outcomesGrid'),/12 months · medial UKA/);
+  assert.match(text(dom,'#outcomesGrid'),/2 years · TKR/);
+  assert.match(text(dom,'#outcomesGrid'),/2021 randomized medial UKA vs TKA trial/);
+  assert.match(text(dom,'body'),/Pre-op Oxford Knee Score/);
+  assert.match(text(dom,'body'),/does not alter the current treatment-comparison estimates/);
 
   click(dom,'[data-input="module"] button[data-value="lateral"]');
   assert.match(text(dom,'#comparisonTitle'),/Lateral UKA vs TKR/);
