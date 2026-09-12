@@ -65,6 +65,7 @@
     rom:{direction:'uka',twoYearDifferenceDeg:5.5,ci:[3.6,7.4]},
     pji:{ukaObservedPct:0.4,tkaObservedPct:0.8,adjustedHR:0.53},
     lateral:{
+      robotics:{survivorship:98.8,survivorshipCI:[97.1,99.8],meanFollowupMonths:53.4,satisfaction:95.4,satisfactionCI:[92.9,97.4],evidence:'single-arm meta-analysis'},
       tenYearRevision:{lateral:13.6,tka:5.9,adjustedSHR:2.3,adjustedSHRCI:[1.6,3.2]},
       contemporaryFiveYear:{lateral:7.3,tka:3.7,period:'2017–2022'},
       earlyComplications:{direction:'similar',timepointDays:90},
@@ -72,6 +73,7 @@
       gait:{direction:'lateral',oksLateral:44,oksTka:36,topSpeedLateral:7.0,topSpeedTka:5.5}
     },
     pfa:{
+      robotics:{complicationRobotic:15,complicationConventional:30,reoperationRobotic:6.3,reoperationConventional:8.6,reoperationOR:0.67,implantRevisionRobotic:0.7,implantRevisionConventional:1.9,implantRevisionOR:0.32,evidence:'comparative meta-analysis'},
       patTrial:{womac12mDifference:-1.2,womac12mCI:[-9.19,6.80],oks24mDifference:'not significant',oks60mDifference:'not significant'},
       grade2026:{earlyProms:'favours PFA',midLongProms:'converge',revision:'higher PFA',rom:'early advantage diminishes',certainty:'moderate'},
       returnToSportRange:[64.7,91]
