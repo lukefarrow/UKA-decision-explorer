@@ -47,16 +47,16 @@
   };
 
   const lateralRevision10y={
-    '<55':{male:{tkr:6.04,fixed:11.06,mobile:19.09},female:{tkr:5.24,fixed:12.52,mobile:17.78}},
-    '55-64':{male:{tkr:3.81,fixed:6.43,mobile:16.07},female:{tkr:3.46,fixed:6.66,mobile:11.97}},
-    '65-74':{male:{tkr:2.55,fixed:9.48,mobile:18.53},female:{tkr:2.35,fixed:6.51,mobile:8.20}},
-    '75+':{male:{tkr:1.71,fixed:5.81,mobile:10.84},female:{tkr:1.64,fixed:7.08,mobile:9.77}}
+    '<55':{male:{tkr:6.04,lateral:11.06},female:{tkr:5.24,lateral:12.52}},
+    '55-64':{male:{tkr:3.81,lateral:6.43},female:{tkr:3.46,lateral:6.66}},
+    '65-74':{male:{tkr:2.55,lateral:9.48},female:{tkr:2.35,lateral:6.51}},
+    '75+':{male:{tkr:1.71,lateral:5.81},female:{tkr:1.64,lateral:7.08}}
   };
   const lateralRevision10yCI={
-    '<55':{male:{tkr:[5.69,6.42],fixed:[7.96,15.25],mobile:[13.31,26.97]},female:{tkr:[4.97,5.53],fixed:[9.24,16.85],mobile:[12.64,24.71]}},
-    '55-64':{male:{tkr:[3.67,3.95],fixed:[3.97,10.33],mobile:[10.43,24.33]},female:{tkr:[3.35,3.59],fixed:[4.46,9.89],mobile:[8.30,17.09]}},
-    '65-74':{male:{tkr:[2.46,2.64],fixed:[5.68,15.60],mobile:[11.88,28.26]},female:{tkr:[2.28,2.43],fixed:[4.14,10.17],mobile:[5.36,12.44]}},
-    '75+':{male:{tkr:[1.62,1.80],fixed:[2.49,13.24],mobile:[5.02,22.58]},female:{tkr:[1.57,1.72],fixed:[4.18,11.87],mobile:[6.14,15.36]}}
+    '<55':{male:{tkr:[5.69,6.42],lateral:[7.96,15.25]},female:{tkr:[4.97,5.53],lateral:[9.24,16.85]}},
+    '55-64':{male:{tkr:[3.67,3.95],lateral:[3.97,10.33]},female:{tkr:[3.35,3.59],lateral:[4.46,9.89]}},
+    '65-74':{male:{tkr:[2.46,2.64],lateral:[5.68,15.60]},female:{tkr:[2.28,2.43],lateral:[4.14,10.17]}},
+    '75+':{male:{tkr:[1.62,1.80],lateral:[2.49,13.24]},female:{tkr:[1.57,1.72],lateral:[4.18,11.87]}}
   };
   const pfaRevision10y={
     '<55':{male:{tkr:6.04,pfa:21.05},female:{tkr:5.24,pfa:17.49}},
@@ -109,10 +109,9 @@
     return {band,uka:row[bearing],tkr:row.tkr,ukaCI:ci[bearing],tkrCI:ci.tkr,excess:row[bearing]-row.tkr};
   }
 
-  function lateralRevisionEstimate(age,sex,bearing){
+  function lateralRevisionEstimate(age,sex){
     const band=ageBand(age),row=lateralRevision10y[band][sex],ci=lateralRevision10yCI[band][sex];
-    if(!['fixed','mobile'].includes(bearing)) throw new Error('Invalid bearing');
-    return {band,uka:row[bearing],tkr:row.tkr,ukaCI:ci[bearing],tkrCI:ci.tkr,excess:row[bearing]-row.tkr};
+    return {band,uka:row.lateral,tkr:row.tkr,ukaCI:ci.lateral,tkrCI:ci.tkr,excess:row.lateral-row.tkr};
   }
 
   function pfaRevisionEstimate(age,sex){
