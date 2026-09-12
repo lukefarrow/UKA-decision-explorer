@@ -1,9 +1,9 @@
-# UKA vs TKR Outcome Explorer
+# Medial UKA vs TKR Outcome Explorer
 
-Interactive evidence-based research prototype for comparing outcomes between medial unicompartmental knee arthroplasty (UKA) and total knee replacement (TKR/TKA) **in patients already considered anatomically suitable for medial UKA**.
+Interactive evidence-based research prototype for comparing outcomes between **medial** unicompartmental knee arthroplasty (mUKA) and total knee replacement (TKR/TKA) **in patients already considered anatomically suitable for medial UKA**.
 
 ## Scope
-This public explorer does not assess UKA eligibility. It is focused on treatment trade-offs and scenario testing.
+This public explorer does not assess UKA eligibility. It is focused on treatment trade-offs and scenario testing for **medial UKA only**. It is not validated for lateral UKA or patellofemoral arthroplasty.
 
 ## Inputs
 - Age
