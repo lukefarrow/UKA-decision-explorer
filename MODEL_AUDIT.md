@@ -266,3 +266,21 @@ The application now contains three stand-alone evidence modules:
 3. patellofemoral arthroplasty.
 
 A coefficient or benchmark may only be reused across modules when the underlying source explicitly supports that procedure population or when the app labels it as broader supportive evidence. Each module must be interpretable independently. Missing compartment-specific evidence is shown as **not modelled**, rather than back-filled from another compartment.
+
+
+## Independent validation pass — 12 September 2026
+
+A second-pass source audit was performed independently from the encoded constants.
+
+### Material findings
+
+1. **Lateral UKA revision model corrected.** The prior stand-alone lateral implementation had inadvertently retained a construct-specific NJR lateral series after bearing terminology was removed. Presenting those values as generic lateral UKA was not valid. The lateral module now uses the Danish national registry's bearing-agnostic all-lateral-UKA comparison: 10-year cumulative revision 13.6% vs 5.9% for propensity-matched valgus TKA; adjusted sHR 2.3 (95% CI 1.6–3.2). Contemporary 2017–2022 5-year revision was 7.3% vs 3.7%.
+
+2. **PFA PROM/ROM hierarchy corrected.** The previously used 6-year PFA-vs-TKA RCT (PMID 35315804) is subject to an Expression of Concern (PMID 36516356) and subsequent correction. Its original numerical advantage estimates are therefore removed as primary model constants. The primary randomized comparator is now the independent PAT trial (PMID 32114806): no significant WOMAC-function difference at 12 months and no significant OKS difference at 24 or 60 months. The 2026 GRADE review (PMID 41677917) is used for the broader interpretation that early recovery/PROMs may favour PFA, while mid- to long-term PROMs converge and revision risk remains higher.
+
+3. **PFA 10-year NJR revision tables independently re-extracted and confirmed.** The age × sex PFA 10-year values and CIs encoded in the model match NJR 2025 Table 3.K6.
+
+4. **Lateral RTS and gait evidence independently confirmed.** Lateral-specific pooled RTS 92.4% (95% CI 81.5–97.1), return to performance 88.5% (75.1–95.1), matched OKS 44 vs 36, and top walking speed 7.0 vs 5.5 km/h were confirmed against the source publications.
+
+### Validation conclusion
+The independent pass identified two clinically material evidence-interpretation errors that were not detectable by regression tests alone. Both have been corrected. Automated tests verify implementation fidelity; independent source audit verifies that the encoded model itself is scientifically justified.
