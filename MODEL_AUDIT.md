@@ -212,3 +212,57 @@ There is a growing literature base, including contemporary systematic reviews, c
 
 ### Patellofemoral arthroplasty
 Patellofemoral arthroplasty also has systematic-review, registry and comparative evidence, particularly for revision and functional outcomes. However, its indications, failure modes, implant generations and comparator populations differ materially from medial UKA. The present medial UKA algorithms should not be applied to PFA. A future PFA module would require independent model development and validation.
+
+
+## Lateral UKA module — implementation status
+
+### Numeric outputs
+- **10-year revision:** NJR 2025 age × sex × lateral fixed/mobile-bearing strata with 95% CIs, compared with the same cemented unconstrained fixed-bearing TKR comparator.
+- **Return to sport:** pooled lateral-specific RTS 92.4% (95% CI 81.5–97.1); return to performance 88.5% (75.1–95.1).
+- **Gait/function benchmark:** matched cohort mean OKS 44 lateral UKA vs 36 TKA; top walking speed 7.0 vs 5.5 km/h.
+
+### Directional/contextual outputs
+- Pain/function and gait favour lateral UKA based on matched observational evidence.
+- Return to sport is high after lateral UKA, but evidence is mostly Level IV.
+
+### Deliberately not modelled
+- lifetime revision;
+- 30-day morbidity/mortality;
+- PJI-related revision;
+- same-day discharge;
+- provider-volume/usage adjustment;
+- robotic adjustment;
+- FJS.
+
+These are omitted because no sufficiently robust lateral-specific model was identified. Medial UKA values are not substituted.
+
+## Patellofemoral arthroplasty module — implementation status
+
+### Numeric outputs
+- **10-year revision:** NJR 2025 age × sex PFA strata with 95% CIs, compared with the same TKR comparator.
+- **PROM effect:** randomized PFA-vs-TKA trial shows time-weighted 6-year OKS improvement difference +5 points (95% CI 2–8) favouring PFA.
+- **ROM:** randomized 5-year difference +7° (95% CI 1–13) favouring PFA.
+
+### Directional/contextual outputs
+- Earlier and time-weighted patient-reported recovery favours PFA, although most single-timepoint PROM differences converge by 6 years.
+- Return-to-sport evidence exists but is heterogeneous and is not used for an individualized PFA-vs-TKR probability.
+
+### Deliberately not modelled
+- lifetime revision;
+- 30-day morbidity/mortality;
+- PJI-related revision;
+- same-day discharge;
+- provider-volume/usage adjustment;
+- bearing/robotic modifiers;
+- FJS.
+
+These are omitted rather than inferred from UKA evidence.
+
+## Multi-compartment governance rule
+
+The application now contains three evidence modules:
+1. medial UKA;
+2. lateral UKA;
+3. patellofemoral arthroplasty.
+
+A coefficient or benchmark may only be reused across modules when the underlying source explicitly supports that procedure population or when the app labels it as broader supportive evidence. Missing compartment-specific evidence is shown as **not modelled**, rather than back-filled from another compartment.
