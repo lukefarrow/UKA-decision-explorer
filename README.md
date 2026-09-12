@@ -1,9 +1,9 @@
-# Medial UKA vs TKR Outcome Explorer
+# Partial Knee vs TKR Outcome Explorer
 
-Interactive evidence-based research prototype for comparing outcomes between **medial** unicompartmental knee arthroplasty (mUKA) and total knee replacement (TKR/TKA) **in patients already considered anatomically suitable for medial UKA**.
+Interactive evidence-based research prototype comparing **medial UKA, lateral UKA, and patellofemoral arthroplasty** with total knee replacement (TKR/TKA) in patients already considered anatomically suitable for the selected procedure.
 
 ## Scope
-This public explorer does not assess UKA eligibility. It is focused on treatment trade-offs and scenario testing for **medial UKA only**. It is not validated for lateral UKA or patellofemoral arthroplasty.
+This public explorer does not assess anatomical eligibility. It contains separate evidence modules for **medial UKA, lateral UKA, and patellofemoral arthroplasty**. Each module only uses compartment-specific quantitative evidence where it is sufficiently reproducible; unavailable domains are explicitly left unmodelled.
 
 ## Inputs
 - Age
@@ -72,3 +72,15 @@ Current audited model metadata:
 - Automated checks include source-value, boundary, uncertainty and complete scenario regression tests
 
 The audit deliberately distinguishes directly reproducible registry/anchor estimates from reconstructed prognostic references, contextual comparative evidence and research interpolation.
+
+
+## Compartment modules
+
+### Medial UKA
+Most complete module: matched PROM/FJS/ROM evidence, NJR age×sex×bearing 10-year revision, supportive lifetime/30-day/PJI evidence, same-day discharge, provider context and robotics context.
+
+### Lateral UKA
+Uses NJR lateral fixed/mobile age×sex 10-year revision estimates, lateral-specific return-to-sport evidence and lateral-specific gait/function evidence. Lifetime revision, early morbidity, PJI, same-day discharge and provider modifiers are not currently modelled.
+
+### Patellofemoral arthroplasty
+Uses NJR age×sex PFA 10-year revision estimates plus randomized PFA-vs-TKA PROM and ROM evidence. Lifetime revision, early morbidity, PJI, same-day discharge and UKA-specific construct/provider modifiers are not applied.
