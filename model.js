@@ -138,18 +138,48 @@
     };
   }
 
-  // Hybrid age interpolation for research display only; not a validated competing-risk model.
+  // Source-consistent NZJR population interpolation.
+  // UKA endpoints: 46–50 years 40.4%; 86–90 years 3.7%.
+  // TKA endpoints: 46–50 years 22.4%; 90–95 years 1.15%; source reports an approximately linear age decline.
+  // This is a display interpolation between published age-group anchors, not a validated patient-level competing-risk equation.
   function lifetimeRevision(age){
-    const a=clamp(age,48,92);
-    let uka,tkr;
-    if(a<=67){
-      uka=lerp(a,48,40.4,67,13.7);
-      tkr=lerp(a,48,22.4,67,3.6);
-    } else {
-      uka=a>=88?3.7:lerp(a,67,13.7,88,3.7);
-      tkr=lerp(a,67,3.6,92,1.15);
+    const a=Number(age);
+    const ukaAge=clamp(a,48,88);
+    const tkaAge=clamp(a,48,92.5);
+    const uka=lerp(ukaAge,48,40.4,88,3.7);
+    const tkr=lerp(tkaAge,48,22.4,92.5,1.15);
+    return {
+      uka:Math.max(0,uka),
+      tkr:Math.max(0,tkr),
+      ukaLabel:a<48?'≤46–50 reference':a>88?'≥86–90 reference':'NZJR age-interpolated',
+      tkrLabel:a<48?'≤46–50 reference':a>92.5?'≥90–95 reference':'NZJR age-interpolated'
+    };
+  }
+
+  const medialLifetimeAnchors=[
+    {age:55,risk:14.9,ci:[12,19]},
+    {age:65,risk:10.7,ci:[8,13]},
+    {age:75,risk:6.8,ci:[5,9]},
+    {age:85,risk:3.7,ci:[3,5]}
+  ];
+
+  function medialLifetimeReference(age){
+    const a=Number(age);
+    if(a<=55) return {...medialLifetimeAnchors[0],label:'≤55 reference'};
+    if(a>=85) return {...medialLifetimeAnchors[3],label:'≥85 reference'};
+    let lo=medialLifetimeAnchors[0],hi=medialLifetimeAnchors[1];
+    for(let i=0;i<medialLifetimeAnchors.length-1;i++){
+      if(a>=medialLifetimeAnchors[i].age&&a<=medialLifetimeAnchors[i+1].age){
+        lo=medialLifetimeAnchors[i];hi=medialLifetimeAnchors[i+1];break;
+      }
     }
-    return {uka:Math.max(0,uka),tkr:Math.max(0,tkr)};
+    const f=(a-lo.age)/(hi.age-lo.age);
+    return {
+      age:a,
+      risk:lo.risk+f*(hi.risk-lo.risk),
+      ci:[lo.ci[0]+f*(hi.ci[0]-lo.ci[0]),lo.ci[1]+f*(hi.ci[1]-lo.ci[1])],
+      label:'medial Oxford series interpolation'
+    };
   }
 
   function providerContext(volume,usage){
@@ -181,6 +211,6 @@
   return {
     MODEL_VERSION,EVIDENCE_CUTOFF,revision10y,revision10yCI,pfaRevision10y,pfaRevision10yCI,benchmarks,
     clamp,lerp,ageBand,revisionEstimate,lateralRevisionEstimate,pfaRevisionEstimate,ukaOksReference,tkrOksReference,
-    safety30d,lifetimeRevision,providerContext,evaluateScenario,oksTotal
+    safety30d,lifetimeRevision,medialLifetimeReference,providerContext,evaluateScenario,oksTotal
   };
 });
