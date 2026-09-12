@@ -41,7 +41,7 @@ function configureControls(){
 }
 
 function renderMedial(x){
- const rev=M.revisionEstimate(x.age,state.sex,state.bearing),s=M.safety30d(x.age),life=M.lifetimeRevision(x.age);
+ const rev=M.revisionEstimate(x.age,state.sex,state.bearing),s=M.safety30d(x.age),life=M.lifetimeRevision(x.age),medialLife=M.medialLifetimeReference(x.age);
  const uRev=rev.uka,tRev=rev.tkr,band=rev.band;
  const bearingLabel=state.bearing==='fixed'?'Fixed-bearing mUKA':'Mobile-bearing mUKA';
  const provider=providerText(x.vol,x.use);
@@ -57,7 +57,7 @@ function renderMedial(x){
   tradeRow('Pain & function','12-month randomized OKS','similar','Broadly similar'),
   tradeRow('Natural-feeling knee','Forgotten Joint Score','uka','Favours mUKA'),
   tradeRow('10-year revision',`${uRev.toFixed(1)}% vs ${tRev.toFixed(1)}%`,'tkr','Favours TKR'),
-  tradeRow('Lifetime revision',`~${Math.round(life.uka)}% vs ~${Math.round(life.tkr)}%`,'tkr','Favours TKR'),
+  tradeRow('Lifetime revision · registry context',`~${Math.round(life.uka)}% vs ~${Math.round(life.tkr)}%`,'tkr','Favours TKR'),
   tradeRow('30-day morbidity / mortality',`${s.uka.toFixed(1)}% vs ${s.tkr.toFixed(1)}%`,'uka','Favours mUKA'),
   tradeRow('Periprosthetic joint infection','UKA registry HR 0.53','uka','Favours UKA'),
   tradeRow('Same-day discharge','42% vs 20% overall fast-track cohort','uka','Favours mUKA'),
@@ -73,7 +73,7 @@ function renderMedial(x){
 
  <article class="outcome-card"><div class="eyebrow dark">Longevity</div><h3>10-year revision</h3><div class="compare">${metric(bearingLabel,uRev.toFixed(1)+'%',`95% CI ${rev.ukaCI[0].toFixed(1)}–${rev.ukaCI[1].toFixed(1)}%; ${band}, ${state.sex}`)}${metric('TKR',tRev.toFixed(1)+'%',`95% CI ${rev.tkrCI[0].toFixed(1)}–${rev.tkrCI[1].toFixed(1)}%`)}</div><div class="delta">Absolute excess revision with mUKA: +${(uRev-tRev).toFixed(1)} percentage points.</div><div class="outcome-copy">${provider} ${bearingText} ${roboticText}</div></article>
 
- <article class="outcome-card"><div class="eyebrow dark">Longevity</div><h3>Remaining-lifetime revision</h3><div class="compare">${metric('UKA','~'+Math.round(life.uka)+'%','research interpolation')}${metric('TKR','~'+Math.round(life.tkr)+'%','research interpolation')}</div><div class="outcome-copy">Broader UKA registry evidence is used because a complete medial-specific lifetime model is not available. Values are deliberately rounded and should not be treated as validated patient-specific probabilities.</div>${evidence('Lifetime risk is strongly age-dependent; available registry analyses do not provide a complete open medial-only patient equation.',[{pmid:35638212,label:'NZJR lifetime UKA revision risk'},{pmid:39631511,label:'NJR implant-specific lifetime revision modelling'}])}</article>
+ <article class="outcome-card"><div class="eyebrow dark">Longevity · lifetime revision</div><h3>Remaining-lifetime revision</h3><div class="compare">${metric('UKA registry context','~'+Math.round(life.uka)+'%',life.ukaLabel)}${metric('TKR registry context','~'+Math.round(life.tkr)+'%',life.tkrLabel)}</div><div class="delta">Broader NZJR population data place lifetime revision higher after UKA than TKR across age groups.</div><div class="outcome-copy">These two values now come from the paired New Zealand registry lifetime-risk studies only. The previous mixed NZJR/NJR anchor model has been removed. Values between published endpoint age groups are transparent display interpolations, not patient-level competing-risk predictions.</div><div class="compare top-gap">${metric('Medial UKA reference',medialLife.risk.toFixed(1)+'%',`95% CI ~${medialLife.ci[0].toFixed(1)}–${medialLife.ci[1].toFixed(1)}%; ${medialLife.label}`)}${metric('Interpretation','Procedure-specific series','Oxford medial UKR, recommended indications')}</div><div class="outcome-copy">The medial-specific Oxford series gives substantially lower lifetime revision estimates than national all-UKA registry data. It is shown separately because it reflects a selected implant/surgeon setting and should not be merged numerically with the population registry estimate.</div>${evidence('NZJR supplies the population UKA-vs-TKA context. The medial-specific Oxford series provides exact age anchors at 55, 65, 75 and 85 years.',[{pmid:35638212,label:'NZJR UKA lifetime revision risk'},{pmid:35094573,label:'NZJR TKA lifetime revision risk'},{pmid:33180153,label:'Medial Oxford UKR lifetime revision model'}])}</article>
 
  <article class="outcome-card"><div class="eyebrow dark">Early postoperative complications</div><h3>30-day morbidity and mortality</h3><div class="compare">${metric('UKA',s.uka.toFixed(1)+'%',`95% CI ~${s.ukaCI[0].toFixed(1)}–${s.ukaCI[1].toFixed(1)}%`)}${metric('TKR',s.tkr.toFixed(1)+'%',`95% CI ~${s.tkrCI[0].toFixed(1)}–${s.tkrCI[1].toFixed(1)}%`)}</div><div class="outcome-copy">Supportive UKA evidence: the source does not separate medial and lateral UKA.</div>${evidence('This is a composite of 30-day morbidity or mortality, not a generic “safety” score.',[{pmid:39233099,label:'Age-specific UKA vs TKA 30-day morbidity/mortality'}])}</article>
 
