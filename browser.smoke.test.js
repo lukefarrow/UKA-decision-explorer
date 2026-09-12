@@ -46,6 +46,8 @@ function text(dom,selector){
   assert.match(d.querySelector('script[src^="model.js"]').getAttribute('src'),/\?v=/,'model.js should be cache-busted');
 
   assert.ok(dom.window.UKAModel,'UKAModel not loaded');
+  assert.strictEqual(d.querySelectorAll('[data-preset]').length,0,'Patient preset buttons should not be present');
+  assert.ok(d.querySelector('#resetAll'),'Reset control should remain available');
   assert.ok(d.querySelector('#outcomesGrid').children.length>0,'Initial medial module did not render');
   assert.match(text(dom,'#comparisonTitle'),/Medial UKA vs TKR/);
   assert.match(text(dom,'#outcomesGrid'),/12 months · medial UKA/);
