@@ -1,0 +1,15 @@
+# Clinical model, evidence and deployment files
+/model.js @lukefarrow
+/app.js @lukefarrow
+/validation.test.js @lukefarrow
+/browser.smoke.test.js @lukefarrow
+/MODEL_AUDIT.md @lukefarrow
+/VALIDATION_REPORT_v1.0.md @lukefarrow
+/.github/workflows/ @lukefarrow
+
+# Public interface and release documentation
+/index.html @lukefarrow
+/styles.css @lukefarrow
+/README.md @lukefarrow
+/DEPLOYMENT_READINESS.md @lukefarrow
+/SECURITY.md @lukefarrow
