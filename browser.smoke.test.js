@@ -56,12 +56,17 @@ function text(dom,selector){
   assert.match(text(dom,'#outcomesGrid'),/12 months · medial UKA/);
   assert.match(text(dom,'#outcomesGrid'),/2 years · TKR/);
   assert.match(text(dom,'#outcomesGrid'),/2021 randomized medial UKA vs TKA trial/);
+  assert.match(text(dom,'#tradeoffRows'),/Higher likelihood in selected fast-track pathways/);
+  assert.doesNotMatch(text(dom,'#tradeoffRows'),/42% vs 20%/);
+  assert.match(text(dom,'#outcomesGrid'),/Cost-effectiveness/);
+  assert.match(text(dom,'#outcomesGrid'),/TOPKAT/);
   assert.match(text(dom,'body'),/Pre-op Oxford Knee Score/);
   assert.match(text(dom,'body'),/does not alter the current treatment-comparison estimates/);
 
   click(dom,'[data-input="module"] button[data-value="lateral"]');
   assert.match(text(dom,'#comparisonTitle'),/Lateral UKA vs TKR/);
   assert.match(text(dom,'#tradeoffRows'),/13\.6% vs 5\.9%/);
+  assert.match(text(dom,'#tradeoffRows'),/Insufficient lateral-specific comparative cost-utility evidence/);
   assert.doesNotMatch(text(dom,'#outcomesGrid'),/mobile bearing|mobile-bearing/i);
   assert.ok(d.querySelector('#bearingField').style.display==='none','Bearing control should be hidden for lateral module');
   assert.ok(d.querySelector('#ageField').style.display==='none','Age should be hidden when lateral estimates are not age-personalised');
@@ -74,6 +79,8 @@ function text(dom,selector){
   click(dom,'[data-input="module"] button[data-value="pfa"]');
   assert.match(text(dom,'#comparisonTitle'),/Patellofemoral arthroplasty vs TKR/);
   assert.match(text(dom,'#outcomesGrid'),/PAT randomized trial/);
+  assert.match(text(dom,'#tradeoffRows'),/Potentially favours PFA/);
+  assert.match(text(dom,'#outcomesGrid'),/Health economics · PFA/);
   assert.ok(d.querySelector('#ageField').style.display!=='none','Age should be visible for PFA registry strata');
   assert.ok(d.querySelector('#sexField').style.display!=='none','Sex should be visible for PFA registry strata');
   assert.match(text(dom,'#tradeoffRows'),/No comparative estimate/);
