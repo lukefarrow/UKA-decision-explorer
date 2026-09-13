@@ -1,73 +1,26 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Partial Knee vs TKR Outcome Explorer</title>
-  <link rel="stylesheet" href="styles.css?v=20260912-1">
-</head>
-<body>
-<header class="hero"><div class="hero-inner">
-  <div class="eyebrow">Interactive evidence-based research prototype</div>
-  <h1>Partial Knee vs TKR Outcome Explorer</h1>
-  <p>Explore evidence-based outcomes and trade-offs for patients already considered suitable for medial UKA, lateral UKA, or patellofemoral arthroplasty compared with total knee replacement. Each compartment uses its own evidence module; unsupported medial-UKA coefficients are not carried across.</p>
-  <div class="hero-badges"><span>Outcome comparison only</span><span>Live scenario testing</span><span>Research prototype</span></div>
-</div></header>
 
-<main class="page-shell">
-  <div class="toolbar card">
-    <div><div class="toolbar-title">Choose the compartment and explore a patient scenario</div><div class="toolbar-sub">Anatomical suitability is assumed and is not assessed on this page. Evidence availability differs by compartment.</div>
-      <div class="segmented top-gap" data-input="module">
-        <button data-value="medial" class="active">Medial UKA</button>
-        <button data-value="lateral">Lateral UKA</button>
-        <button data-value="pfa">Patellofemoral</button>
-      </div>
-    </div>
-    <div class="toolbar-actions">
-      <button class="btn" id="resetAll">Reset</button>
-    </div>
-  </div>
-
-  <section class="layout">
-    <aside class="controls">
-      <section class="card section-card">
-        <div class="section-heading"><span class="section-number">1</span><div><h2>Patient inputs</h2><p>Core variables used in the comparative evidence and prediction models.</p></div></div>
-
-        <div class="slider-field"><div class="slider-top"><label for="age">Age</label><output id="ageOut">65 years</output></div>
-          <input type="range" id="age" min="45" max="90" step="1" value="65"><div class="slider-scale"><span>45</span><span>65</span><span>90</span></div>
-        </div>
-
-        <div class="seg-field"><div class="field-label">Sex</div><div class="segmented" data-input="sex">
-          <button data-value="female" class="active">Female</button><button data-value="male">Male</button>
-        </div></div>
-
-        <div class="slider-field"><div class="slider-top"><label for="bmi">BMI</label><output id="bmiOut">28.0</output></div>
-          <input type="range" id="bmi" min="18" max="45" step="0.5" value="28"><div class="slider-scale"><span>18</span><span>30</span><span>45</span></div>
-        </div>
-
-        <div class="seg-field"><div class="field-label">ASA grade</div><div class="segmented four" data-input="asa">
-          <button data-value="1">1</button><button data-value="2" class="active">2</button><button data-value="3">3</button><button data-value="4">4</button>
-        </div></div>
-
-        <div class="slider-field"><div class="slider-top"><label for="oks">Pre-op Oxford Knee Score <span class="optional-label">(optional)</span></label><output id="oksOut">20 / 48</output></div>
-          <input type="range" id="oks" min="0" max="48" step="1" value="20"><div class="slider-scale"><span>0</span><span>24</span><span>48</span></div>
-          <div class="microcopy">Baseline OKS can be recorded for clinical context, but it does not alter the current treatment-comparison estimates.</div>
-        </div>
-
-        <details class="provider-settings" id="oksHelper"><summary>Calculate OKS from item scores</summary><div class="provider-body">
-          <div class="microcopy">Enter the 12 item scores (0–4) from an authorised Oxford Knee Score questionnaire. The questionnaire wording is not reproduced here because the OKS is a licensed instrument.</div>
-          <div id="oksItems" class="oks-items"></div>
-          <div class="compare">
-            <div class="metric"><div class="metric-label">Calculated OKS</div><div class="metric-value" id="oksCalcTotal">— / 48</div><div class="metric-sub">All 12 items required</div></div>
-            <div class="metric"><div class="metric-label">Scoring</div><div class="metric-value">0–4</div><div class="metric-sub">Higher item scores = better knee status</div></div>
+        <details class="provider-settings" id="optionalClinicalContext"><summary>Optional clinical context · Oxford Knee Score</summary><div class="provider-body">
+          <div class="slider-field"><div class="slider-top"><label for="oks">Pre-op Oxford Knee Score <span class="optional-label">(optional)</span></label><output id="oksOut">20 / 48</output></div>
+            <input type="range" id="oks" min="0" max="48" step="1" value="20"><div class="slider-scale"><span>0</span><span>24</span><span>48</span></div>
+            <div class="microcopy">Baseline OKS can be recorded for clinical context, but it does not alter the current treatment-comparison estimates.</div>
           </div>
-          <button class="btn" id="useOksScore" type="button" disabled>Use this score</button>
-          <div class="microcopy top-gap">Need the official questionnaire? <a target="_blank" rel="noopener" href="https://innovation.ox.ac.uk/licence-details/oxford-knee-score-oks">Oxford Knee Score licensing and authorised materials</a>.</div>
+
+          <details class="provider-settings" id="oksHelper"><summary>Calculate OKS from item scores</summary><div class="provider-body">
+            <div class="microcopy">Enter the 12 item scores (0–4) from an authorised Oxford Knee Score questionnaire. The questionnaire wording is not reproduced here because the OKS is a licensed instrument.</div>
+            <div id="oksItems" class="oks-items"></div>
+            <div class="compare">
+              <div class="metric"><div class="metric-label">Calculated OKS</div><div class="metric-value" id="oksCalcTotal">— / 48</div><div class="metric-sub">All 12 items required</div></div>
+              <div class="metric"><div class="metric-label">Scoring</div><div class="metric-value">0–4</div><div class="metric-sub">Higher item scores = better knee status</div></div>
+            </div>
+            <button class="btn" id="useOksScore" type="button" disabled>Use this score</button>
+            <div class="microcopy top-gap">Need the official questionnaire? <a target="_blank" rel="noopener" href="https://innovation.ox.ac.uk/licence-details/oxford-knee-score-oks">Oxford Knee Score licensing and authorised materials</a>.</div>
+          </div></details>
+
         </div></details>
       </section>
 
       <section class="card section-card" id="constructCard">
-        <div class="section-heading"><span class="section-number">2</span><div><h2 id="constructTitle">UKA construct</h2><p id="constructSubtitle">Choose the bearing design used for the UKA comparison.</p></div></div>
+        <div class="section-heading"><span class="section-number">2</span><div><h2 id="constructTitle">Procedure settings</h2><p id="constructSubtitle">Settings are shown only where relevant to the selected procedure.</p></div></div>
 
         <div class="seg-field" id="bearingField"><div class="field-label">Bearing type</div><div class="segmented" data-input="bearing">
           <button data-value="fixed" class="active">Fixed bearing</button><button data-value="mobile">Mobile bearing</button>
@@ -87,14 +40,14 @@
       </section>
 
       <section class="card section-card">
-        <div class="section-heading"><span class="section-number">3</span><div><h2>How to use this explorer</h2><p>Interpret the outputs as treatment trade-offs, not a recommendation score.</p></div></div>
+        <div class="section-heading"><span class="section-number">3</span><div><h2>Evidence scope</h2><p>Interpret the outputs as treatment trade-offs, not a recommendation score.</p></div></div>
         <div class="why-content" id="scopeCopy"></div>
       </section>
     </aside>
 
     <section class="results">
       <section class="card tradeoff-card">
-        <div class="card-head"><div><div class="eyebrow dark">Live comparison</div><h2 id="comparisonTitle">At-a-glance treatment trade-off</h2></div><div class="axis-label" id="axisLabel">Partial knee ← similar → TKR</div></div>
+        <div class="card-head"><div><div class="eyebrow dark">Evidence summary</div><h2 id="comparisonTitle">At-a-glance treatment trade-off</h2></div><div class="axis-label" id="axisLabel">Partial knee ← similar → TKR</div></div>
         <div id="tradeoffRows"></div>
         <div class="microcopy top-gap">Markers show the direction of the best current comparative evidence. Numerical estimates are displayed only where a published estimate can be reproduced defensibly.</div>
       </section>
