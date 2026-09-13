@@ -361,3 +361,21 @@ The clinician-facing interface was reviewed against the active evidence model wi
 Rows with insufficient evidence are no longer plotted at the midpoint of the UKA–TKR axis. They display an explicit **No comparative estimate / Not modelled** state so absence of evidence cannot be mistaken for equivalence.
 
 The at-a-glance section is labelled **Evidence summary** rather than Live comparison to better reflect that several outputs are population-level or contextual rather than dynamically patient-predicted.
+
+
+## Same-day discharge presentation
+
+Same-day discharge is presented directionally rather than as a single absolute percentage. Medial UKA is described as having a higher likelihood of successful same-day discharge in appropriately selected fast-track pathways. Absolute rates are omitted from the headline UI because they are highly dependent on pathway design, eligibility criteria, anaesthetic and analgesic protocols, operating time, social support and local discharge rules.
+
+## Health economics domain
+
+Health economics is included only where procedure-specific comparative evidence is sufficient.
+
+### Medial UKA
+TOPKAT provides randomized NHS evidence in medial-compartment osteoarthritis. At 10 years, partial knee replacement was associated with lower healthcare costs (mean difference −£731, 95% CI −£1,352 to −£110) and greater accumulated QALYs (+0.322, 95% CI −0.069 to 0.712) than TKR (PMID 41270774). This is presented as a directional cost-effectiveness advantage rather than a patient-specific financial estimate.
+
+### Lateral UKA
+No robust contemporary lateral-specific cost-utility comparison with TKR was identified. Generic UKA economic models are not extrapolated into the lateral module. The domain is explicitly marked **not modelled**.
+
+### Patellofemoral arthroplasty
+Procedure-specific evidence exists. A randomized-trial economic analysis found PFA cheaper and more effective than TKA at one year (PMID 32228074). A 2026 NJR/NHS Markov analysis (PMID 42624592) found PFA may be cost-effective, particularly in older patients, but with substantial uncertainty driven mainly by postoperative utility assumptions. The app therefore describes PFA as **potentially cost-effective** rather than universally economically superior.
