@@ -73,7 +73,8 @@ function renderMedial(x){
   tradeRow('Lifetime revision · registry context',`~${Math.round(life.uka)}% vs ~${Math.round(life.tkr)}%`,'tkr','Favours TKR'),
   tradeRow('30-day morbidity / mortality',`${s.uka.toFixed(1)}% vs ${s.tkr.toFixed(1)}%`,'uka','Favours mUKA'),
   tradeRow('Periprosthetic joint infection','UKA registry HR 0.53','uka','Favours UKA'),
-  tradeRow('Same-day discharge','42% vs 20% overall fast-track cohort','uka','Favours mUKA'),
+  tradeRow('Same-day discharge','Higher likelihood in selected fast-track pathways','uka','Favours mUKA'),
+  tradeRow('Cost-effectiveness','Randomized NHS economic evidence','uka','Favours mUKA'),
   tradeRow('Recovery speed','Early recovery','uka','Favours mUKA'),
   tradeRow('Return to activity','Comparative evidence','uka','Favours mUKA'),
   tradeRow('ROM / movement quality','~+5.5° ROM at 2 years','uka','Favours mUKA')
@@ -92,7 +93,9 @@ function renderMedial(x){
 
  <article class="outcome-card"><div class="eyebrow dark">Infection</div><h3>Periprosthetic joint infection revision</h3><div class="compare">${metric('UKA','0.4%','observed registry revisions')}${metric('TKA','0.8%','observed registry revisions')}</div><div class="delta">Adjusted PJI-related revision HR 0.53.</div><div class="outcome-copy">Supportive UKA evidence; compartment was not separately modelled.</div>${evidence('Swiss SIRIS national registry comparison.',[{pmid:41779036,label:'2026 SIRIS PJI analysis'}])}</article>
 
- <article class="outcome-card"><div class="eyebrow dark">Pathway & discharge</div><h3>Same-day discharge</h3><div class="compare">${metric('Medial UKA','42%','overall fast-track cohort')}${metric('TKR','20%','overall fast-track cohort')}</div><div class="delta">Among eligible early cases: 72% vs 61%.</div>${evidence('This comparison is specifically medial UKA and strongly pathway-dependent.',[{pmid:39496281,label:'2024 fast-track medial UKA/TKA cohort'},{pmid:35951077,label:'UKA same-day discharge meta-analysis'}])}</article>
+ <article class="outcome-card"><div class="eyebrow dark">Pathway & discharge</div><h3>Same-day discharge</h3><div class="outcome-main">More likely after medial UKA</div><div class="outcome-copy">Medial UKA is more compatible with successful same-day discharge in appropriately selected fast-track pathways than TKR. A single percentage is not shown because success depends heavily on patient selection, anaesthetic and analgesic protocols, operating time, social support and local discharge criteria.</div>${evidence('Direction is supported by medial-UKA fast-track cohorts and UKA same-day-discharge studies, but absolute rates are pathway-specific.',[{pmid:39496281,label:'2024 fast-track medial UKA/TKA cohort'},{pmid:35951077,label:'UKA same-day discharge meta-analysis'}])}</article>
+
+ <article class="outcome-card"><div class="eyebrow dark">Health economics · medial UKA</div><h3>Cost-effectiveness</h3><div class="outcome-main">Favours medial partial knee replacement</div><div class="outcome-copy">The strongest evidence comes from TOPKAT, a UK multicentre randomized trial in medial-compartment osteoarthritis. At 10 years, partial knee replacement had lower NHS healthcare costs and slightly greater accumulated QALYs than TKR. This is health-system evidence rather than a patient-specific financial prediction.</div>${evidence('TOPKAT 10-year economic analysis: mean healthcare cost difference −£731 (95% CI −£1,352 to −£110) and QALY difference +0.322 (95% CI −0.069 to 0.712), favouring partial knee replacement. Earlier 5-year trial analysis reached the same overall conclusion.',[{pmid:41270774,label:'TOPKAT 10-year clinical and cost-effectiveness trial'},{pmid:29706598,label:'NJR lifetime UKR vs TKR cost-effectiveness model'}])}</article>
 
  <article class="outcome-card"><div class="eyebrow dark">Recovery & activity</div><h3>Return to activity</h3><div class="outcome-main">Favours mUKA</div><div class="outcome-copy">Medial UKA generally supports quicker early recovery and higher return-to-sport/activity rates than TKR.</div>${evidence('Comparative activity evidence favours UKA, especially for higher-demand activity.',[{pmid:40825370,label:'Return-to-sport meta-analysis'}])}</article>
 
@@ -118,6 +121,7 @@ function renderLateral(x){
   tradeRow('90-day readmission / complications','No significant difference in matched registry study','similar','Similar'),
   notModelled('Periprosthetic joint infection','No lateral-specific comparative estimate'),
   notModelled('Same-day discharge','No lateral-specific comparative pathway estimate'),
+  notModelled('Cost-effectiveness','Insufficient lateral-specific comparative cost-utility evidence'),
   tradeRow('Return to sport','~92.4% pooled lateral UKA RTS','uka','High RTS after lateral UKA'),
   tradeRow('Gait / movement quality','Near-normal gait; 7.0 vs 5.5 km/h top speed','uka','Favours lateral UKA')
  ].join('');
@@ -158,7 +162,8 @@ function renderPFA(x){
   notModelled('Periprosthetic joint infection','No PFA-specific comparative estimate'),
   notModelled('Same-day discharge','No PFA-specific comparative pathway estimate'),
   tradeRow('ROM / movement','Early advantage reported; diminishes over time','uka','Early PFA advantage'),
-  tradeRow('Return to sport','Evidence limited; lower rates than UKA','similar','Uncertain')
+  tradeRow('Return to sport','Evidence limited; lower rates than UKA','similar','Uncertain'),
+  tradeRow('Cost-effectiveness','Procedure-specific economic evidence; uncertainty remains','uka','Potentially favours PFA')
  ].join('');
 
  const pfaRoboticCard=state.robotic==='robotic'
@@ -172,6 +177,8 @@ function renderPFA(x){
  <article class="outcome-card"><div class="eyebrow dark">Longevity · PFA-specific NJR</div><h3>10-year revision</h3><div class="compare">${metric('Patellofemoral arthroplasty',rev.pfa.toFixed(1)+'%',`95% CI ${rev.pfaCI[0].toFixed(1)}–${rev.pfaCI[1].toFixed(1)}%; ${band}, ${state.sex}`)}${metric('TKR',rev.tkr.toFixed(1)+'%',`95% CI ${rev.tkrCI[0].toFixed(1)}–${rev.tkrCI[1].toFixed(1)}%`)}</div><div class="delta">Absolute excess revision with PFA: +${rev.excess.toFixed(1)} percentage points.</div><div class="outcome-copy">The NJR reports PFA separately by age and sex, allowing the same transparent 10-year registry methodology used elsewhere in the app.</div></article>
 
  <article class="outcome-card"><div class="eyebrow dark">Movement quality</div><h3>Range of motion</h3><div class="outcome-main">Possible early advantage with PFA</div><div class="outcome-copy">Systematic reviews report better early postoperative ROM with PFA, but the advantage diminishes over time and estimates are inconsistent across small trials. No single numerical ROM effect is used in the model.</div>${evidence('Moderate-certainty synthesis supports an early ROM advantage but not a durable large effect.',[{pmid:41677917,label:'2026 GRADE systematic review'},{pmid:33858458,label:'2021 PFA vs TKA meta-analysis'}])}</article>
+
+ <article class="outcome-card"><div class="eyebrow dark">Health economics · PFA</div><h3>Cost-effectiveness</h3><div class="outcome-main">Potentially cost-effective, with important uncertainty</div><div class="outcome-copy">Procedure-specific comparative economic studies suggest PFA can be less costly and provide similar or greater quality-adjusted health benefit than TKR in selected patients. Long-term conclusions are sensitive to assumptions about postoperative utility, implant longevity and age, so this should be interpreted as supportive evidence rather than a universal economic advantage.</div>${evidence('A randomized-trial economic analysis found PFA cheaper and more effective at one year. A 2026 NJR/NHS Markov analysis found PFA may be cost-effective, particularly in older patients, but with substantial decision uncertainty driven mainly by postoperative utility assumptions.',[{pmid:32228074,label:'Randomized PFA vs TKA cost-effectiveness analysis'},{pmid:42624592,label:'2026 NJR/NHS PFA vs TKR cost-effectiveness model'}])}</article>
 
  <article class="outcome-card"><div class="eyebrow dark">Activity</div><h3>Return to sport</h3><div class="outcome-main">Evidence limited</div><div class="outcome-copy">A recent systematic review found lower return-to-sport participation after PFA than after UKA, with reported return varying substantially by sport-impact category. This is not yet strong enough for an individualized PFA-vs-TKR estimate.</div>${evidence('Return-to-sport evidence exists but is heterogeneous and not suitable for a patient-specific probability.',[{pmid:40825370,label:'2025 knee arthroplasty return-to-sport meta-analysis'}])}</article>
 
