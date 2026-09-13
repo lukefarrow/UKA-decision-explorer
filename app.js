@@ -1,15 +1,15 @@
-const state={module:'medial',sex:'female',asa:'2',bearing:'fixed',robotic:'manual'};
+const state={module:'medial',sex:'female',bearing:'fixed',robotic:'manual'};
 const M=UKAModel;
 const $=id=>document.getElementById(id);
 
 function metric(label,val,sub=''){return `<div class="metric"><div class="metric-label">${label}</div><div class="metric-value">${val}</div><div class="metric-sub">${sub}</div></div>`}
 function evidence(text,refs){return `<details class="evidence"><summary>Evidence & references</summary><div>${text}<div class="ref-list">${refs.map(r=>`<div><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/${r.pmid}/">${r.label}</a></div>`).join('')}</div></div></details>`}
 function tradeRow(name,sub,dir,label){return `<div class="trade-row"><div><div class="trade-name">${name}</div><div class="trade-sub">${sub}</div></div><div class="scale"><span class="marker ${dir}"></span></div><span class="badge ${dir==='tkr'?'tkr':dir==='similar'?'similar':'uka'}">${label}</span></div>`}
-function notModelled(name,why){return tradeRow(name,why,'similar','Not modelled')}
+function notModelled(name,why){return `<div class="trade-row not-modelled"><div><div class="trade-name">${name}</div><div class="trade-sub">${why}</div></div><div class="scale scale-empty"><span>No comparative estimate</span></div><span class="badge na">Not modelled</span></div>`}
 
 function commonInputs(){
- ['age','bmi','oks','volume','usage'].forEach(id=>{const el=$(id);if(!el)return;const v=el.value;$(id+'Out').textContent=id==='age'?`${v} years`:id==='bmi'?Number(v).toFixed(1):id==='oks'?`${v} / 48`:id==='usage'?`${v}%`:v});
- return {age:+$('age').value,bmi:+$('bmi').value,pre:+$('oks').value,vol:+$('volume').value,use:+$('usage').value};
+ ['age','oks','volume','usage'].forEach(id=>{const el=$(id);if(!el)return;const v=el.value;$(id+'Out').textContent=id==='age'?`${v} years`:id==='oks'?`${v} / 48`:id==='usage'?`${v}%`:v});
+ return {age:+$('age').value,pre:+$('oks').value,vol:+$('volume').value,use:+$('usage').value};
 }
 
 function providerText(vol,use){
@@ -25,8 +25,11 @@ function providerText(vol,use){
 
 function configureControls(){
  const medial=state.module==='medial',lateral=state.module==='lateral',pfa=state.module==='pfa';
- $('constructTitle').textContent=pfa?'Procedure-specific settings':'UKA construct';
- $('constructSubtitle').textContent=pfa?'No validated PFA construct modifier is currently applied.':'Bearing type is used where compartment-specific registry revision estimates are available.';
+ $('constructTitle').textContent='Procedure settings';
+ $('constructSubtitle').textContent=medial?'Bearing and surgical-assistance context for medial UKA.':lateral?'Surgical-assistance context for lateral UKA.':'Surgical-assistance context for patellofemoral arthroplasty.';
+ $('ageField').style.display=lateral?'none':'';
+ $('sexField').style.display=lateral?'none':'';
+ $('patientInputNote').textContent=lateral?'Current lateral UKA estimates are population-level and are not personalised by age or sex. Optional OKS can still be recorded below.':'Age and sex are used where registry estimates are stratified by these factors.';
  $('bearingField').style.display=medial?'':'none';
  $('bearingCopy').style.display=medial?'':'none';
  $('roboticField').style.display='';
@@ -197,17 +200,15 @@ document.querySelectorAll('.segmented').forEach(group=>group.addEventListener('c
  state[group.dataset.input]=e.target.dataset.value;
  render();
 }));
-['age','bmi','oks','volume','usage'].forEach(id=>$(id).addEventListener('input',render));
+['age','oks','volume','usage'].forEach(id=>$(id).addEventListener('input',render));
 
 function resetAll(){
  $('age').value=65;
- $('bmi').value=28;
  $('oks').value=20;
  $('volume').value=30;
  $('usage').value=20;
  state.module='medial';
  state.sex='female';
- state.asa='2';
  state.bearing='fixed';
  state.robotic='manual';
  document.querySelectorAll('.segmented').forEach(g=>g.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.value===state[g.dataset.input])));
