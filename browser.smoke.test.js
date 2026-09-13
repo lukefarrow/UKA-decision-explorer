@@ -60,6 +60,7 @@ function text(dom,selector){
   assert.doesNotMatch(text(dom,'#tradeoffRows'),/42% vs 20%/);
   assert.match(text(dom,'#outcomesGrid'),/Cost-effectiveness/);
   assert.match(text(dom,'#outcomesGrid'),/TOPKAT/);
+  assert.match(text(dom,'#outcomesGrid'),/Conversion to TKR is generally closer to primary TKR than revision TKR/);
   assert.match(text(dom,'body'),/Pre-op Oxford Knee Score/);
   assert.match(text(dom,'body'),/does not alter the current treatment-comparison estimates/);
 
@@ -67,6 +68,7 @@ function text(dom,selector){
   assert.match(text(dom,'#comparisonTitle'),/Lateral UKA vs TKR/);
   assert.match(text(dom,'#tradeoffRows'),/13\.6% vs 5\.9%/);
   assert.match(text(dom,'#tradeoffRows'),/Insufficient lateral-specific comparative cost-utility evidence/);
+  assert.match(text(dom,'#outcomesGrid'),/supportive rather than lateral-specific evidence/);
   assert.doesNotMatch(text(dom,'#outcomesGrid'),/mobile bearing|mobile-bearing/i);
   assert.ok(d.querySelector('#bearingField').style.display==='none','Bearing control should be hidden for lateral module');
   assert.ok(d.querySelector('#ageField').style.display==='none','Age should be hidden when lateral estimates are not age-personalised');
