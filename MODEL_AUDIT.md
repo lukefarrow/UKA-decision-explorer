@@ -379,3 +379,12 @@ No robust contemporary lateral-specific cost-utility comparison with TKR was ide
 
 ### Patellofemoral arthroplasty
 Procedure-specific evidence exists. A randomized-trial economic analysis found PFA cheaper and more effective than TKA at one year (PMID 32228074). A 2026 NJR/NHS Markov analysis (PMID 42624592) found PFA may be cost-effective, particularly in older patients, but with substantial uncertainty driven mainly by postoperative utility assumptions. The app therefore describes PFA as **potentially cost-effective** rather than universally economically superior.
+
+
+## Revision consequence context
+
+Higher UKA revision risk is accompanied by counselling context about what revision usually entails.
+
+For medial UKA, contemporary matched evidence supports the statement that conversion to TKR is generally closer in outcome burden to primary TKR than to revision TKR, while not being identical to primary TKR. A 2025 matched three-group study (PMID 40532925) reported revised medial UKA outcomes close to primary TKR and better than revision TKR on Knee Society and Forgotten Joint Score measures. A 2023 matched-study meta-analysis (PMID 37708740) found no significant difference between UKA-to-TKA conversion and primary TKA in revision risk, total complications, WOMAC or pain, although some functional scores still favoured primary TKA.
+
+For lateral UKA, no robust lateral-only PROM comparison was identified. Mixed-UKA conversion evidence is therefore labelled supportive and is not presented as lateral-specific.
