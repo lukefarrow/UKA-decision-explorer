@@ -163,3 +163,21 @@ test('PFA PAT trial mid-term OKS interpretation',()=>{
 test('PFA 2026 GRADE interpretation',()=>{
  const x=M.benchmarks.pfa.grade2026;assert.strictEqual(x.earlyProms,'favours PFA');assert.strictEqual(x.midLongProms,'converge');assert.strictEqual(x.revision,'higher PFA');
 });
+
+
+test('medial economics benchmark',()=>{
+ const x=M.benchmarks.economics.medial;
+ assert.strictEqual(x.direction,'favours mUKA');
+ near(x.tenYearCostDifferenceGBP,-731);
+ assert.deepStrictEqual(x.tenYearCostCI,[-1352,-110]);
+ near(x.tenYearQalyDifference,0.322);
+ assert.strictEqual(x.sourcePmid,41270774);
+});
+test('lateral economics remains unmodelled',()=>assert.strictEqual(M.benchmarks.economics.lateral.direction,'not modelled'));
+test('PFA economics evidence is assumption-sensitive',()=>{
+ const x=M.benchmarks.economics.pfa;
+ assert.strictEqual(x.direction,'potentially cost-effective');
+ near(x.shortTermCostDifferenceEUR,-328);
+ near(x.shortTermQalyGain,0.056);
+ assert.strictEqual(x.certainty,'assumption-sensitive');
+});
