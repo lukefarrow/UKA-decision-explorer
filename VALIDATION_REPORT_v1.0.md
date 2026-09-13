@@ -77,3 +77,17 @@ Suitable for research demonstration, clinician usability testing, evidence-metho
 Not yet suitable to be represented as a clinically validated medical device or autonomous treatment recommendation tool.
 
 Before clinical production deployment: protect the release path, complete source-by-source verification, obtain regulatory/classification advice, complete clinical safety and data-protection review, perform structured usability testing and external/prospective validation, and establish evidence-surveillance/change-control procedures.
+
+
+## 11. Source-by-source verification
+
+A formal source-by-source audit was completed on 13 September 2026 and is recorded in `SOURCE_AUDIT_v1.0.md`.
+
+Result: **PASS WITH GOVERNANCE NOTES**
+
+Findings:
+- no active quantitative constant required correction;
+- the principal medial UKA, lateral UKA and PFA estimates matched their primary trial/registry sources;
+- PMID 35315804 remains excluded from active PFA PROM claims because of the published Expression of Concern (PMID 36516356);
+- PMID 26738897 is explicitly registered as the source of the ≥30/year provider-volume context;
+- NJR 22nd Annual Report Table 3.K6 remains the first-class primary source for medial UKA/TKR and PFA 10-year revision strata.
