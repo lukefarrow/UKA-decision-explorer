@@ -48,6 +48,9 @@ function text(dom,selector){
   assert.ok(dom.window.UKAModel,'UKAModel not loaded');
   assert.strictEqual(d.querySelectorAll('[data-preset]').length,0,'Patient preset buttons should not be present');
   assert.ok(d.querySelector('#resetAll'),'Reset control should remain available');
+  assert.strictEqual(d.querySelector('#bmi'),null,'BMI should not be a core input');
+  assert.strictEqual(d.querySelector('[data-input="asa"]'),null,'ASA should not be a core input');
+  assert.ok(d.querySelector('#optionalClinicalContext'),'Optional OKS context should remain available');
   assert.ok(d.querySelector('#outcomesGrid').children.length>0,'Initial medial module did not render');
   assert.match(text(dom,'#comparisonTitle'),/Medial UKA vs TKR/);
   assert.match(text(dom,'#outcomesGrid'),/12 months · medial UKA/);
@@ -61,6 +64,8 @@ function text(dom,selector){
   assert.match(text(dom,'#tradeoffRows'),/13\.6% vs 5\.9%/);
   assert.doesNotMatch(text(dom,'#outcomesGrid'),/mobile bearing|mobile-bearing/i);
   assert.ok(d.querySelector('#bearingField').style.display==='none','Bearing control should be hidden for lateral module');
+  assert.ok(d.querySelector('#ageField').style.display==='none','Age should be hidden when lateral estimates are not age-personalised');
+  assert.ok(d.querySelector('#sexField').style.display==='none','Sex should be hidden when lateral estimates are not sex-personalised');
   assert.ok(d.querySelector('#roboticField').style.display!=='none','Robotic control should be visible for lateral module');
   click(dom,'[data-input="robotic"] button[data-value="robotic"]');
   assert.match(text(dom,'#outcomesGrid'),/98\.8%/);
@@ -69,6 +74,9 @@ function text(dom,selector){
   click(dom,'[data-input="module"] button[data-value="pfa"]');
   assert.match(text(dom,'#comparisonTitle'),/Patellofemoral arthroplasty vs TKR/);
   assert.match(text(dom,'#outcomesGrid'),/PAT randomized trial/);
+  assert.ok(d.querySelector('#ageField').style.display!=='none','Age should be visible for PFA registry strata');
+  assert.ok(d.querySelector('#sexField').style.display!=='none','Sex should be visible for PFA registry strata');
+  assert.match(text(dom,'#tradeoffRows'),/No comparative estimate/);
   assert.doesNotMatch(text(dom,'#outcomesGrid'),/mobile bearing|mobile-bearing/i);
   assert.ok(d.querySelector('#bearingField').style.display==='none','Bearing control should be hidden for PFA module');
   assert.ok(d.querySelector('#roboticField').style.display!=='none','Robotic control should be visible for PFA module');
