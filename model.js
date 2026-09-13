@@ -82,6 +82,11 @@
       overall:{uka:42,tka:20},
       eligibleEarly:{uka:72,tka:61},
       ukaIntended:{overall:88,selected:91,unselected:76}
+    },
+    economics:{
+      medial:{direction:'favours mUKA',tenYearCostDifferenceGBP:-731,tenYearCostCI:[-1352,-110],tenYearQalyDifference:0.322,tenYearQalyCI:[-0.069,0.712],sourcePmid:41270774},
+      lateral:{direction:'not modelled',reason:'insufficient lateral-specific comparative cost-utility evidence'},
+      pfa:{direction:'potentially cost-effective',shortTermCostDifferenceEUR:-328,shortTermQalyGain:0.056,sourcePmid:32228074,njrLongTermSourcePmid:42624592,certainty:'assumption-sensitive'}
     }
   };
 
