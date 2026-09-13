@@ -83,6 +83,8 @@ function text(dom,selector){
   assert.match(text(dom,'#outcomesGrid'),/PAT randomized trial/);
   assert.match(text(dom,'#tradeoffRows'),/Potentially favours PFA/);
   assert.match(text(dom,'#outcomesGrid'),/Health economics · PFA/);
+  assert.match(text(dom,'#outcomesGrid'),/Usually technically closer to primary TKR, but not equivalent/);
+  assert.match(text(dom,'#outcomesGrid'),/repeat-revision risks are higher than after a primary TKR/);
   assert.ok(d.querySelector('#ageField').style.display!=='none','Age should be visible for PFA registry strata');
   assert.ok(d.querySelector('#sexField').style.display!=='none','Sex should be visible for PFA registry strata');
   assert.match(text(dom,'#tradeoffRows'),/No comparative estimate/);
