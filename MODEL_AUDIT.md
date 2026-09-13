@@ -388,3 +388,10 @@ Higher UKA revision risk is accompanied by counselling context about what revisi
 For medial UKA, contemporary matched evidence supports the statement that conversion to TKR is generally closer in outcome burden to primary TKR than to revision TKR, while not being identical to primary TKR. A 2025 matched three-group study (PMID 40532925) reported revised medial UKA outcomes close to primary TKR and better than revision TKR on Knee Society and Forgotten Joint Score measures. A 2023 matched-study meta-analysis (PMID 37708740) found no significant difference between UKA-to-TKA conversion and primary TKA in revision risk, total complications, WOMAC or pain, although some functional scores still favoured primary TKA.
 
 For lateral UKA, no robust lateral-only PROM comparison was identified. Mixed-UKA conversion evidence is therefore labelled supportive and is not presented as lateral-specific.
+
+
+### Patellofemoral arthroplasty revision context
+
+PFA-to-TKR conversion is presented separately from UKA conversion because the evidence profile differs. A direct three-group study (PMID 24980643) found revised PFA had knee/function scores and range of motion closer to primary TKR than revision TKR, with most conversions managed using standard implants. However, complications were more frequent than after primary TKR. Australian registry data (PMID 31136442) showed repeat-revision risk after PFA-to-TKA was higher than the first-revision risk after primary TKA but lower than re-revision risk after revision TKA. A 2023 retrieval/clinical series (PMID 37210859) described conversion as technically similar to primary TKA but with complication rates more consistent with revision TKA, while another matched study (PMID 36889525) found generally primary-like outcomes except when conversion followed patellar component failure.
+
+The app therefore states that PFA conversion is usually technically closer to primary TKR and often has functional outcomes nearer primary than revision TKR, while explicitly retaining the higher complication and repeat-revision risk compared with primary TKR.
