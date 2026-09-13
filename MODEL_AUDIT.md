@@ -343,3 +343,21 @@ The larger 2026 double-blinded multicentre randomized trial (PMID 41662451) is u
 Baseline OKS remains available as an **optional clinical-context input** and can be calculated using the 12-item scoring helper. It does not alter the current treatment-comparison estimates. No matched, externally validated pair of patient-specific 12-month prediction models exists for medial UKA and TKR using the same predictors and outcome definition.
 
 The reconstructed 6-month UKA and reduced-profile 12-month TKR prognostic equations have therefore been removed from the active model. This avoids presenting unmatched prognostic estimates as though they were a fair treatment comparison.
+
+
+## Formal UI / interpretation audit
+
+The clinician-facing interface was reviewed against the active evidence model with the principle that every prominent control should either alter a displayed estimate or add essential procedural context.
+
+### Core workflow changes
+- Younger / typical / older scenario presets removed.
+- BMI and ASA removed from the core input panel because they no longer alter any active comparative estimate after removal of the unmatched prognostic OKS models.
+- Baseline OKS retained only inside a collapsed **Optional clinical context** section; it does not alter treatment-comparison estimates.
+- Age and sex remain core inputs for medial UKA and PFA because registry revision estimates are stratified by them.
+- Age and sex are hidden in the lateral UKA module because the current lateral revision comparison is a pooled population estimate and is not personalised by either variable.
+- Procedure settings are compartment-specific: bearing is visible only for medial UKA; robotic assistance remains contextual in all three modules; provider context is visible only for medial UKA.
+
+### Interpretation changes
+Rows with insufficient evidence are no longer plotted at the midpoint of the UKA–TKR axis. They display an explicit **No comparative estimate / Not modelled** state so absence of evidence cannot be mistaken for equivalence.
+
+The at-a-glance section is labelled **Evidence summary** rather than Live comparison to better reflect that several outputs are population-level or contextual rather than dynamically patient-predicted.
