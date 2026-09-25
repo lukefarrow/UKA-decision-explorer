@@ -48,7 +48,7 @@ for(const [band,sexes] of Object.entries(expectedRevision)){
   }
 }
 
-test('UKA revision exceeds TKR in every encoded stratum',()=>{
+test('UKA revision exceeds TKA in every encoded stratum',()=>{
   for(const band of Object.keys(expectedRevision)) for(const sex of ['male','female']) for(const bearing of ['fixed','mobile']){
     assert.ok(expectedRevision[band][sex][bearing]>expectedRevision[band][sex].tkr);
   }
@@ -86,7 +86,7 @@ test('lifetime risk is monotonic non-increasing across UI age range',()=>{
   let prev=M.lifetimeRevision(45);
   for(let a=46;a<=90;a++){const cur=M.lifetimeRevision(a);assert.ok(cur.uka<=prev.uka+1e-12);assert.ok(cur.tkr<=prev.tkr+1e-12);prev=cur;}
 });
-test('lifetime UKA estimate exceeds TKR across UI age range',()=>{
+test('lifetime UKA estimate exceeds TKA across UI age range',()=>{
   for(let a=45;a<=90;a++){const x=M.lifetimeRevision(a);assert.ok(x.uka>x.tkr);}
 });
 
