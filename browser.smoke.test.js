@@ -54,6 +54,8 @@ function text(dom,selector){
   assert.strictEqual(d.querySelector('[data-input="asa"]'),null,'ASA should not be a core input');
   assert.ok(d.querySelector('#optionalClinicalContext'),'Optional OKS context should remain available');
   assert.ok(d.querySelector('#outcomesGrid').children.length>0,'Initial medial module did not render');
+  assert.strictEqual(d.querySelector('#scenarioNotes'),null,'Scenario interpretation card should be removed');
+  assert.doesNotMatch(d.body.textContent,/Scenario interpretation|What matters most\?/,'Scenario interpretation text should not be visible');
   assert.match(text(dom,'#comparisonTitle'),/Medial UKA vs TKA/);
   assert.match(text(dom,'#outcomesGrid'),/12 months · medial UKA/);
   assert.match(text(dom,'#outcomesGrid'),/2 years · TKA/);
