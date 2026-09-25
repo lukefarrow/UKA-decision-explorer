@@ -100,13 +100,6 @@ function renderMedial(x){
  <article class="outcome-card"><div class="eyebrow dark">Recovery & activity</div><h3>Return to activity</h3><div class="outcome-main">Favours mUKA</div><div class="outcome-copy">Medial UKA generally supports quicker early recovery and higher return-to-sport/activity rates than TKA.</div>${evidence('Comparative activity evidence favours UKA, especially for higher-demand activity.',[{pmid:40825370,label:'Return-to-sport meta-analysis'}])}</article>
 
  <article class="outcome-card"><div class="eyebrow dark">Movement quality</div><h3>Range of motion & gait</h3><div class="outcome-main">Favours mUKA</div><div class="delta">Approximately +5.5° ROM at 2 years in randomized evidence.</div>${evidence('ROM benefit is supported by medial-specific randomized evidence.',[{pmid:41662451,label:'2026 blinded multicentre RCT'}])}</article>`;
-
- const notes=[
-  x.age<60?'Younger age makes long-term revision exposure especially important.':x.age>=75?'Older age reduces remaining-lifetime revision exposure through competing mortality.':'Age remains an important modifier of revision.',
-  bearingText,roboticText,provider,
-  'The medial module has the broadest evidence coverage of the three compartments.'
- ];
- $('scenarioNotes').innerHTML=notes.map(n=>`<div class="note">${n}</div>`).join('');
 }
 
 function renderLateral(x){
