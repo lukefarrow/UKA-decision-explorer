@@ -3,6 +3,8 @@ name: Validate and deploy UKA Decision Explorer to Pages
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -33,6 +35,7 @@ jobs:
         run: npm test
 
   deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: validate
     environment:
       name: github-pages

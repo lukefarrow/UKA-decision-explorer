@@ -145,7 +145,7 @@
       uka:Math.max(0,uka),
       tkr:Math.max(0,tkr),
       ukaLabel:'UKA population estimate',
-      tkrLabel:'TKR population estimate'
+      tkrLabel:'TKA population estimate'
     };
   }
 

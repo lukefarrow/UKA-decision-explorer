@@ -46,26 +46,28 @@ function text(dom,selector){
   assert.match(d.querySelector('script[src^="model.js"]').getAttribute('src'),/\?v=/,'model.js should be cache-busted');
 
   assert.ok(dom.window.UKAModel,'UKAModel not loaded');
+  assert.strictEqual(d.querySelector('h1').textContent.trim(),'Partial Knee Arthroplasty vs Total Knee Arthroplasty Outcomes Explorer');
+  assert.doesNotMatch(d.body.textContent,/\bTKR\b/,'Visible UI should use TKA terminology rather than TKR');
   assert.strictEqual(d.querySelectorAll('[data-preset]').length,0,'Patient preset buttons should not be present');
   assert.ok(d.querySelector('#resetAll'),'Reset control should remain available');
   assert.strictEqual(d.querySelector('#bmi'),null,'BMI should not be a core input');
   assert.strictEqual(d.querySelector('[data-input="asa"]'),null,'ASA should not be a core input');
   assert.ok(d.querySelector('#optionalClinicalContext'),'Optional OKS context should remain available');
   assert.ok(d.querySelector('#outcomesGrid').children.length>0,'Initial medial module did not render');
-  assert.match(text(dom,'#comparisonTitle'),/Medial UKA vs TKR/);
+  assert.match(text(dom,'#comparisonTitle'),/Medial UKA vs TKA/);
   assert.match(text(dom,'#outcomesGrid'),/12 months · medial UKA/);
-  assert.match(text(dom,'#outcomesGrid'),/2 years · TKR/);
+  assert.match(text(dom,'#outcomesGrid'),/2 years · TKA/);
   assert.match(text(dom,'#outcomesGrid'),/2021 randomized medial UKA vs TKA trial/);
   assert.match(text(dom,'#tradeoffRows'),/Higher likelihood in selected fast-track pathways/);
   assert.doesNotMatch(text(dom,'#tradeoffRows'),/42% vs 20%/);
   assert.match(text(dom,'#outcomesGrid'),/Cost-effectiveness/);
   assert.match(text(dom,'#outcomesGrid'),/TOPKAT/);
-  assert.match(text(dom,'#outcomesGrid'),/Conversion to TKR is generally closer to primary TKR than revision TKR/);
+  assert.match(text(dom,'#outcomesGrid'),/Conversion to TKA is generally closer to primary TKA than revision TKA/);
   assert.match(text(dom,'body'),/Pre-op Oxford Knee Score/);
   assert.match(text(dom,'body'),/does not alter the current treatment-comparison estimates/);
 
   click(dom,'[data-input="module"] button[data-value="lateral"]');
-  assert.match(text(dom,'#comparisonTitle'),/Lateral UKA vs TKR/);
+  assert.match(text(dom,'#comparisonTitle'),/Lateral UKA vs TKA/);
   assert.match(text(dom,'#tradeoffRows'),/13\.6% vs 5\.9%/);
   assert.match(text(dom,'#tradeoffRows'),/Insufficient lateral-specific comparative cost-utility evidence/);
   assert.match(text(dom,'#outcomesGrid'),/supportive rather than lateral-specific evidence/);
@@ -79,12 +81,12 @@ function text(dom,selector){
   assert.match(text(dom,'#outcomesGrid'),/No robotic adjustment is applied/);
 
   click(dom,'[data-input="module"] button[data-value="pfa"]');
-  assert.match(text(dom,'#comparisonTitle'),/Patellofemoral arthroplasty vs TKR/);
+  assert.match(text(dom,'#comparisonTitle'),/Patellofemoral arthroplasty vs TKA/);
   assert.match(text(dom,'#outcomesGrid'),/PAT randomized trial/);
   assert.match(text(dom,'#tradeoffRows'),/Potentially favours PFA/);
   assert.match(text(dom,'#outcomesGrid'),/Health economics · PFA/);
-  assert.match(text(dom,'#outcomesGrid'),/Usually technically closer to primary TKR, but not equivalent/);
-  assert.match(text(dom,'#outcomesGrid'),/repeat-revision risks are higher than after a primary TKR/);
+  assert.match(text(dom,'#outcomesGrid'),/Usually technically closer to primary TKA, but not equivalent/);
+  assert.match(text(dom,'#outcomesGrid'),/repeat-revision risks are higher than after a primary TKA/);
   assert.ok(d.querySelector('#ageField').style.display!=='none','Age should be visible for PFA registry strata');
   assert.ok(d.querySelector('#sexField').style.display!=='none','Sex should be visible for PFA registry strata');
   assert.match(text(dom,'#tradeoffRows'),/No comparative estimate/);
@@ -96,7 +98,7 @@ function text(dom,selector){
   assert.match(text(dom,'#outcomesGrid'),/not numerically modified/);
 
   click(dom,'[data-input="module"] button[data-value="medial"]');
-  assert.match(text(dom,'#comparisonTitle'),/Medial UKA vs TKR/);
+  assert.match(text(dom,'#comparisonTitle'),/Medial UKA vs TKA/);
   assert.ok(d.querySelector('#bearingField').style.display!=='none','Bearing control should be visible for medial module');
 
   assert.doesNotMatch(text(dom,'#outcomesGrid'),/Mobile-bearing medial UKA reference/,'Oxford mobile-bearing lifetime reference should be hidden for fixed bearing');
