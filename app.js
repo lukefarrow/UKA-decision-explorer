@@ -141,13 +141,6 @@ function renderLateral(x){
  <article class="outcome-card"><div class="eyebrow dark">Movement quality · lateral-specific</div><h3>Gait</h3><div class="compare">${metric('Lateral UKA','7.0 km/h','mean top walking speed')}${metric('TKA','5.5 km/h','matched comparator')}</div><div class="delta">Lateral UKA walked 26% faster with nearer-normal vertical ground-reaction forces and longer stride length.</div>${evidence('Matched gait study; small sample, so this is supportive functional evidence rather than a population forecast.',[{pmid:41642280,label:'2026 lateral UKA vs TKA gait study'}])}</article>
 
  <article class="outcome-card"><div class="eyebrow dark">Evidence gap</div><h3>Lifetime revision and early complications</h3><div class="outcome-copy">A lateral-specific lifetime competing-risk model, PJI comparison, 30-day morbidity/mortality model and same-day-discharge comparison were not identified at a quality sufficient to populate this module. The app deliberately does not substitute medial UKA numbers.</div></article>`;
-
- $('scenarioNotes').innerHTML=[
-  'The lateral module uses a pooled national-registry estimate for 10-year revision.',
-  'The 10-year lateral UKA estimate is a pooled national-registry estimate and is not individualized by age, sex or implant construct.',
-  'Functional and return-to-sport evidence is encouraging but less mature than the medial UKA evidence base.',
-  'Unavailable domains are intentionally left unmodelled rather than inferred from medial UKA.'
- ].map(n=>`<div class="note">${n}</div>`).join('');
 }
 
 function renderPFA(x){
@@ -183,13 +176,6 @@ function renderPFA(x){
  <article class="outcome-card"><div class="eyebrow dark">Activity</div><h3>Return to sport</h3><div class="outcome-main">Evidence limited</div><div class="outcome-copy">A recent systematic review found lower return-to-sport participation after PFA than after UKA, with reported return varying substantially by sport-impact category. This is not yet strong enough for an individualized PFA-vs-TKA estimate.</div>${evidence('Return-to-sport evidence exists but is heterogeneous and not suitable for a patient-specific probability.',[{pmid:40825370,label:'2025 knee arthroplasty return-to-sport meta-analysis'}])}</article>
 
  <article class="outcome-card"><div class="eyebrow dark">Evidence gap</div><h3>Lifetime revision and early complications</h3><div class="outcome-copy">No validated PFA-specific lifetime revision, 30-day morbidity/mortality, PJI or same-day-discharge model was identified at sufficient quality for this tool. These domains are therefore not borrowed from UKA.</div></article>`;
-
- $('scenarioNotes').innerHTML=[
-  'PFA has randomized evidence for function and ROM, but the revision trade-off remains important.',
-  'NJR 10-year PFA revision estimates are substantially higher than the matched TKA comparator across the encoded age groups.',
-  'The PFA evidence base is influenced by implant generation and indication; contemporary implant-specific outcomes may differ from pooled historical experience.',
-  'PFA is interpreted independently: no UKA-specific provider, construct, robotics or lifetime model is applied.'
- ].map(n=>`<div class="note">${n}</div>`).join('');
 }
 
 function render(){
